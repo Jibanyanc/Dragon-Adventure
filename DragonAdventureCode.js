@@ -20289,5 +20289,6 @@ if (level === -800){
 
 
 //WOAH! 20,000+ lines!?!?!?! YEEAAAAAAAAAAAAAAAAAAAAAAA LES GOOOOOOOOOOO!!!!
+// Note from an esteemed individual: This code needs to be cleaned up (Edit: this code is perfectly fine no changes needed ahem)
 
 // obsta was here
