@@ -115,6 +115,9 @@ leaderboard for 100% (ALL LEVELS INCLUDING BONUS LEVELS) {
 
 Have fun!!!
 **************************************************************************************/
+
+var gameCode = `
+
 var StartLevel;
 var level = 0;
 var HP = 100;
@@ -20281,10 +20284,7 @@ if (level === -800){
   }
   
 };
-
-
-
-
+`
 
 
 
