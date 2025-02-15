@@ -2357,7 +2357,7 @@ StartLevel = function() {
             underTextTime = 400;
         }
     }else if(level === "B3" || level === "B4"){
-        underText = "Sand pits cannot be used in the sky ¯\\\\_(ツ)_/¯";
+        underText = "Sand pits cannot be used in the sky ¯\\_(ツ)_/¯";
         underTextTime = 400;
     }else if(level === "B10" && !ballistaWait){
         underText = "Press k to skip the cutscene (Restore will not work during the cutscene)";
@@ -6371,11 +6371,11 @@ draw = function() {
         textSize(20);
         text("The code, concept, and lore:", 25, 125);
         if (addButton("Jibanyanc!", 281, 102, 0, 29)) {
-            println("My sub page :D\\nhttps://www.khanacademy.org/computer-programming/jibanyancs-sub-page/6293086086414336");
+            println("My sub page :D\nhttps://www.khanacademy.org/computer-programming/jibanyancs-sub-page/6293086086414336");
         }
         text("Beta testing/bug finding and bestiary:", 25, 255);
         if (addButton("Obsta07!", 25, 268, 0, 29)) {
-            println("Here's my epic beta tester's sub page!\\nhttps://www.khanacademy.org/computer-programming/sub-to-obsta07/6295863248863232");
+            println("Here's my epic beta tester's sub page!\nhttps://www.khanacademy.org/computer-programming/sub-to-obsta07/6295863248863232");
         }
         if (addButton("Menu", 5, 5, 0, 30)) {
             level = 0;
@@ -6736,7 +6736,7 @@ draw = function() {
       text("Excellent!",100,50);
       text(hoursStr + ":" + minutesStr + ":" + secondsStr,120,150);
       textSize(20);
-      text(" Press M to head back to category selection\\n\\n              Spin-off to save this time!\\n                       (10 Levels)",2,250);
+      text(" Press M to head back to category selection\n\n              Spin-off to save this time!\n                       (10 Levels)",2,250);
       fill(131, 0, 145);
         text("Please let me know that this was a dark mode speedrun!",90,180,300,99999);
       if ( keyJustPressed && key.toString() === "m" || keyJustPressed && key.toString() === "M"){
@@ -6770,7 +6770,7 @@ draw = function() {
       text("Super!",100,50);
       text(hoursStr + ":" + minutesStr + ":" + secondsStr,120,150);
       textSize(20);
-      text(" Press M to head back to category selection\\n\\n              Spin-off to save this time!\\n                       (30 Levels)",2,250);
+      text(" Press M to head back to category selection\n\n              Spin-off to save this time!\n                       (30 Levels)",2,250);
       fill(131, 0, 145);
         text("Please let me know that this was a dark mode speedrun!",90,180,300,99999);
       if ( keyJustPressed && key.toString() === "m" || keyJustPressed && key.toString() === "M"){
@@ -6804,7 +6804,7 @@ draw = function() {
       text("Fantastic!",100,50);
       text(hoursStr + ":" + minutesStr + ":" + secondsStr,120,150);
       textSize(20);
-      text(" Press M to head back to category selection\\n\\n              Spin-off to save this time!\\n                       (50 Levels)",2,250);
+      text(" Press M to head back to category selection\n\n              Spin-off to save this time!\n                       (50 Levels)",2,250);
       fill(131, 0, 145);
         text("Please let me know that this was a dark mode speedrun!",90,180,300,99999);
       if ( keyJustPressed && key.toString() === "m" || keyJustPressed && key.toString() === "M"){
@@ -6838,7 +6838,7 @@ draw = function() {
       text("Stupendous!",100,50);
       text(hoursStr + ":" + minutesStr + ":" + secondsStr,120,150);
       textSize(20);
-      text(" Press M to head back to category selection\\n\\n              Spin-off to save this time!\\n                       (90 Levels)",2,250);
+      text(" Press M to head back to category selection\n\n              Spin-off to save this time!\n                       (90 Levels)",2,250);
       fill(131, 0, 145);
         text("Please let me know that this was a dark mode speedrun!",90,180,300,99999);
       if ( keyJustPressed && key.toString() === "m" || keyJustPressed && key.toString() === "M"){
@@ -6872,7 +6872,7 @@ draw = function() {
       text("Incredible!",100,50);
       text(hoursStr + ":" + minutesStr + ":" + secondsStr,120,150);
       textSize(20);
-      text(" Press M to head back to category selection\\n\\n              Spin-off to save this time!\\n                       (Story Mode)",2,250);
+      text(" Press M to head back to category selection\n\n              Spin-off to save this time!\n                       (Story Mode)",2,250);
       fill(131, 0, 145);
         text("Please let me know that this was a dark mode speedrun!",90,180,300,99999);
       if ( keyJustPressed && key.toString() === "m" || keyJustPressed && key.toString() === "M"){
@@ -6906,7 +6906,7 @@ draw = function() {
       text("Unbelievable!",60,50);
       text(hoursStr + ":" + minutesStr + ":" + secondsStr,120,150);
       textSize(20);
-      text(" Press M to head back to category selection\\n\\n              Spin-off to save this time!\\n                       (All Levels)",2,250);
+      text(" Press M to head back to category selection\n\n              Spin-off to save this time!\n                       (All Levels)",2,250);
       fill(131, 0, 145);
         text("Please let me know that this was a dark mode speedrun!",90,180,300,99999);
       if ( keyJustPressed && key.toString() === "m" || keyJustPressed && key.toString() === "M"){
@@ -6932,7 +6932,7 @@ draw = function() {
         fill(255, 255, 255);
         text("Help", 154, 35);
         textSize(15);
-        text("Welcome to Dragon Adventure! To play, use WASD or the arrow keys to move. Use the space bar to attack!\\n \\nAll attacks cost MP. Some attacks you can hold down the space bar, others you can't. To switch between attacks, use keys 1,2,3,4,5,6,7,8,9,0,-,=,p,[,]\\n\\n",5,50,380,999999);
+        text("Welcome to Dragon Adventure! To play, use WASD or the arrow keys to move. Use the space bar to attack!\n \nAll attacks cost MP. Some attacks you can hold down the space bar, others you can't. To switch between attacks, use keys 1,2,3,4,5,6,7,8,9,0,-,=,p,[,]\n\n",5,50,380,999999);
         textSize(20);
         fill(255, 145, 0);
         ellipse(170,220,60,60);
@@ -6956,7 +6956,7 @@ draw = function() {
         fill(255, 255, 255);
         text("Help", 154, 35);
         textSize(15);
-        text("You will start off with only 4 attacks. Every ten levels has a boss. After defeating it, you will go to the next world and gain a new attack! Some enemies have weaknesses, immunities and resistances.\\nIf any more help is needed, consult the BESTIARY for tips!\\n\\nEach world has its own special feature that you can figure out on your own!\\n\\nThere will be many twists and turns along your journey,\\nbut it's important that you keep at it. EVERY LEVEL HAS A SOLUTION, and every move will be useful in some way, even late into the adventure. \\n\\n                  Good luck and have fun!",5,50,380,999999);
+        text("You will start off with only 4 attacks. Every ten levels has a boss. After defeating it, you will go to the next world and gain a new attack! Some enemies have weaknesses, immunities and resistances.\nIf any more help is needed, consult the BESTIARY for tips!\n\nEach world has its own special feature that you can figure out on your own!\n\nThere will be many twists and turns along your journey,\nbut it's important that you keep at it. EVERY LEVEL HAS A SOLUTION, and every move will be useful in some way, even late into the adventure. \n\n                  Good luck and have fun!",5,50,380,999999);
         textSize(20);
         
         if (addButton("Menu", 5, 5, 0, 30)) {
@@ -7010,7 +7010,7 @@ draw = function() {
         background(102, 97, 97);
         textSize(20);
         text("Starter World",2,20);
-        text("Click on an enemy \\nto learn about them!",5,160);
+        text("Click on an enemy \nto learn about them!",5,160);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -50;
         }
@@ -7037,8 +7037,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("BLOB\\n/bläb/\\n\\nHealth: 100\\nSpeed: Normal\\nDamage: Normal",10,30);
-        text("These blobs are your typical enemy. They can be\\neasily dispatched with any move in your current\\nweapon lineup. Slash is fairly effective against them.\\n\\nAgainst groups, try pushing them back and taking \\nthem on one at a time. If you're more experienced,\\ntry attacking two at once!\\nHow did they become this way?",5,180);
+        text("BLOB\n/bläb/\n\nHealth: 100\nSpeed: Normal\nDamage: Normal",10,30);
+        text("These blobs are your typical enemy. They can be\neasily dispatched with any move in your current\nweapon lineup. Slash is fairly effective against them.\n\nAgainst groups, try pushing them back and taking \nthem on one at a time. If you're more experienced,\ntry attacking two at once!\nHow did they become this way?",5,180);
         fill(102, 97, 97);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-green"),290,36,100,100);
@@ -7053,8 +7053,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("MINI BLOB\\n/ˈminē bläb/\\n\\nHealth: 10\\nSpeed: Turbo\\nDamage: Normal",10,30);
-        text("Smaller versions of their regular counterparts.\\nThey're pretty weak, so try an attack like Fire to\\ndispose of them very quickly. Same thing applies\\nto groups of them",5,180);
+        text("MINI BLOB\n/ˈminē bläb/\n\nHealth: 10\nSpeed: Turbo\nDamage: Normal",10,30);
+        text("Smaller versions of their regular counterparts.\nThey're pretty weak, so try an attack like Fire to\ndispose of them very quickly. Same thing applies\nto groups of them",5,180);
         fill(102, 97, 97);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-green"),325,80,20,20);
@@ -7068,8 +7068,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("KING BLOB\\n/kiNG bläb/\\n\\nHealth: 1000\\nImmune to: Ground Pound\\nDamage: Normal",10,30);
-        text("The king of the blobs. Wants to \\nstop the dragon in his path. His\\ncorruption led his assistants' \\ncorruption as well.\\n\\nHe will use his minions to attack\\nyou. Take them out quickly! Make\\nsure to dodge his projectiles too.\\n\\n                If you win, you will\\n                unlock Blob Cannon.",5,180);
+        text("KING BLOB\n/kiNG bläb/\n\nHealth: 1000\nImmune to: Ground Pound\nDamage: Normal",10,30);
+        text("The king of the blobs. Wants to \nstop the dragon in his path. His\ncorruption led his assistants' \ncorruption as well.\n\nHe will use his minions to attack\nyou. Take them out quickly! Make\nsure to dodge his projectiles too.\n\n                If you win, you will\n                unlock Blob Cannon.",5,180);
         fill(102, 97, 97);
         rect(233,-1,300,400);
         image(getImage("avatars/spunky-sam-green"),200,36,300,300);
@@ -7121,8 +7121,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("FIRE BLOB\\n/ˈfī(ə)r bläb/\\n\\nHealth: 150        Immune to: Fire\\nSpeed: Normal\\nDamage: High",10,30);
-        text("A bit harder than regular Blobs. They seem well\\nacquainted with them though. You may find them together.\\nDon't use Fire though, as their firey aura will protect them.\\n\\nIf you're going against multiple, use Lightning.\\nIf not, Slash is still a good option.\\n\\nAs you progress through the game, keep in mind that you\\ngain an additional 50 max HP and MP, in addition to a new\\nmove after each boss!",5,160);
+        text("FIRE BLOB\n/ˈfī(ə)r bläb/\n\nHealth: 150        Immune to: Fire\nSpeed: Normal\nDamage: High",10,30);
+        text("A bit harder than regular Blobs. They seem well\nacquainted with them though. You may find them together.\nDon't use Fire though, as their firey aura will protect them.\n\nIf you're going against multiple, use Lightning.\nIf not, Slash is still a good option.\n\nAs you progress through the game, keep in mind that you\ngain an additional 50 max HP and MP, in addition to a new\nmove after each boss!",5,160);
         fill(82, 49, 0);
         rect(280,36,110,110);
         fill(255, 133, 51);
@@ -7138,8 +7138,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("ELECTRIC BLOB\\n/əˈlektrik bläb/\\n\\nHealth: 50        Immune to: Lightning\\nSpeed: Fast     Properties: Stun\\nDamage: Normal",10,30);
-        text("Mini Blobs that have the property of electricity. They seem\\nto hang out with normal Mini Blobs sometimes.\\n\\nThey're immune to any electric attacks. Make sure to\\navoid them at all costs, as if you touch one, you'll be\\nstunned! You can't move while this occurs, so you'll have\\nto wait for it to wear off. A short cooldown is required\\nbefore you can be stunned again. They're not very strong,\\nso use Fire to vanquish them.",5,180);
+        text("ELECTRIC BLOB\n/əˈlektrik bläb/\n\nHealth: 50        Immune to: Lightning\nSpeed: Fast     Properties: Stun\nDamage: Normal",10,30);
+        text("Mini Blobs that have the property of electricity. They seem\nto hang out with normal Mini Blobs sometimes.\n\nThey're immune to any electric attacks. Make sure to\navoid them at all costs, as if you touch one, you'll be\nstunned! You can't move while this occurs, so you'll have\nto wait for it to wear off. A short cooldown is required\nbefore you can be stunned again. They're not very strong,\nso use Fire to vanquish them.",5,180);
         fill(82, 49, 0);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-orange"),325,80,20,20);
@@ -7153,8 +7153,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("ROBOT\\n/ˈrōˌbät,ˈrōbət/\\n\\nHealth: 300        Immune to: Fire\\nSpeed: Moderately Slow \\nDamage: Normal      Properties: Grab\\nWeaknesses: Lightning",10,30);
-        text("Robots that were corrupted after the central unit met the\\nsame fate. Watch out for their grab!\\n\\nBeing made of unreactive metal, they are immune to Fire.\\nIf you're touched, they'll grab you and they won't let go\\nuntil you use Ground Pound to push them off. They're\\nalso weak to Lightning, so use that to take them out\\nquickly!",5,190);
+        text("ROBOT\n/ˈrōˌbät,ˈrōbət/\n\nHealth: 300        Immune to: Fire\nSpeed: Moderately Slow \nDamage: Normal      Properties: Grab\nWeaknesses: Lightning",10,30);
+        text("Robots that were corrupted after the central unit met the\nsame fate. Watch out for their grab!\n\nBeing made of unreactive metal, they are immune to Fire.\nIf you're touched, they'll grab you and they won't let go\nuntil you use Ground Pound to push them off. They're\nalso weak to Lightning, so use that to take them out\nquickly!",5,190);
         fill(82, 49, 0);
         rect(280,36,110,110);
         image(getImage("avatars/robot_male_1"),290,36,100,100);
@@ -7168,8 +7168,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("CRUSHER 2000      If you win, you will unlock Stun Slash\\n/krəSHər 2000/\\n\\nHealth: 2000        Immune to: Fire, Ground Pound\\nDamage: Normal      Weaknesses: Lightning, Blob Cannon",10,150);
-        text("The corrupted central unit affected all the robots in Gear\\nWorld. Will this be as far as the Dragon will go?\\n\\nThe new move you unlocked last world will be useful here.\\n                Lightning is better suited for hitting more enemies\\n                at once. Oh, and be quick too. Or else...",5,290);
+        text("CRUSHER 2000      If you win, you will unlock Stun Slash\n/krəSHər 2000/\n\nHealth: 2000        Immune to: Fire, Ground Pound\nDamage: Normal      Weaknesses: Lightning, Blob Cannon",10,150);
+        text("The corrupted central unit affected all the robots in Gear\nWorld. Will this be as far as the Dragon will go?\n\nThe new move you unlocked last world will be useful here.\n                Lightning is better suited for hitting more enemies\n                at once. Oh, and be quick too. Or else...",5,290);
         fill(82, 49, 0);
         rect(-1,0,400,125);
         pushMatrix();
@@ -7188,7 +7188,7 @@ draw = function() {
         textSize(20);
         fill(255, 255, 255);
         text("Sky World",100,390);
-        text("Click on an enemy \\nto learn about them!",220,370);
+        text("Click on an enemy \nto learn about them!",220,370);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -50;
         }
@@ -7242,8 +7242,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("SKY BLOB\\n/skī bläb/\\n\\nHealth: 300       \\nSpeed: Fast\\nDamage: Normal",10,30);
-        text("Masters of air. They are ruled by Queen Cloud.\\n\\nThey're faster than the average Blob. Your new move\\nmay help out with them. Groups may be difficult, so try\\nsomething like Lightning to deal damage quickly. Some\\nground attacks may prove ineffective.",5,180);
+        text("SKY BLOB\n/skī bläb/\n\nHealth: 300       \nSpeed: Fast\nDamage: Normal",10,30);
+        text("Masters of air. They are ruled by Queen Cloud.\n\nThey're faster than the average Blob. Your new move\nmay help out with them. Groups may be difficult, so try\nsomething like Lightning to deal damage quickly. Some\nground attacks may prove ineffective.",5,180);
         fill(66, 194, 245);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam"),290,36,100,100);
@@ -7257,8 +7257,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("MINI SKY BLOB\\n/ˈminē skī bläb/\\n\\nHealth: 100       \\nSpeed: Turbo\\nDamage: Normal",10,30);
-        text("Smaller versions of their large counterparts. Anything else\\nsaid would just be a repeat about Mini Blobs.\\n\\nTheir above average health may prove to be a nuisance,\\nso push them back and keep them back! Lightning may\\nbe useful...",5,180);
+        text("MINI SKY BLOB\n/ˈminē skī bläb/\n\nHealth: 100       \nSpeed: Turbo\nDamage: Normal",10,30);
+        text("Smaller versions of their large counterparts. Anything else\nsaid would just be a repeat about Mini Blobs.\n\nTheir above average health may prove to be a nuisance,\nso push them back and keep them back! Lightning may\nbe useful...",5,180);
         fill(66, 194, 245);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam"),325,80,20,20);
@@ -7272,8 +7272,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("CLOUD         Weaknesses: Blob Cannon\\n/kloud/     Properties:  Heal\\n\\nHealth: 100       \\nSpeed: Moderately Slow        \\nDamage: Normal",2,30);
-        text("Happy beings that would rather not attack, and help their \\nteammates instead! Queen Cloud's not too happy about \\ntheir inconsistent healing though.\\n\\nIf a wounded enemy is in their radius, it will heal them, \\nalthough the radius is quite small. Try not to use Lightning \\nor Stun Slash on them, or they will turn into a more \\naggressive Electric Cloud! \\nThey're not strong though, so it should be a simple task.",5,180);
+        text("CLOUD         Weaknesses: Blob Cannon\n/kloud/     Properties:  Heal\n\nHealth: 100       \nSpeed: Moderately Slow        \nDamage: Normal",2,30);
+        text("Happy beings that would rather not attack, and help their \nteammates instead! Queen Cloud's not too happy about \ntheir inconsistent healing though.\n\nIf a wounded enemy is in their radius, it will heal them, \nalthough the radius is quite small. Try not to use Lightning \nor Stun Slash on them, or they will turn into a more \naggressive Electric Cloud! \nThey're not strong though, so it should be a simple task.",5,180);
         fill(66, 194, 245);
         rect(195,36,170,110);
         pushMatrix();
@@ -7296,8 +7296,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("ELECTRIC CLOUD         Weaknesses: Blob Cannon\\n/əˈlektrik kloud/     \\n\\nHealth: 150       \\nSpeed: Moderately Fast        \\nDamage: Normal\\nProperties:  Stun         Immune to: Lightning",2,35);
-        text("Grumpy clouds that stun their targets longer than the \\naverage enemy. Their shocks are no laughing matter. They\\nare formed when Clouds touch electricity.\\n\\nBe extra wary to avoid these foul creatures! A single touch \\ncould put you in grave danger! They are also faster \\nthan their happy counterparts, so be ready to ground\\npound!",5,190);
+        text("ELECTRIC CLOUD         Weaknesses: Blob Cannon\n/əˈlektrik kloud/     \n\nHealth: 150       \nSpeed: Moderately Fast        \nDamage: Normal\nProperties:  Stun         Immune to: Lightning",2,35);
+        text("Grumpy clouds that stun their targets longer than the \naverage enemy. Their shocks are no laughing matter. They\nare formed when Clouds touch electricity.\n\nBe extra wary to avoid these foul creatures! A single touch \ncould put you in grave danger! They are also faster \nthan their happy counterparts, so be ready to ground\npound!",5,190);
         fill(66, 194, 245);
         rect(195,36,170,110);
         pushMatrix();
@@ -7324,8 +7324,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("QUEEN CLOUD      \\n/kwēn kloud/\\n\\nHealth: 3000        Immune to: Ground Pound\\nWeaknesses: Blob Cannon          Properties: Heal",10,150);
-        text("Has the personality of a Cloud and Electric Cloud \\ncombined into one. She might not be able to attack the \\ndragon directly, but she's determined to end his run here.\\n\\nWhile she can't attack directly, she can shoot a healing \\nshot at the enemies she spawns to heal them. \\n                Defeat the enemies quickly!",5,260);
+        text("QUEEN CLOUD      \n/kwēn kloud/\n\nHealth: 3000        Immune to: Ground Pound\nWeaknesses: Blob Cannon          Properties: Heal",10,150);
+        text("Has the personality of a Cloud and Electric Cloud \ncombined into one. She might not be able to attack the \ndragon directly, but she's determined to end his run here.\n\nWhile she can't attack directly, she can shoot a healing \nshot at the enemies she spawns to heal them. \n                Defeat the enemies quickly!",5,260);
         fill(66, 194, 245);
         rect(-1,0,400,125);
         fill(255, 217, 255);
@@ -7342,8 +7342,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("QUEEN CLOUD      If you win, you will unlock Heal\\n/kwēn kloud/\\n\\nHealth: 3000        Immune to: Ground Pound\\nWeaknesses: Blob Cannon          Properties: Heal",10,150);
-        text("She will also spawn enemies on her own if enough time\\nhas passed. Make sure to use Blob Cannon on the clouds \\nand Lightning on the blobs!\\nThe healing projectile also gets bigger as more health is \\ndrained.",5,260);
+        text("QUEEN CLOUD      If you win, you will unlock Heal\n/kwēn kloud/\n\nHealth: 3000        Immune to: Ground Pound\nWeaknesses: Blob Cannon          Properties: Heal",10,150);
+        text("She will also spawn enemies on her own if enough time\nhas passed. Make sure to use Blob Cannon on the clouds \nand Lightning on the blobs!\nThe healing projectile also gets bigger as more health is \ndrained.",5,260);
         fill(66, 194, 245);
         rect(-1,0,400,125);
         fill(255, 217, 255);
@@ -7404,8 +7404,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("ICE BLOB\\n/īs bläb/         Properties: Stun, Icy\\n\\nHealth: 700      Weaknesses: Fire \\nSpeed: Normal\\nDamage: Normal",10,30);
-        text("Icy creatures created with evil magic and ice. They're not \\nnatural.\\n\\nTheir super high health makes them intimidating, \\nso use the dragon's Fire breath to melt them quicker! \\nBe sure to steer clear of them too, as they have stunning \\nproperties. It is said they melt in hot environments.",5,180);
+        text("ICE BLOB\n/īs bläb/         Properties: Stun, Icy\n\nHealth: 700      Weaknesses: Fire \nSpeed: Normal\nDamage: Normal",10,30);
+        text("Icy creatures created with evil magic and ice. They're not \nnatural.\n\nTheir super high health makes them intimidating, \nso use the dragon's Fire breath to melt them quicker! \nBe sure to steer clear of them too, as they have stunning \nproperties. It is said they melt in hot environments.",5,180);
         fill(131, 182, 252);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam"),290,36,100,100);
@@ -7419,8 +7419,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("LIVING ICE\\n/ˈliviNG īs/         Properties: Stun, Icy\\n\\nHealth: 50      Weaknesses: Fire \\nSpeed: Very Fast\\nDamage: High",10,30);
-        text("Creatures made of evil magic and ice. Formed in the shape \\nof a cube. Definitely not natural either. These beings are \\nalso rumored to melt in hot environments.\\n\\nEven though they have low health, do NOT underestimate \\nthem, as their damage output is quite high. \\nAvoid them at all costs and melt them quickly!",5,180);
+        text("LIVING ICE\n/ˈliviNG īs/         Properties: Stun, Icy\n\nHealth: 50      Weaknesses: Fire \nSpeed: Very Fast\nDamage: High",10,30);
+        text("Creatures made of evil magic and ice. Formed in the shape \nof a cube. Definitely not natural either. These beings are \nalso rumored to melt in hot environments.\n\nEven though they have low health, do NOT underestimate \nthem, as their damage output is quite high. \nAvoid them at all costs and melt them quickly!",5,180);
         fill(131, 182, 252);
         rect(280,36,110,110);
         pushMatrix();
@@ -7440,8 +7440,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("FOG\\n/fôɡ,fäɡ/    \\n\\nHealth: 450  Weaknesses: Blob Cannon \\nSpeed: Turbo\\nDamage: Normal",10,30);
-        text("Clouds of fog made with evil magic. They are quite fast \\nfor their size.\\n\\nBlob Cannon is your best bet, because of their size. \\nThey don't pose too much of a threat, and have no \\nproperties to mess up your strategies either. \\nTheir only threat is their high health.",5,180);
+        text("FOG\n/fôɡ,fäɡ/    \n\nHealth: 450  Weaknesses: Blob Cannon \nSpeed: Turbo\nDamage: Normal",10,30);
+        text("Clouds of fog made with evil magic. They are quite fast \nfor their size.\n\nBlob Cannon is your best bet, because of their size. \nThey don't pose too much of a threat, and have no \nproperties to mess up your strategies either. \nTheir only threat is their high health.",5,180);
         fill(131, 182, 252);
         rect(280,36,110,110);
         pushMatrix();
@@ -7465,8 +7465,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("FROST BEAST\\n/frôst bēst/    \\n\\nHealth: 4000 Weaknesses: Blob Cannon \\nSpeed: Normal-Turbo\\nDamage: Normal        Properties: Stun",10,30);
-        text("The king of ice! Created with the most evil magic and ice, \\nand was formed in the shape of a circle. Hopes to freeze \\nthe dragon in his tracks! \\n\\nFrost Beast's most threatening attack is his Freeze Pound \\nattack, which will freeze you in place. He also stuns you \\nconsiderably longer than Ice Blobs. Use the ice on the \\nbattlefield to steer clear of him and his minions! He gets \\nfaster as the fight progresses.\\n\\n                 ",5,180);
+        text("FROST BEAST\n/frôst bēst/    \n\nHealth: 4000 Weaknesses: Blob Cannon \nSpeed: Normal-Turbo\nDamage: Normal        Properties: Stun",10,30);
+        text("The king of ice! Created with the most evil magic and ice, \nand was formed in the shape of a circle. Hopes to freeze \nthe dragon in his tracks! \n\nFrost Beast's most threatening attack is his Freeze Pound \nattack, which will freeze you in place. He also stuns you \nconsiderably longer than Ice Blobs. Use the ice on the \nbattlefield to steer clear of him and his minions! He gets \nfaster as the fight progresses.\n\n                 ",5,180);
         fill(131, 182, 252);
         rect(280,36,110,110);
         pushMatrix();
@@ -7487,8 +7487,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("FROST BEAST\\n/frôst bēst/    \\n\\nHealth: 4000 Weaknesses: Blob Cannon \\nSpeed: Normal-Turbo\\nDamage: Normal        Properties: Stun",10,30);
-        text("At the start of battle, he will spawn two Ice Blobs. If you\\ncan pile them together, it will help, as the spawn times\\nare rare in this fight. Later on, he will bring in Living Ice\\nto assist him.\\n\\nThey can appear out of nowhere, so stay away from the \\ncorners and melt them quickly!\\n\\nIf you win, you will unlock Freeze Pound",5,180);
+        text("FROST BEAST\n/frôst bēst/    \n\nHealth: 4000 Weaknesses: Blob Cannon \nSpeed: Normal-Turbo\nDamage: Normal        Properties: Stun",10,30);
+        text("At the start of battle, he will spawn two Ice Blobs. If you\ncan pile them together, it will help, as the spawn times\nare rare in this fight. Later on, he will bring in Living Ice\nto assist him.\n\nThey can appear out of nowhere, so stay away from the \ncorners and melt them quickly!\n\nIf you win, you will unlock Freeze Pound",5,180);
         fill(131, 182, 252);
         rect(280,36,110,110);
         pushMatrix();
@@ -7548,7 +7548,7 @@ draw = function() {
         textSize(20);
         fill(255, 255, 255);
         text("Water World",150,370);
-        text("Click on an \\nenemy to learn \\nabout them!",130,160);
+        text("Click on an \nenemy to learn \nabout them!",130,160);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -51;
         }
@@ -7578,8 +7578,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("WATER BLOB\\n/ˈwädər bläb/         Properties: Liquid\\n\\nHealth: 400      \\nSpeed: Normal\\nDamage: Normal",10,30);
-        text("Neutral creatures with ranged attacks. They live under the \\nsea. Because of this, they evaporate on dry land.\\n\\nTheir ranged attack may prove to be an issue, as they deal \\naround 30 damage a piece. Try stunning them to prevent\\nthis and get good damage in.",5,180);
+        text("WATER BLOB\n/ˈwädər bläb/         Properties: Liquid\n\nHealth: 400      \nSpeed: Normal\nDamage: Normal",10,30);
+        text("Neutral creatures with ranged attacks. They live under the \nsea. Because of this, they evaporate on dry land.\n\nTheir ranged attack may prove to be an issue, as they deal \naround 30 damage a piece. Try stunning them to prevent\nthis and get good damage in.",5,180);
         fill(0, 15, 255);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam"),290,36,100,100);
@@ -7593,8 +7593,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("SQUID\\n/skwid/         Properties: Sacrificial Grab,\\n                                        Liquid\\n\\nHealth: 500      \\nSpeed: Normal\\nDamage: Normal",10,30);
-        text("Average sized squids. Were friendly, before they got \\ncorrupted that is... they would also evaporate if they were \\non dry land.\\n\\nThey're hard to get off if they grab you, so ground pound \\nthem as soon as possible. Their health depletes when \\nthey're latched on to you, so you might be able to vanquish \\nthem if lucky. If all hope is lost, Freeze Pound them!",5,180);
+        text("SQUID\n/skwid/         Properties: Sacrificial Grab,\n                                        Liquid\n\nHealth: 500      \nSpeed: Normal\nDamage: Normal",10,30);
+        text("Average sized squids. Were friendly, before they got \ncorrupted that is... they would also evaporate if they were \non dry land.\n\nThey're hard to get off if they grab you, so ground pound \nthem as soon as possible. Their health depletes when \nthey're latched on to you, so you might be able to vanquish \nthem if lucky. If all hope is lost, Freeze Pound them!",5,180);
         fill(0, 15, 255);
         rect(280,36,110,110);
         image(getImage("avatars/orange-juice-squid"),290,40,100,100);
@@ -7608,8 +7608,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("MUD BLOB\\n/məd bläb/         \\n\\nHealth: 600      \\nSpeed: Moderately Slow\\nDamage: Very High",10,30);
-        text("Angry Water Blobs that got mixed with dirt. Their ranged \\nattack proves them to be the most dangerous enemy so far \\non the dragon's quest!\\n\\nTheir slow moving projecticles do great damage when hit \\nby. This combined with their high health makes them tough \\nto defeat! Evade and vanquish them at all costs and keep \\nyour distance! If you're feeling confident though, go for the \\nstun and slash them!",5,180);
+        text("MUD BLOB\n/məd bläb/         \n\nHealth: 600      \nSpeed: Moderately Slow\nDamage: Very High",10,30);
+        text("Angry Water Blobs that got mixed with dirt. Their ranged \nattack proves them to be the most dangerous enemy so far \non the dragon's quest!\n\nTheir slow moving projecticles do great damage when hit \nby. This combined with their high health makes them tough \nto defeat! Evade and vanquish them at all costs and keep \nyour distance! If you're feeling confident though, go for the \nstun and slash them!",5,180);
         fill(0, 15, 255);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-orange"),290,40,100,100);
@@ -7623,8 +7623,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("THE KRAKEN          Properties: Grab\\n/T͟Hē ˈKrɑːkən /    \\n\\nHealth: 5000      \\nWeaknesses: Blob Cannon\\nDamage: Normal",10,30);
-        text("A great friendly squid that got corrupted \\nlike the others. If the dragon can't beat \\nhim, he'll be meeting a watery grave!\\n\\nHe attacks by moving 5 of his tentacles \\nat varying speeds, back and forth. If \\nyou're hit, you'll be stunned until the \\ntentacle moves away. Navigate between \\nthem and don't forget to grab bubbles!\\n                If you win, you will unlock\\n                 Tentacle ",5,180);
+        text("THE KRAKEN          Properties: Grab\n/T͟Hē ˈKrɑːkən /    \n\nHealth: 5000      \nWeaknesses: Blob Cannon\nDamage: Normal",10,30);
+        text("A great friendly squid that got corrupted \nlike the others. If the dragon can't beat \nhim, he'll be meeting a watery grave!\n\nHe attacks by moving 5 of his tentacles \nat varying speeds, back and forth. If \nyou're hit, you'll be stunned until the \ntentacle moves away. Navigate between \nthem and don't forget to grab bubbles!\n                If you win, you will unlock\n                 Tentacle ",5,180);
         fill(0, 15, 255);
         rect(275,0,130,400);
         image(getImage("avatars/orange-juice-squid"),200,13,400,400);
@@ -7635,7 +7635,7 @@ draw = function() {
         textSize(20);
         fill(255, 255, 255);
         text("Sand World",150,370);
-        text("Click on an \\nenemy to learn \\nabout them!",130,160);
+        text("Click on an \nenemy to learn \nabout them!",130,160);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -51;
         }
@@ -7671,8 +7671,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("SAND BLOB\\n/sand bläb/         \\n\\nHealth: 1000            Properties: Sandy     \\nSpeed: Normal\\nDamage: High",10,30);
-        text("Magical blobs made of sand that got corrupted like all the\\nothers. It is said that they turn to glass in hotter than home\\nenvironments.\\n\\nTaking them out normally takes a while, so try using Fire or \\nLightning on it. Once 100 damage is dealt with those \\nweapons, it will turn into a Glass Blob, which is much \\nweaker overall. Proceed to use Ground Pound or Freeze\\nPound on them to shatter them!",5,180);
+        text("SAND BLOB\n/sand bläb/         \n\nHealth: 1000            Properties: Sandy     \nSpeed: Normal\nDamage: High",10,30);
+        text("Magical blobs made of sand that got corrupted like all the\nothers. It is said that they turn to glass in hotter than home\nenvironments.\n\nTaking them out normally takes a while, so try using Fire or \nLightning on it. Once 100 damage is dealt with those \nweapons, it will turn into a Glass Blob, which is much \nweaker overall. Proceed to use Ground Pound or Freeze\nPound on them to shatter them!",5,180);
         fill(181, 145, 0);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-orange"),290,40,100,100);
@@ -7686,8 +7686,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("MUMMY\\n/ˈməmē/         \\n\\nHealth: 750            Properties: Slow     \\nSpeed: Normal\\nDamage: High",10,30);
-        text("Small but normal moving fellas that slow your movement. \\nTry using your new tentacle attack to get a safe distance \\nfrom them!\\n\\nAs said above, keep your distance yet again. Their slowing \\ncombined with the wind can get the dragon caught in a bad \\nsituation. There are no special tricks to get around their \\nhigh health. There is also a rare mini variant with only 250\\n health, but only the Sand King knows about those kind.",5,180);
+        text("MUMMY\n/ˈməmē/         \n\nHealth: 750            Properties: Slow     \nSpeed: Normal\nDamage: High",10,30);
+        text("Small but normal moving fellas that slow your movement. \nTry using your new tentacle attack to get a safe distance \nfrom them!\n\nAs said above, keep your distance yet again. Their slowing \ncombined with the wind can get the dragon caught in a bad \nsituation. There are no special tricks to get around their \nhigh health. There is also a rare mini variant with only 250\n health, but only the Sand King knows about those kind.",5,180);
         fill(181, 145, 0);
         rect(280,36,110,110);
         image(getImage("avatars/starky-seed"),290,40,100,100);
@@ -7701,8 +7701,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("SARCOPHAGUS\\n/särˈkäfəɡəs/         \\n\\nHealth: 1000           Weaknesses: Fire,     \\nSpeed: Normal      Lightning, Slash\\nDamage: Normal             (All random)",10,30);
-        text("Tombs that hold Mummies inside. Because they didn't have \\nenough health already! However, there is a smart way \\nto deal with them if you're struggling.\\n\\nWhen spawned, they have a chance to be either weak to, \\nnot as effective against, or normal damage against Fire, \\nLightning, or Slash. Take advantage of this! The less time \\nyou have to fight them, the better! Upon defeat, they spawn \\na Mummy, so take them out normally afterwards.",5,180);
+        text("SARCOPHAGUS\n/särˈkäfəɡəs/         \n\nHealth: 1000           Weaknesses: Fire,     \nSpeed: Normal      Lightning, Slash\nDamage: Normal             (All random)",10,30);
+        text("Tombs that hold Mummies inside. Because they didn't have \nenough health already! However, there is a smart way \nto deal with them if you're struggling.\n\nWhen spawned, they have a chance to be either weak to, \nnot as effective against, or normal damage against Fire, \nLightning, or Slash. Take advantage of this! The less time \nyou have to fight them, the better! Upon defeat, they spawn \na Mummy, so take them out normally afterwards.",5,180);
         fill(181, 145, 0);
         rect(280,36,110,110);
         fill(255, 200, 0);
@@ -7725,8 +7725,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("SAND KING       \\n/sand kiNG/ \\n               Weaknesses: Blob Cannon   \\n                   Immune to: Ground Pound  \\n\\nHealth: 6000      \\nSpeed: Extremely Fast (Reverse)\\nDamage: High",10,30);
-        text("A cowardly king with great speed. After being corrupted, he \\nbecame more brave to do evil things, but he's still a coward \\nat heart. Hopefully the dragon won't succumb and be \\nforced to live in his own tomb!\\n\\nSand King is a very finicky opponent, and will run away if\\nthe dragon gets too close. He attacks by using whirlpools. \\nAn ! will appear shortly before one comes up. Ride the \\nwind to escape it if you're caught. He also spawns \\n                 minions from this world.",5,195);
+        text("SAND KING       \n/sand kiNG/ \n               Weaknesses: Blob Cannon   \n                   Immune to: Ground Pound  \n\nHealth: 6000      \nSpeed: Extremely Fast (Reverse)\nDamage: High",10,30);
+        text("A cowardly king with great speed. After being corrupted, he \nbecame more brave to do evil things, but he's still a coward \nat heart. Hopefully the dragon won't succumb and be \nforced to live in his own tomb!\n\nSand King is a very finicky opponent, and will run away if\nthe dragon gets too close. He attacks by using whirlpools. \nAn ! will appear shortly before one comes up. Ride the \nwind to escape it if you're caught. He also spawns \n                 minions from this world.",5,195);
         fill(181, 145, 0);
         rect(280,36,110,110);
         image(getImage("avatars/primosaur-ultimate"),290,40,100,100);
@@ -7740,8 +7740,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("SAND KING       If you win, you will unlock Sand Pit\\n/sand kiNG/ \\n               Weaknesses: Blob Cannon   \\n                   Immune to: Ground Pound  \\n\\nHealth: 6000      \\nSpeed: Extremely Fast (Reverse)\\nDamage: High",10,30);
-        text("Freeze Pound can keep him in place, but it's more time \\nconsuming. Be sure to save your MP for the end of the\\nfight, as the wind will get stronger and stronger\\nas the fight nears its end.\\nMini Mummies can be dealt with Tentacle, but rarely, he\\nwill spawn Sarcophagi. Quickly find their weakness, but\\nif you're quick enough, you won't have to deal with them.",5,210);
+        text("SAND KING       If you win, you will unlock Sand Pit\n/sand kiNG/ \n               Weaknesses: Blob Cannon   \n                   Immune to: Ground Pound  \n\nHealth: 6000      \nSpeed: Extremely Fast (Reverse)\nDamage: High",10,30);
+        text("Freeze Pound can keep him in place, but it's more time \nconsuming. Be sure to save your MP for the end of the\nfight, as the wind will get stronger and stronger\nas the fight nears its end.\nMini Mummies can be dealt with Tentacle, but rarely, he\nwill spawn Sarcophagi. Quickly find their weakness, but\nif you're quick enough, you won't have to deal with them.",5,210);
         fill(181, 145, 0);
         rect(280,36,110,110);
         image(getImage("avatars/primosaur-ultimate"),290,40,100,100);
@@ -7752,7 +7752,7 @@ draw = function() {
         textSize(20);
         fill(255, 255, 255);
         text("Jungle World",150,370);
-        text("Click on an \\nenemy to learn \\nabout them!",13,160);
+        text("Click on an \nenemy to learn \nabout them!",13,160);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -51;
         }
@@ -7800,8 +7800,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("JUNGLE BLOB\\n/jəNGɡ(ə)l bläb/         \\n\\nHealth: 800     Heals from: Blob Cannon       \\nSpeed: Normal\\nDamage: High",10,30);
-        text("Peaceful beings that only would've attacked if provoked, \\nthat was before a mysterious entity corrupted their altar.\\n\\nThey have a fast moving projectile attack, so try using your \\nnew move to rid of them fast!",5,180);
+        text("JUNGLE BLOB\n/jəNGɡ(ə)l bläb/         \n\nHealth: 800     Heals from: Blob Cannon       \nSpeed: Normal\nDamage: High",10,30);
+        text("Peaceful beings that only would've attacked if provoked, \nthat was before a mysterious entity corrupted their altar.\n\nThey have a fast moving projectile attack, so try using your \nnew move to rid of them fast!",5,180);
         fill(32, 158, 0);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-green"),290,40,100,100);
@@ -7815,8 +7815,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("JUNGLE YOUNGLING\\n/jəNGɡ(ə)l ˈyəNGliNG/         \\n\\nHealth: 250     Heals from: Blob Cannon       \\nSpeed: Turbo\\nDamage: High",10,30);
-        text("These Mini Jungle Blobs were also corrupted. They move \\nfast and damage higher than other Mini Blobs. \\n\\nSand pit makes really quick work of them if they're caught\\nin it. Keep them away or suffer their high damage!",5,180);
+        text("JUNGLE YOUNGLING\n/jəNGɡ(ə)l ˈyəNGliNG/         \n\nHealth: 250     Heals from: Blob Cannon       \nSpeed: Turbo\nDamage: High",10,30);
+        text("These Mini Jungle Blobs were also corrupted. They move \nfast and damage higher than other Mini Blobs. \n\nSand pit makes really quick work of them if they're caught\nin it. Keep them away or suffer their high damage!",5,180);
         fill(32, 158, 0);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-green"),325,80,20,20);
@@ -7830,8 +7830,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("ROBO-MONKEY         Weaknesses: Lightning, Stun Slash\\n/ˈrōbō ˈməNGkē/         \\n\\nHealth: 800     Immune to: Fire       \\nSpeed: Turbo\\nDamage: Normal",10,30);
-        text("Monkeys that were turned into robots after the altar was \\ncorrupted. High speed and health could make them a \\nthreat!\\n\\nTreat them like a fast robot. Utilize their weaknesses with \\nsome knockback or stun. Remember to be quick about it \\ntoo. Like all robots, they are immune to fire.",5,180);
+        text("ROBO-MONKEY         Weaknesses: Lightning, Stun Slash\n/ˈrōbō ˈməNGkē/         \n\nHealth: 800     Immune to: Fire       \nSpeed: Turbo\nDamage: Normal",10,30);
+        text("Monkeys that were turned into robots after the altar was \ncorrupted. High speed and health could make them a \nthreat!\n\nTreat them like a fast robot. Utilize their weaknesses with \nsome knockback or stun. Remember to be quick about it \ntoo. Like all robots, they are immune to fire.",5,180);
         fill(32, 158, 0);
         rect(280,36,110,110);
         image(getImage("avatars/robot_male_1"),290,40,100,100);
@@ -7845,8 +7845,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("WEED                   Weaknesses: Fire\\n/wēd/         \\n\\nHealth: 500           \\nSpeed: Very Slow\\nDamage: Super High",10,30);
-        text("These plants are the most dangerous enemy yet \\non the dragon's adventure! High damage and range make \\nthem a tough enemy to defeat!\\n\\nTheir head extends from their stem, so stay away. \\nUse an attack like tentacle to keep them away, but be\\ncareful, they're hard to hit. It may be difficult to use their \\nweakness on them, since you'll have to get up close.",5,180);
+        text("WEED                   Weaknesses: Fire\n/wēd/         \n\nHealth: 500           \nSpeed: Very Slow\nDamage: Super High",10,30);
+        text("These plants are the most dangerous enemy yet \non the dragon's adventure! High damage and range make \nthem a tough enemy to defeat!\n\nTheir head extends from their stem, so stay away. \nUse an attack like tentacle to keep them away, but be\ncareful, they're hard to hit. It may be difficult to use their \nweakness on them, since you'll have to get up close.",5,180);
         fill(32, 158, 0);
         rect(280,36,110,110);
         pushMatrix();
@@ -7865,8 +7865,8 @@ draw = function() {
         }
         textSize(15);
         fill(143, 58, 8);
-        text("ALTAR     Properties: Slow            \\n/ˈɔltər/         \\n\\nHealth: 7000           \\nDamage: Normal\\nWeaknesses: Blob Cannon",0,30);
-        text("The central station that \\nwas corrupted in order to \\ncorrupt all the creatures.\\nin the jungle. The dragon must defeat it to prevent being\\ntangled in vines for eternity!\\n\\nIts main attack is a missile burst. The projectiles slow you \\ndown, but they can get really hard to avoid. Try hitting both \\nthe enemies it sends out and it with the same attack!\\nSand pit can help with this.\\n                 If you win, you will unlock Slow Dart",5,180);
+        text("ALTAR     Properties: Slow            \n/ˈɔltər/         \n\nHealth: 7000           \nDamage: Normal\nWeaknesses: Blob Cannon",0,30);
+        text("The central station that \nwas corrupted in order to \ncorrupt all the creatures.\nin the jungle. The dragon must defeat it to prevent being\ntangled in vines for eternity!\n\nIts main attack is a missile burst. The projectiles slow you \ndown, but they can get really hard to avoid. Try hitting both \nthe enemies it sends out and it with the same attack!\nSand pit can help with this.\n                 If you win, you will unlock Slow Dart",5,180);
         fill(32, 158, 0);
         rect(180,0,300,230);
         pushMatrix();
@@ -7891,7 +7891,7 @@ if (level === -800){
         textSize(20);
         fill(255, 255, 255);
         text("Poison World",270,30);
-        text("Click on an \\nenemy to \\nlearn \\nabout them!",140,200);
+        text("Click on an \nenemy to \nlearn \nabout them!",140,200);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -51;
         }
@@ -7949,8 +7949,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("POISON BLOB\\n/ˈpoizn bläb/         \\n\\nHealth: 1000       Properties: Poison       \\nSpeed: Normal\\nDamage: Very High",10,30);
-        text("Blobs mostly made of evil, mixed with swampland.  \\n\\nIf they touch the dragon, you'll be inflicted with poison, \\nwhich does a total of around 50 damage over time. Sand \\nPit should work on them easily.",5,180);
+        text("POISON BLOB\n/ˈpoizn bläb/         \n\nHealth: 1000       Properties: Poison       \nSpeed: Normal\nDamage: Very High",10,30);
+        text("Blobs mostly made of evil, mixed with swampland.  \n\nIf they touch the dragon, you'll be inflicted with poison, \nwhich does a total of around 50 damage over time. Sand \nPit should work on them easily.",5,180);
         fill(121, 0,191);
         rect(280,36,110,110);
         tint(160, 0, 130, 255);
@@ -7965,8 +7965,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("MINI POISON BLOB\\n/ˈminē ˈpoizn bläb/         \\n\\nHealth: 500       Properties: Poison       \\nSpeed: Very Fast\\nDamage: High",10,30);
-        text(" Blobs made of evil mixed with swampy turf, but now\\n smaller! And more annoying to dodge...\\n\\n They're faster than their larger counterparts, so they're\\n very dangerous with their properties. Try to Sand Pit them \\n if you're struggling!",5,180);
+        text("MINI POISON BLOB\n/ˈminē ˈpoizn bläb/         \n\nHealth: 500       Properties: Poison       \nSpeed: Very Fast\nDamage: High",10,30);
+        text(" Blobs made of evil mixed with swampy turf, but now\n smaller! And more annoying to dodge...\n\n They're faster than their larger counterparts, so they're\n very dangerous with their properties. Try to Sand Pit them \n if you're struggling!",5,180);
         fill(121, 0,191);
         rect(280,36,110,110);
         tint(160, 0, 130, 255);
@@ -7981,8 +7981,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("BIG MOSQUITO\\n/big məˈskēdō/         \\n\\nHealth: 500       Properties: Drain, Vamp       \\nSpeed: Moderately Fast\\nDamage: High",10,30);
-        text("When some mosquitos were affected by the curse, they \\nturned to a humongous size! Now out for the dragon's fresh \\nblood... this can't be good.\\n\\nWhile not appearing as frequently as their smaller kind, \\nthey can be more dangerous. Their Vamp property will \\nallow them to heal themselves by taking away the dragon's \\nHP! They can exceed maximum HP with this property, but \\nif they drink up to 1500 HP, they will burst and be \\nvanquished in the process. They also drain your MP faster \\n                than their smaller kind. Sand pit them if possible.",5,170);
+        text("BIG MOSQUITO\n/big məˈskēdō/         \n\nHealth: 500       Properties: Drain, Vamp       \nSpeed: Moderately Fast\nDamage: High",10,30);
+        text("When some mosquitos were affected by the curse, they \nturned to a humongous size! Now out for the dragon's fresh \nblood... this can't be good.\n\nWhile not appearing as frequently as their smaller kind, \nthey can be more dangerous. Their Vamp property will \nallow them to heal themselves by taking away the dragon's \nHP! They can exceed maximum HP with this property, but \nif they drink up to 1500 HP, they will burst and be \nvanquished in the process. They also drain your MP faster \n                than their smaller kind. Sand pit them if possible.",5,170);
         fill(121, 0,191);
         rect(280,36,110,110);
         pushMatrix();
@@ -8003,8 +8003,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("MOSQUITO\\n/məˈskēdō/         \\n\\nHealth: 5       Properties: Drain       \\nSpeed: Fast\\nDamage: Normal",10,30);
-        text("These small bugs were affected by the corrupt curse as \\nwell. They are very weak enemies, but can slow your \\nprogress and drain your health quickly!\\n\\nThey always come in large swarms of 10 or more. Try \\nusing a ranged attack to vanquish them very quickly. Don't \\nlet groups gang up on you or they'll do a ton of damage! \\nThey will also drain your MP at a similar rate, leaving you \\ndefenseless, so stay a good distance away from them \\nwhile trying to hit them all at once.",5,170);
+        text("MOSQUITO\n/məˈskēdō/         \n\nHealth: 5       Properties: Drain       \nSpeed: Fast\nDamage: Normal",10,30);
+        text("These small bugs were affected by the corrupt curse as \nwell. They are very weak enemies, but can slow your \nprogress and drain your health quickly!\n\nThey always come in large swarms of 10 or more. Try \nusing a ranged attack to vanquish them very quickly. Don't \nlet groups gang up on you or they'll do a ton of damage! \nThey will also drain your MP at a similar rate, leaving you \ndefenseless, so stay a good distance away from them \nwhile trying to hit them all at once.",5,170);
         fill(121, 0,191);
         rect(280,36,110,110);
         fill(125, 125, 125);
@@ -8019,8 +8019,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("POISON WEED\\n/ˈpoizn wēd/         \\n\\nHealth: 800       Properties: Poison       \\nSpeed: Very Slow\\nDamage: Ultra High",10,30);
-        text("The weeds are back and harder than ever! With their \\npoison property and higher HP, they will be super difficult \\nto defeat!\\n\\nSuper high damage make them really tough to destroy, \\nespecially when confronted by other enemies. Slow Dart is \\na viable option for slowing them down. Sand Pit and \\nTentacle work best, since Ground Pound has a tough time \\nkeeping them away. Their heads have huge range across \\nthe battlefield.",5,170);
+        text("POISON WEED\n/ˈpoizn wēd/         \n\nHealth: 800       Properties: Poison       \nSpeed: Very Slow\nDamage: Ultra High",10,30);
+        text("The weeds are back and harder than ever! With their \npoison property and higher HP, they will be super difficult \nto defeat!\n\nSuper high damage make them really tough to destroy, \nespecially when confronted by other enemies. Slow Dart is \na viable option for slowing them down. Sand Pit and \nTentacle work best, since Ground Pound has a tough time \nkeeping them away. Their heads have huge range across \nthe battlefield.",5,170);
         fill(121, 0,191);
         rect(280,36,110,110);
         pushMatrix();
@@ -8042,8 +8042,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("POISON FLOWER\\n/ˈpoizn ˈflouər/         \\n\\nHealth: 5000              \\nWeaknesses: Blob Cannon\\nDamage: Very High",10,30);
-        text("It used to be a normal flower, before it \\ngot corrupted and mutated in the\\nprocess. This enemy could make \\nthe dragon become the next poison \\nswamp creature if not careful!\\n\\nDefeat the 3 Mini Poison Flowers \\nbefore targeting it, as you can't do \\ndamage to it until you do. Try \\nattacking multiple at once!",5,170);
+        text("POISON FLOWER\n/ˈpoizn ˈflouər/         \n\nHealth: 5000              \nWeaknesses: Blob Cannon\nDamage: Very High",10,30);
+        text("It used to be a normal flower, before it \ngot corrupted and mutated in the\nprocess. This enemy could make \nthe dragon become the next poison \nswamp creature if not careful!\n\nDefeat the 3 Mini Poison Flowers \nbefore targeting it, as you can't do \ndamage to it until you do. Try \nattacking multiple at once!",5,170);
         fill(121, 0, 191);
             rect(200+60,0,300,400);
         pushMatrix();
@@ -8064,8 +8064,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("POISON FLOWER\\n/ˈpoizn ˈflouər/         \\n\\nHealth: 5000              \\nWeaknesses: Blob Cannon\\nDamage: Very High",10,30);
-        text("Sand Pit is of utmost priority for\\ndamage. The bouncing projectiles it\\nsends out can be dodged if they're\\npositioned the right way. \\nWhen it reaches half health, it will\\nspawn 3 more Mini Poison Flowers\\nwhich are more aggressive.\\nEnemies can be countered with Sand \\nPit if prepared.\\n                    If you win, you \\n                    will unlock Poison",5,170);
+        text("POISON FLOWER\n/ˈpoizn ˈflouər/         \n\nHealth: 5000              \nWeaknesses: Blob Cannon\nDamage: Very High",10,30);
+        text("Sand Pit is of utmost priority for\ndamage. The bouncing projectiles it\nsends out can be dodged if they're\npositioned the right way. \nWhen it reaches half health, it will\nspawn 3 more Mini Poison Flowers\nwhich are more aggressive.\nEnemies can be countered with Sand \nPit if prepared.\n                    If you win, you \n                    will unlock Poison",5,170);
         fill(121, 0, 191);
             rect(200+60,0,300,400);
         pushMatrix();
@@ -8091,11 +8091,11 @@ if (level === -800){
         text("Welcome to the bestiary! Here, you will find lore and tips about various enemies and bosses! Enemies are sorted by world! Special thanks to Obsta07 who made all of this!",5,50,400,9999);
         textSize(25);
            
-        text("A hot volcano with very\\nstrong foes.", 20, 200); 
+        text("A hot volcano with very\nstrong foes.", 20, 200); 
     
         
         
-        text("A very dark realm with the \\ntoughest challenges of all!", 20, 315); 
+        text("A very dark realm with the \ntoughest challenges of all!", 20, 315); 
         
         textSize(20);
         if (addButton("Back", 3, 368, 0, 30)) {
@@ -8114,7 +8114,7 @@ if (level === -800){
         textSize(20);
         fill(255, 255, 255);
         text("Lava World",270,30);
-        text("Click on an \\nenemy to \\nlearn \\nabout them!",140,200);
+        text("Click on an \nenemy to \nlearn \nabout them!",140,200);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -52;
         }
@@ -8206,8 +8206,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("LAVA BLOB\\n/ˈlävə bläb/         \\n\\nHealth: 1250        Immune to: Fire    \\nSpeed: Normal\\nDamage: Very High",10,30);
-        text("Commanded by Generals Sir Blobsalot and Arch \\nBlobomancer, these Lava Blobs were enhanced by a\\nmysterious being to be even more evil than they already\\nwere! \\n\\nYour new move is very powerful. Give it a try on this \\nstandard enemy and they should be vanquished in no time! \\nOther than that, they deal high damage for a blob, and \\ncan't be hit with fire, so they are basically a much \\n                tougher Fire Blob.",5,190);
+        text("LAVA BLOB\n/ˈlävə bläb/         \n\nHealth: 1250        Immune to: Fire    \nSpeed: Normal\nDamage: Very High",10,30);
+        text("Commanded by Generals Sir Blobsalot and Arch \nBlobomancer, these Lava Blobs were enhanced by a\nmysterious being to be even more evil than they already\nwere! \n\nYour new move is very powerful. Give it a try on this \nstandard enemy and they should be vanquished in no time! \nOther than that, they deal high damage for a blob, and \ncan't be hit with fire, so they are basically a much \n                tougher Fire Blob.",5,190);
         fill(108, 63, 36);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam-red"),290,40,100,100);
@@ -8221,8 +8221,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("BOMB                 Properties: Short Fuse\\n/bäm/         \\n\\nHealth: 1000        Immune to: Ground \\n                             Pound, Poison    \\nSpeed: Fast\\nDamage: Unbelievably High",10,30);
-        text("Bombs that came to life from evil magic. Really dangerous \\nexplosions!!! Stay away! What was Blobsalot thinking with \\nthis trooper?\\n\\nAvoid them at all costs, or you'll be vanquished \\nimmediately! Fire detonates them, so don't use it unless \\nthey're at low enough health. However, they will explode on \\ntheir own after enough time passes by. Use Freeze Pound \\nto defuse them, but you'll have to find a different way to \\n               stall them if you want to vanquish them that way...",5,190);
+        text("BOMB                 Properties: Short Fuse\n/bäm/         \n\nHealth: 1000        Immune to: Ground \n                             Pound, Poison    \nSpeed: Fast\nDamage: Unbelievably High",10,30);
+        text("Bombs that came to life from evil magic. Really dangerous \nexplosions!!! Stay away! What was Blobsalot thinking with \nthis trooper?\n\nAvoid them at all costs, or you'll be vanquished \nimmediately! Fire detonates them, so don't use it unless \nthey're at low enough health. However, they will explode on \ntheir own after enough time passes by. Use Freeze Pound \nto defuse them, but you'll have to find a different way to \n               stall them if you want to vanquish them that way...",5,190);
         fill(108, 63, 36);
         rect(280,36,110,110);
         pushMatrix();
@@ -8246,8 +8246,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("LAVA HOUND\\n/ˈlävə hound/         \\n\\nHealth: 1000        Immune to: Fire    \\nSpeed: Turbo\\nDamage: High",10,30);
-        text("Similar to lava blobs these creatures were also\\nenhanced with magic. Commanded by Sir Blobsalot \\nand Arch Blobomancer.\\n\\nTheir speed, health and damage make them like a bigger \\nMini Blob, making them harder to avoid. Keep them away \\nwith your Ground Pound, and use your powerful attacks!",5,180);
+        text("LAVA HOUND\n/ˈlävə hound/         \n\nHealth: 1000        Immune to: Fire    \nSpeed: Turbo\nDamage: High",10,30);
+        text("Similar to lava blobs these creatures were also\nenhanced with magic. Commanded by Sir Blobsalot \nand Arch Blobomancer.\n\nTheir speed, health and damage make them like a bigger \nMini Blob, making them harder to avoid. Keep them away \nwith your Ground Pound, and use your powerful attacks!",5,180);
         fill(108, 63, 36);
         rect(280,36,110,110);
         tint(255, 0, 0, 255);
@@ -8263,8 +8263,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("GOLEM\\n/ˈgōləm/       Properties: Knockback  \\n\\nHealth: 1500        Immune to: Fire,    \\nSpeed: Slow                   Poison\\nDamage: Ultra High",10,30);
-        text("Constructs fueled by evil and lava. The last of the main \\ntroops, and not the easiest to deal with.\\n\\nVery strong enemies, with very high health and damage. \\nGround Pound still works good on them, so use that to \\nkeep them away. They have an eruption attack that will \\nhave them stop in place to charge it up, so prepare in \\nadvance. There is also a rare broken variant which does \\nnot have this. Use your most powerful moves and \\n                  don't get caught in the blast radius. ",5,180);
+        text("GOLEM\n/ˈgōləm/       Properties: Knockback  \n\nHealth: 1500        Immune to: Fire,    \nSpeed: Slow                   Poison\nDamage: Ultra High",10,30);
+        text("Constructs fueled by evil and lava. The last of the main \ntroops, and not the easiest to deal with.\n\nVery strong enemies, with very high health and damage. \nGround Pound still works good on them, so use that to \nkeep them away. They have an eruption attack that will \nhave them stop in place to charge it up, so prepare in \nadvance. There is also a rare broken variant which does \nnot have this. Use your most powerful moves and \n                  don't get caught in the blast radius. ",5,180);
         fill(108, 63, 36);
         rect(280,36,110,110);
         image(getImage("avatars/robot_male_3"),300,45,75,75);
@@ -8286,8 +8286,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("THE CASTLE      Defense: Ultra High\\n/T͟Hə kas(ə)l/         \\n\\nHealth: 9000              \\nImmune to: Several things\\nDamage: Very High",10,30);
-        text("Well, you did it. You've made it to the \\nbase of Sir Blobsalot and Arch \\nBlobomancer. These two command the \\nlava troops of the area, and are \\ndetermined to defeat the dragon once \\nand for all.\\n\\nThese two are slightly unpredictable, \\nbut know that they'll take significantly\\nless damage from most attacks. Find the\\n                 one that works best!                    ",5,160);
+        text("THE CASTLE      Defense: Ultra High\n/T͟Hə kas(ə)l/         \n\nHealth: 9000              \nImmune to: Several things\nDamage: Very High",10,30);
+        text("Well, you did it. You've made it to the \nbase of Sir Blobsalot and Arch \nBlobomancer. These two command the \nlava troops of the area, and are \ndetermined to defeat the dragon once \nand for all.\n\nThese two are slightly unpredictable, \nbut know that they'll take significantly\nless damage from most attacks. Find the\n                 one that works best!                    ",5,160);
         fill(108, 63, 36);
             rect(200+80,0,300,400);
         pushMatrix();
@@ -8343,8 +8343,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("THE CASTLE      Defense: Ultra High\\n/T͟Hə kas(ə)l/         \\n\\nHealth: 9000              \\nImmune to: Several things\\nDamage: Very High",10,30);
-        text("The ballistae they fire is easily dodgeable\\nif you move when the !'s show up. It is\\nalso important to know when enemies \\narrive on the battlefield. Try noticing a\\npattern (Such as 'Here they come').\\nMost enemies can easily be countered\\nwith Sand Pit or Poison. Do as much\\ndamage as you can in between waves!\\n\\nIf you win, you will unlock Eruption",5,170);
+        text("THE CASTLE      Defense: Ultra High\n/T͟Hə kas(ə)l/         \n\nHealth: 9000              \nImmune to: Several things\nDamage: Very High",10,30);
+        text("The ballistae they fire is easily dodgeable\nif you move when the !'s show up. It is\nalso important to know when enemies \narrive on the battlefield. Try noticing a\npattern (Such as 'Here they come').\nMost enemies can easily be countered\nwith Sand Pit or Poison. Do as much\ndamage as you can in between waves!\n\nIf you win, you will unlock Eruption",5,170);
         fill(108, 63, 36);
             rect(200+80,0,300,400);
         pushMatrix();
@@ -8397,7 +8397,7 @@ if (level === -800){
         textSize(20);
         fill(255, 255, 255);
         text("Dark World",270,390);
-        text("Click on an \\nenemy to \\nlearn \\nabout them!",140,140);
+        text("Click on an \nenemy to \nlearn \nabout them!",140,140);
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -52;
         }
@@ -8461,8 +8461,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("DARK BLOB       Resistances: Fire, Lightning, Sand Pit,          \\n/därk bläb/           Eruption     \\n\\nHealth: 1250            \\nSpeed: Normal\\nDamage: Very High",10,30);
-        text("Dark Blobs are made of pure evil. This world will also limit \\nyour vision. Luckily, some moves can grant you light, like \\nthe new one you just unlocked! The layout of each stage \\nwill probably be different too, to throw you off...\\n\\nPoison still should work just fine on them. Be careful about \\nbumbling into them in the dark! They deal the same \\ndamage as their lava cousins, so keep your distance like \\nall the others!",5,180);
+        text("DARK BLOB       Resistances: Fire, Lightning, Sand Pit,          \n/därk bläb/           Eruption     \n\nHealth: 1250            \nSpeed: Normal\nDamage: Very High",10,30);
+        text("Dark Blobs are made of pure evil. This world will also limit \nyour vision. Luckily, some moves can grant you light, like \nthe new one you just unlocked! The layout of each stage \nwill probably be different too, to throw you off...\n\nPoison still should work just fine on them. Be careful about \nbumbling into them in the dark! They deal the same \ndamage as their lava cousins, so keep your distance like \nall the others!",5,180);
         fill(71, 68, 68);
         rect(280,36,110,110);
         tint(255, 0, 0, 255);
@@ -8478,8 +8478,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("GHOST BLOB           Properties: Spectral      \\n/ɡōst bläb/         \\n\\nHealth: 800         Immune to: Most things          \\nSpeed: Normal\\nDamage: High",10,30);
-        text("Evil Residue from fallen blobs. They are rarely created by \\nTHE DARK LORD since they are very hard to make.\\n\\nThey can only be damaged by attacks that create light. \\nFreeze Pound still works on them though. Their spectral \\nproperty lets them travel through any obstacles and \\nenemies. Eruption works best on them, because of its high \\ndamage.",5,180);
+        text("GHOST BLOB           Properties: Spectral      \n/ɡōst bläb/         \n\nHealth: 800         Immune to: Most things          \nSpeed: Normal\nDamage: High",10,30);
+        text("Evil Residue from fallen blobs. They are rarely created by \nTHE DARK LORD since they are very hard to make.\n\nThey can only be damaged by attacks that create light. \nFreeze Pound still works on them though. Their spectral \nproperty lets them travel through any obstacles and \nenemies. Eruption works best on them, because of its high \ndamage.",5,180);
         fill(71, 68, 68);
         rect(280,36,110,110);
         tint(122, 118, 157, 25);
@@ -8495,8 +8495,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("INK BLOB           Properties: Death Burst      \\n/iNGk bläb/         \\n\\nHealth: 600         Immune to: Ground\\n                             Pound, Sand Pit         \\nSpeed: Normal\\nDamage: High",10,30);
-        text("Completely shadowy figures made by the Dark Lord. Since \\nthese minions were not corrupted, they were born evil, and \\ncan be made at will as long as darkness lurks in this world.\\n\\nPoison and Eruption work best, as always. While they can \\nbe frozen using Freeze Pound, they are immune to all \\nforms of Knockback. If they are vanquished, they will burst \\ninto 8 ink missiles that do average damage. Try to \\npile them together to hit more of them.",5,190);
+        text("INK BLOB           Properties: Death Burst      \n/iNGk bläb/         \n\nHealth: 600         Immune to: Ground\n                             Pound, Sand Pit         \nSpeed: Normal\nDamage: High",10,30);
+        text("Completely shadowy figures made by the Dark Lord. Since \nthese minions were not corrupted, they were born evil, and \ncan be made at will as long as darkness lurks in this world.\n\nPoison and Eruption work best, as always. While they can \nbe frozen using Freeze Pound, they are immune to all \nforms of Knockback. If they are vanquished, they will burst \ninto 8 ink missiles that do average damage. Try to \npile them together to hit more of them.",5,190);
         fill(71, 68, 68);
         rect(280,36,110,110);
         tint(0, 0, 0, 255);
@@ -8512,8 +8512,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("DARK MAGE           Properties: Teleportation      \\n/därk māj/         \\n\\nHealth: 800          \\nSpeed: Normal\\nDamage: Super High",10,30);
-        text("Blobs who know the secret to powerful dark magic. They \\nare ranged attackers and will do a lot to get away from you.\\n\\nThese blobs have the ability to teleport if they feel like \\nthey're in danger. Their magic does high damage and is \\nfired more often than other ranged attacks. Try to get close \\nto them to use eruption, as it only takes two of them to \\nvanquish them.",5,190);
+        text("DARK MAGE           Properties: Teleportation      \n/därk māj/         \n\nHealth: 800          \nSpeed: Normal\nDamage: Super High",10,30);
+        text("Blobs who know the secret to powerful dark magic. They \nare ranged attackers and will do a lot to get away from you.\n\nThese blobs have the ability to teleport if they feel like \nthey're in danger. Their magic does high damage and is \nfired more often than other ranged attacks. Try to get close \nto them to use eruption, as it only takes two of them to \nvanquish them.",5,190);
         fill(71, 68, 68);
         rect(280,36,110,110);
         image(getImage("avatars/spunky-sam"),285,40,100,100);
@@ -8527,8 +8527,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("DOPPELGANGER           Properties: Darkness      \\n/ˈdäpəlˌɡaNGər/         \\n\\nHealth: 500          \\nSpeed: Turbo\\nDamage: Normal",10,30);
-        text("A mysterious being that takes on the look of the person \\nwho is looking at it, so no one knows what one truly looks \\nlike. Their evil magic lets them steal the good in one's soul, \\nand will never give it back unless it's defeated. Don't get \\nthem confused with the dragon. The good in souls is what \\ngives a person natural lighting in dark areas.\\n\\nDefeat them quickly, or you'll be quick to roam the \\ndarkness until you do. Eruption works great in conjunction \\n                with other enemies!",5,190);
+        text("DOPPELGANGER           Properties: Darkness      \n/ˈdäpəlˌɡaNGər/         \n\nHealth: 500          \nSpeed: Turbo\nDamage: Normal",10,30);
+        text("A mysterious being that takes on the look of the person \nwho is looking at it, so no one knows what one truly looks \nlike. Their evil magic lets them steal the good in one's soul, \nand will never give it back unless it's defeated. Don't get \nthem confused with the dragon. The good in souls is what \ngives a person natural lighting in dark areas.\n\nDefeat them quickly, or you'll be quick to roam the \ndarkness until you do. Eruption works great in conjunction \n                with other enemies!",5,190);
         fill(71, 68, 68);
         rect(280,36,110,110);
         image(getImage("avatars/piceratops-ultimate"),285,40,100,100);
@@ -8542,8 +8542,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("SIR BLOBSALOT           Properties: Knockback      \\n/sər bläbsālät/       Defense: Super High\\n\\nHealth: 5000          If you win, you will\\nSpeed: Normal         unlock Charge\\nDamage: Extremely High",10,30);
-        text("Blobsalot is willing to do anything to protect his master, \\nTHE DARK LORD. So THE DARK LORD made him more \\npowerful, with several incredible abilities. He is a melee \\nfighter. Thinks of Arch Blobomancer as some kind of \\nassistant perhaps, as he was the one responsible for \\nsupplying the troops. Not as smart as him though.\\n\\nHis charge attack is tricky, try luring him into a wall to \\ndodge it. Wait for him to put his guard down before\\n                attacking!",5,190);
+        text("SIR BLOBSALOT           Properties: Knockback      \n/sər bläbsālät/       Defense: Super High\n\nHealth: 5000          If you win, you will\nSpeed: Normal         unlock Charge\nDamage: Extremely High",10,30);
+        text("Blobsalot is willing to do anything to protect his master, \nTHE DARK LORD. So THE DARK LORD made him more \npowerful, with several incredible abilities. He is a melee \nfighter. Thinks of Arch Blobomancer as some kind of \nassistant perhaps, as he was the one responsible for \nsupplying the troops. Not as smart as him though.\n\nHis charge attack is tricky, try luring him into a wall to \ndodge it. Wait for him to put his guard down before\n                attacking!",5,190);
         fill(71, 68, 68);
         rect(280,36,110,110);
         pushMatrix();
@@ -8562,8 +8562,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("ARCH BLOBOMANCER           Properties: Teleportation      \\n/ärCH bläbəˌmansər/       \\n\\nHealth: 5000      If you win, you will    \\nSpeed: Turbo             unlock Restore\\nDamage: Extremely High",10,30);
-        text("Sir Blobsalot's partner and a powerful dark mage. So \\npowerful he could still beat many things without THE DARK \\nLORD'S enhancements. He is more intellectual than \\nBlobsalot, and stands by his side at almost any opportunity, \\neven with bad choices. So much so that according to \\nlegend few people know about, his magic is said to not be \\nnearly as powerful when he's around him, as if he feels \\nmore safe around him...\\n\\n                Be ready for his attacks. Moving vertical and\\n                counterclockwise are the key for most attacks.",5,180);
+        text("ARCH BLOBOMANCER           Properties: Teleportation      \n/ärCH bläbəˌmansər/       \n\nHealth: 5000      If you win, you will    \nSpeed: Turbo             unlock Restore\nDamage: Extremely High",10,30);
+        text("Sir Blobsalot's partner and a powerful dark mage. So \npowerful he could still beat many things without THE DARK \nLORD'S enhancements. He is more intellectual than \nBlobsalot, and stands by his side at almost any opportunity, \neven with bad choices. So much so that according to \nlegend few people know about, his magic is said to not be \nnearly as powerful when he's around him, as if he feels \nmore safe around him...\n\n                Be ready for his attacks. Moving vertical and\n                counterclockwise are the key for most attacks.",5,180);
         fill(71, 68, 68);
         rect(280,36,110,110);
         pushMatrix();
@@ -8584,8 +8584,8 @@ if (level === -800){
         }
         textSize(15);
         fill(143, 58, 8);
-        text("THE DARK LORD           Properties: Many      \\n/T͟Hə därk lôrd/       \\n\\nHealth: ???  Immune to: Ground Pound,\\n                     Sand Pit, Poison  \\nSpeed: Turbo         \\nDamage: Unrivaled",10,30);
-        text("Yes, this is it. The Dark Lord himself. He was the very first \\nDark Mage, and grew his power himself to become mostly \\nimmortal and take control of the world. To prevent angels \\nfrom intervening with this dastardly deed, he wiped out \\nmost of their population. At this point, he could possibly \\ntake on a god himself. Wants to make this the end of the\\ndragon's world...\\n His shadow form is the most powerful form you will face.\\nVery little is known about him, but know that he is very\\n                    very powerful. The first thing you\\n                  should know is that Charge gives--",5,186);
+        text("THE DARK LORD           Properties: Many      \n/T͟Hə därk lôrd/       \n\nHealth: ???  Immune to: Ground Pound,\n                     Sand Pit, Poison  \nSpeed: Turbo         \nDamage: Unrivaled",10,30);
+        text("Yes, this is it. The Dark Lord himself. He was the very first \nDark Mage, and grew his power himself to become mostly \nimmortal and take control of the world. To prevent angels \nfrom intervening with this dastardly deed, he wiped out \nmost of their population. At this point, he could possibly \ntake on a god himself. Wants to make this the end of the\ndragon's world...\n His shadow form is the most powerful form you will face.\nVery little is known about him, but know that he is very\n                    very powerful. The first thing you\n                  should know is that Charge gives--",5,186);
         fill(71, 68, 68);
         rect(280,36,110,110);
       
@@ -8602,8 +8602,8 @@ if (level === -800){
         
         textSize(15);
         fill(143, 58, 8);
-        text("THE DARK LORD           Properties: Many      \\n/T͟Hə därk lôrd/       \\n\\nHealth: ???  Immune to: Ground Pound,\\n                     Sand Pit, Poison  \\nSpeed: Turbo         \\nDamage: Unrivaled",10,30);
-        text("you invincibility frames while active, so use that if you\\nknow there's no way to dodge an attack (Say, you're in\\na corner and there's undodgeable projectiles coming\\nyour way.) The Dark Lord also cannot be knocked back by \\nGround Pound, and is resistant to Freeze Pound, so use\\nSlow Dart and MAINLY Tentacle to keep him back if he's\\nchasing you, (Eruption works too, if you have enough MP).\\nMove slowly but swiftly to avoid bullet attacks. Lastly, the\\nbottom corners are your friends here! It's much better to \\n                  be below attacks than above them. Good Luck!\\n                  (And stay safe).",5,186);
+        text("THE DARK LORD           Properties: Many      \n/T͟Hə därk lôrd/       \n\nHealth: ???  Immune to: Ground Pound,\n                     Sand Pit, Poison  \nSpeed: Turbo         \nDamage: Unrivaled",10,30);
+        text("you invincibility frames while active, so use that if you\nknow there's no way to dodge an attack (Say, you're in\na corner and there's undodgeable projectiles coming\nyour way.) The Dark Lord also cannot be knocked back by \nGround Pound, and is resistant to Freeze Pound, so use\nSlow Dart and MAINLY Tentacle to keep him back if he's\nchasing you, (Eruption works too, if you have enough MP).\nMove slowly but swiftly to avoid bullet attacks. Lastly, the\nbottom corners are your friends here! It's much better to \n                  be below attacks than above them. Good Luck!\n                  (And stay safe).",5,186);
         fill(71, 68, 68);
         rect(280,36,110,110);
       
@@ -8697,7 +8697,7 @@ if (level === -800){
         fill(255, 255, 255);
         text("Dark Mode", 115, 35);
         textSize(15);
-        text("So you want to dabble into dark magic, huh? I should warn you though, dark magic is not something to play with!\\n\\nDark magic allows you to create immensely powerful attacks, but each use will claw away at your maximum health!\\n\\nAre you sure you want to try dark magic?",5,50,400,9999);
+        text("So you want to dabble into dark magic, huh? I should warn you though, dark magic is not something to play with!\n\nDark magic allows you to create immensely powerful attacks, but each use will claw away at your maximum health!\n\nAre you sure you want to try dark magic?",5,50,400,9999);
         textSize(30);
         if (addButton("Yes", 160, 225, 0, 40)) {
             darkMode = "ON";
@@ -8717,7 +8717,7 @@ if (level === -800){
             level = -20;
         }
         textSize(15);
-        text("Welcome to Speedrun mode! Pick a category, and try to\\nbeat the levels as fast as you can! Create a spin-off to\\nsave your time. (Levels are done in Normal Mode)",5,50,400,9999);
+        text("Welcome to Speedrun mode! Pick a category, and try to\nbeat the levels as fast as you can! Create a spin-off to\nsave your time. (Levels are done in Normal Mode)",5,50,400,9999);
         text("The timer will start as soon as a category is selected.",30,380);
         if(oneLife === "ON"){
             fill(255, 0, 0);
@@ -8725,7 +8725,7 @@ if (level === -800){
         }
         if(darkMode === "ON"){
             fill(239, 64, 255);
-            text("Dark Mode is on!\\n(This will put you in another speedrun bracket)",150,310,250,99999);
+            text("Dark Mode is on!\n(This will put you in another speedrun bracket)",150,310,250,99999);
         }
         textSize(20);
        if (addButton("10 Levels", 20, 120, 0, 40)) {
@@ -13175,7 +13175,7 @@ if (level === -800){
                     if(testFrame2 === 1){
                         texts = [];
                         if(secretVar){
-                            addText(frame,"WHY DO I HAVE A SENSE OF DEJA VU?\\n\\n(Press k to skip the cutscene)                  ", 5, 90, 300, 350, 0, 0, 0);
+                            addText(frame,"WHY DO I HAVE A SENSE OF DEJA VU?\n\n(Press k to skip the cutscene)                  ", 5, 90, 300, 350, 0, 0, 0);
                         }else{
                             addText(frame,"JUST DIE ALREADY                 ", 5, 145, 300, 350, 0, 0, 0);
                         }
