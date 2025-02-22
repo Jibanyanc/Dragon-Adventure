@@ -13613,7 +13613,7 @@ if (level === -800){
             if(chargeText > 0){
                 textSize(18);
                 fill(255, 255, 255);
-                text("Use charge!\n   press [", 145, 90);
+                text("Use charge!\\n   press [", 145, 90);
             }
             //bonus 2
             //EX boss 1 effects
