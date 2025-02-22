@@ -160,6 +160,7 @@ var talked = false;
 var charging = 0;
 var charge = false;
 var charged = 0;
+var chargeText = 0;
 var spin = -1;
 var pound = -1;
 var targx = px;
@@ -2266,12 +2267,7 @@ StartLevel = function() {
     
     }else if(level === "???"&& !talked){
         underText = "Press k to skip the cutscene";
-        underTextTime = 400;
-    }else if(darkAttack === "die"){
-        if(secretVar === true){
-            underText = "Press k to skip the cutscene";
-            underTextTime = 400;
-        }
+        underTextTime = 600;
     }else if(level === "B3" || level === "B4"){
         underText = "Sand pits cannot be used in the sky ¯\\\\_(ツ)_/¯";
         underTextTime = 400;
@@ -2329,7 +2325,7 @@ StartLevel = function() {
         }else{
             statsy = 0;   
         }
-    }else if(level === "angel"){
+    }else if(level === "angel" || level === "the end"){
         statsy = 1231;
     }else{
         statsy = 0;   
@@ -2361,6 +2357,7 @@ StartLevel = function() {
     decay = 0;
     charged = 0;
     cloneTp = 0;
+    chargeText = 0;
     blobsalotOut = false;
     blobolichOut = false;
     blobsalot = [];
@@ -2568,7 +2565,7 @@ StartLevel = function() {
     poison = [];
     lava = [];
     texts = [];
-    if(level === "???" || level === "angel"){
+    if(level === "???" || level === "angel" || level === "the end"){
         lines= [
         [0,0,400,0],
         [400,400,0,400],
@@ -2764,6 +2761,13 @@ StartLevel = function() {
         ]);
     }
     else if (level === "angel") {
+        backr = 255;
+        backg = 255;
+        backb = 255;
+        lines = lines.concat([
+        ]);
+    }
+    else if (level === "the end") {
         backr = 255;
         backg = 255;
         backb = 255;
@@ -4251,6 +4255,13 @@ StartLevel = function() {
         maxMP = 1000;
         addMonster( 3230000000, 200, monsters.damageCloudPleaseIgnore);
         addMonster( 300, 60, monsters.adamantFortress);
+     }
+     if(level === "the end"){
+        px = 11231235;
+        py = 195;
+        maxHP = 1000;
+        maxMP = 1000;
+        addMonster( -123123110, -360, monsters.damageCloudPleaseIgnore); 
      }
      if(dif === 2){
         maxHP = ceil(maxHP * (3/4));
@@ -6237,7 +6248,7 @@ draw = function() {
         fill(255, 255, 255);
         text("Dragon Adventure", 37, 80);
         textSize(15);
-        text("Version 2.8.0",10,30);
+        text("Version 2.8.1",10,30);
         if(darkMode === "ON"){
             tint(55, 55, 55, 255);
             image(player,260,100);
@@ -6495,6 +6506,9 @@ draw = function() {
     }
     //update log
     var updates = [
+    "- Added alerts for when to use charge 2/22/2025",
+    "- Made heal and restore scale with difficulty 2/22/2025",
+    "- Fixed some bugs on B10! 2/22/2025",
     "- Speedrun mode works on all difficulties! 2/22/2025",
     "- Finished B10! Every level is done! 2/22/2025",
     "- Fixed bug that prevented skipping on level 101 12/1/2024",
@@ -8772,6 +8786,11 @@ if (level === -800){
         } 
         return;
     }
+    if ((keyDown !== -1 && key.toString() === "k" || keyDown !== -1 && key.toString() === "K")&&level === "the end"){
+        frameRate(180);   
+    }else{
+        frameRate(60);   
+    }
     if ((keyJustPressed && key.toString() === "k" || keyJustPressed && key.toString() === "K")&&HP > 0){
         for(var i = 0; i < es.length; i++){
             var e = es[i];
@@ -8992,6 +9011,7 @@ if (level === -800){
      tempound += 1;
      ropound += 1;
      kingBlobBurst -= 1;
+     chargeText -= 1;
      if(kingBlobBurst < 0){
         kingBlobBurst = 0;   
      }
@@ -10054,7 +10074,7 @@ if (level === -800){
                     var poundy= py+ph/2;  
                     var poundSize = 300;
                     ellipse(poundx,poundy,poundSize,poundSize);
-                    doAttack(poundx,poundy,poundSize,attack,450);//change this (450)
+                    doAttack(poundx,poundy,poundSize,attack,450000);//change this (450)
                   }
                   if ( attack === "blob cannon"&&keyJustPressed&&MP>99) {
                     fill(255, 255, 255);
@@ -10104,10 +10124,18 @@ if (level === -800){
                   if ( attack=== "heal"&&MP>1) {
                     fill(255, 178, 254);
                     MP -= 2;
-                    if(godMode){
-                        HP += 10;
-                    }else{
-                        HP += 1;
+                    if(dif === 1 || dif === 2){
+                        if(godMode){
+                            HP += 10;
+                        }else{
+                            HP += 1;
+                        }
+                    }else if(dif === 0 || dif === 4){
+                        if(godMode){
+                            HP += 15;
+                        }else{
+                            HP += 1.5;
+                        }
                     }
                     if (HP > maxHP){
                         HP = maxHP;   
@@ -10128,15 +10156,39 @@ if (level === -800){
                     }else{
                         fill(0, 179, 255);
                         if(MP < maxMP*2){
-                            if(godMode){
-                                HP -= 10;
-                            }else{
-                                HP -= 1;
-                            }
-                            if(godMode){
-                                MP += 20;
-                            }else{
-                                MP += 2;
+                            if(dif === 1 || dif === 2){
+                                if(godMode){
+                                    HP -= 10;
+                                }else{
+                                    HP -= 1;
+                                }
+                                if(godMode){
+                                    MP += 20;
+                                }else{
+                                    MP += 2;
+                                }
+                            }else if(dif === 0){
+                                if(godMode){
+                                    HP -= 15;
+                                }else{
+                                    HP -= 1.5;
+                                }
+                                if(godMode){
+                                    MP += 30;
+                                }else{
+                                    MP += 3;
+                                }
+                            }else if(dif === 4){
+                                if(godMode){
+                                    HP -= 20;
+                                }else{
+                                    HP -= 2;
+                                }
+                                if(godMode){
+                                    MP += 40;
+                                }else{
+                                    MP += 4;
+                                }
                             }
         
                         }
@@ -12613,6 +12665,8 @@ if (level === -800){
                    if(testFrame2 >= 240){
                        if(secretVar && !godMode){
                         darkAttack = "die";
+                        underText = "Press k to skip the cutscene";
+                        underTextTime = 400;
                        }else{
                          darkAttack = "summon";  
                        }
@@ -12896,6 +12950,11 @@ if (level === -800){
                         testFrame2 = 0;
                    }
                }else if(darkAttack === "pop"){
+                   if(!godMode){
+                       textSize(15);
+                       fill(255, 255, 255);
+                       text("Use charge!\\n   press [", 155, 280);
+                   }
                    if(testFrame2 >= 0 && testFrame2 < 60){
                         textSize(120);
                         fill(166, 0, 0);
@@ -13088,6 +13147,11 @@ if (level === -800){
                         testFrame2 = 0;
                    }
                }else if(darkAttack === "line"){
+                   if(!godMode){
+                       textSize(15);
+                       fill(255, 255, 255);
+                       text("Use charge!\\n   press [", 155, 280);
+                   }
                    if(testFrame2 === 60){
                        var m = addMissile(432,200,10,15,15,0, 0, 0);
                         m.vx = -1*10;
@@ -13144,6 +13208,11 @@ if (level === -800){
                         testFrame2 = 0;
                    }
                }else if(darkAttack === "pew"){
+                   if(!godMode){
+                       textSize(15);
+                       fill(255, 255, 255);
+                       text("Use charge!\\n   press [", 155, 280);
+                   }
                    stroke(255, 0, 0);
                    line(pew1x,400,pew1x,0);
                    stroke(0, 0, 255);
@@ -13190,7 +13259,7 @@ if (level === -800){
                     if(testFrame2 === 1){
                         texts = [];
                         if(secretVar){
-                            addText(frame,"WHY DO I HAVE A SENSE OF DEJA VU?\\n\\n(Press k to skip the cutscene)                  ", 5, 90, 300, 350, 0, 0, 0);
+                            addText(frame,"WHY DO I HAVE A SENSE OF DEJA VU?                  ", 5, 90, 300, 350, 0, 0, 0);
                         }else{
                             addText(frame,"JUST DIE ALREADY                 ", 5, 145, 300, 350, 0, 0, 0);
                         }
@@ -13541,6 +13610,11 @@ if (level === -800){
             }
         }
         if(level === "B2"){
+            if(chargeText > 0){
+                textSize(18);
+                fill(255, 255, 255);
+                text("Use charge!\n   press [", 145, 90);
+            }
             //bonus 2
             //EX boss 1 effects
             for (var i = 0; i<es.length; i++){
@@ -16766,7 +16840,7 @@ if (level === -800){
                                 }
                             }
                         }
-                        if(swipe===100){
+                        if(swipe>=100){
                             swipe=0;
                             fill(192,192,192);
                             if((py>=e.y-20&&py<=e.y+80)||(py+ph>=e.y-20&&py+ph<=e.y+80)){
@@ -17346,6 +17420,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 500;
@@ -17414,6 +17489,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
+                                    dark = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17476,6 +17552,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 500;
@@ -17540,6 +17617,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
+                                    dark = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17611,6 +17689,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 500;
@@ -17676,6 +17755,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
+                                    dark = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17739,6 +17819,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 500;
@@ -17813,6 +17894,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
+                                    dark = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17878,6 +17960,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    swipe = 0;
                                     e2.x = 240;
                                     e2.y = 153;
                                     e2.hp += 500;
@@ -17944,6 +18027,7 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
+                                    dark = 0;
                                     e2.x = 240;
                                     e2.y = 253;
                                     e2.hp += 1500;
@@ -18037,6 +18121,75 @@ if (level === -800){
                         }
                     }
                 }   
+            }
+        }
+        if(level === "the end") {
+            if(testFrame2 === 1){
+                if(dif === 1){
+                    texts = [];
+                    addText(frame+60,"Well done!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+360,"You have completed every single level!                 ", 5, 150, 200, 100, 0, 0, 0);
+                        addText(frame+860,"Beating the game in normal mode is quite the feat!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+1360,"The only thing left to do is to beat the game in hard mode!                  ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+1930,"I will warn you, it is excruciatingly hard!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+2470,"There is also the dark lord's secret creation, but no one knows where it is.                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+3070,"Anyways! See you soon!                 ", 5, 150, 200, 100, 0, 0, 0);
+                }
+            }
+            if(dif === 1){
+                if(testFrame2 === 3420){
+                    level = 0;
+                }
+            }
+            if(testFrame2 === 1){
+                if(dif === 0){
+                    texts = [];
+                    addText(frame+60,"Well done!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+360,"You have completed every single level!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+860,"Although, you've only beaten them on easy mode!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+1360,"I suggest playing on normal mode now. It can change the dynamic of most bosses!                  ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+1945,"I will warn you, it is much harder than you might be used to!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+2470,"There is also the dark lord's secret creation, but no one knows where it is.                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+3070,"Anyways! See you soon!                 ", 5, 150, 200, 100, 0, 0, 0);
+                }
+            }
+            if(dif === 0){
+                if(testFrame2 === 3420){
+                    level = 0;
+                }
+            }
+            if(testFrame2 === 1){
+                if(dif === 4){
+                    texts = [];
+                    addText(frame+60,"Well done!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+360,"You have completed every single level!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+800,"Although, you've only beaten them on baby mode!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+1300,"I suggest playing on at least easy mode now. You'll have to use every skill you've learned so far!                  ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+2000,"I will warn you, it might be harder than you are used to!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+2525,"There is also the dark lord's secret creation, but no one knows where it is.                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+3125,"Anyways! See you soon!                 ", 5, 150, 200, 100, 0, 0, 0);
+                }
+            }
+            if(dif === 4){
+                if(testFrame2 === 3475){
+                    level = 0;
+                }
+            }
+            if(testFrame2 === 1){
+                if(dif === 2){
+                    texts = [];
+                    addText(frame+60,"Amazing job!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+360,"You have completed every single level! On hard mode!                 ", 5, 150, 200, 100, 0, 0, 0);
+                        addText(frame+860,"You are probably the best player ever!                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+1300,"There's not much left to do. Maybe try speedrunning the game!                  ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+1900,"There is also the dark lord's secret creation, but no one knows where it is.                 ", 5, 150, 200, 100, 0, 0, 0);
+                    addText(frame+2530,"Anyways! See you soon!                 ", 5, 150, 200, 100, 0, 0, 0);
+                }
+            }
+            if(dif === 2){
+                if(testFrame2 === 2870){
+                    level = 0;
+                }
             }
         }
       
@@ -18620,6 +18773,11 @@ if (level === -800){
             jx = random();  
             jy = random();
         }
+        if(e.mon.name === "darkKingBlob" && kingBlobAttack === "dying"){
+            e.jitter = 15;
+            jx = random();  
+            jy = random();
+        }
         if(e.mon.name === "thrym"){
             e.jitter = 0;
         }
@@ -18631,7 +18789,7 @@ if (level === -800){
         if(frame - e.hitFrame < 15 || e.mon.name === "dedalot"|| e.mon.name === "dedmancer" || e.mon.name === "dedalotII"|| e.mon.name === "dedlich" || e.mon.name === "brokenCastle") {
           jx = random()*e.jitter;  
           jy = random()*e.jitter; 
-         }else if (frame < e.stun && e.mon.name !== "elcloud" && e.mon.name !== "elBlob" && e.mon.name !== "castle" && e.mon.name !== "ghostBlob"&&e.mon.name!=="inkBlob"&& e.mon.name !== "sirBlobsalot" && e.mon.name !== "sirBlobsalotII") {
+         }else if (frame < e.stun && e.mon.name !== "elcloud" && e.mon.name !== "elBlob" && e.mon.name !== "castle" && e.mon.name !== "ghostBlob"&&e.mon.name!=="inkBlob"&& e.mon.name !== "sirBlobsalot" && e.mon.name !== "sirBlobsalotII" && e.mon.name !== "adamantFortress") {
           jx = random()*4;  
           jy = random()*4; 
          }
@@ -20138,14 +20296,31 @@ if (level === -800){
             grabx = -400;
             es.splice(i,1);
         }else if(e.mon.name === "darkKingBlob"){
+            if(chargeText <= 0){
+                chargeText = 160;
+            }
+            kingBlobAttack = "dying";
             testFrame3 = 0;
-            es.splice(i,1);
-            var numMissiles = 50;
-            var angleOffset = random() * 360 / numMissiles;
-            for (var i = 0 ; i < numMissiles ; i++) {
-                var angle = i * 360 / numMissiles + angleOffset;
-                  var m = {
-                      x: e.x + e.mon.width/2,
+            if(chargeText <= 100){
+                es.splice(i,1);
+                var numMissiles = 50;
+                var angleOffset = random() * 360 / numMissiles;
+                for (var i = 0 ; i < numMissiles ; i++) {
+                    var angle = i * 360 / numMissiles + angleOffset;
+                      var m = {
+                          x: e.x + e.mon.width/2,
+                          y: e.y + e.mon.height/2,
+                          vx: 5 * cos(angle),
+                          vy: 5 * sin(angle),
+                          size: 20,
+                          damage: 20,
+                          red: 0,
+                          green: 0,
+                          blue: 0,
+                      };
+                    ms.push(m);
+                    m = {
+                      x: e.x + e.mon.width/2+20,
                       y: e.y + e.mon.height/2,
                       vx: 5 * cos(angle),
                       vy: 5 * sin(angle),
@@ -20154,33 +20329,22 @@ if (level === -800){
                       red: 0,
                       green: 0,
                       blue: 0,
-                  };
-                ms.push(m);
-                m = {
-                  x: e.x + e.mon.width/2+20,
-                  y: e.y + e.mon.height/2,
-                  vx: 5 * cos(angle),
-                  vy: 5 * sin(angle),
-                  size: 20,
-                  damage: 20,
-                  red: 0,
-                  green: 0,
-                  blue: 0,
-                };
-                ms.push(m);
-                m = {
-                  x: e.x + e.mon.width/2+40,
-                  y: e.y + e.mon.height/2,
-                  vx: 5 * cos(angle),
-                  vy: 5 * sin(angle),
-                  size: 20,
-                  damage: 20,
-                  red: 0,
-                  green: 0,
-                  blue: 0,
-                };
-                ms.push(m);
-            } 
+                    };
+                    ms.push(m);
+                    m = {
+                      x: e.x + e.mon.width/2+40,
+                      y: e.y + e.mon.height/2,
+                      vx: 5 * cos(angle),
+                      vy: 5 * sin(angle),
+                      size: 20,
+                      damage: 20,
+                      red: 0,
+                      green: 0,
+                      blue: 0,
+                    };
+                    ms.push(m);
+                } 
+            }
         }else if(e.mon.name === "inkBlob"){
             var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,5,0, 0, 0);
             m.vx = 1*10;
@@ -20377,7 +20541,6 @@ if (level === -800){
   
 };
 `
-
 
 
 //WOAH! 20,000+ lines!?!?!?! YEEAAAAAAAAAAAAAAAAAAAAAAA LES GOOOOOOOOOOO!!!!
