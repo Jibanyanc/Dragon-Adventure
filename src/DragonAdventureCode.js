@@ -1,10 +1,3 @@
-//TO DO:
-
-//finish the dialogue for level "the end"
-
-//finish and fix the dark mode balencing (do this last or smth idk)
-
-//Ḣ̶̡ḭ̵̮̓ṁ̸͕̔
 /**********************************************************************************
 WARNING! VERY HARD GAME THAT MIGHT CAUSE RAGE!!!
 SOME ENEMIES ARE IMMUNE TO CERTAIN ATTACKS!
@@ -2556,6 +2549,9 @@ StartLevel = function() {
             e.mon.speed = 1;
             e.mon.damage = 5;
         }
+        if(e.mon.name === "frostBeast") {
+            e.mon.speed = 1;   
+        }
     }
     clouds = [];
     ice = [];
@@ -3269,7 +3265,7 @@ StartLevel = function() {
         maxHP = 250;
         maxMP = 250;
         addMonster( 10, 150, monsters.fog);
-        addMonster( 321, 55, monsters.livIce);
+        addMonster( 311, 55, monsters.livIce);
         addMonster( 81, 55, monsters.fog);
         addIce(0,319,200,80);
         addIce(314,150,85,249);
@@ -3297,7 +3293,7 @@ StartLevel = function() {
         maxMP = 250;
         addMonster( 10, 150, monsters.livIce);
         addMonster( 10, 230, monsters.livIce);
-        addMonster( 321, 55, monsters.livIce);
+        addMonster( 311, 55, monsters.livIce);
         addMonster( 81, 55, monsters.livIce);
         addIce(0,319,200,80);
         addIce(314,150,85,249);
@@ -5596,7 +5592,11 @@ var doAttackBox = function(x,y,w,h,type,damage) {
 };
 
 var EnemyMoveOk = function(tryx, tryy, i, e) {
-    return !HitLines(tryx,tryy,e.mon.width,e.mon.height) && !HitEnemies(tryx, tryy, i) && !hitBlocks(tryx,tryy,e.mon.width,e.mon.height);
+    if(e.mon.name === "frostBeast"||e.mon.name === "sandKing"){
+        return !HitLines(tryx,tryy,e.mon.width,e.mon.height) && !hitBlocks(tryx,tryy,e.mon.width,e.mon.height);
+    }else{
+        return !HitLines(tryx,tryy,e.mon.width,e.mon.height) && !HitEnemies(tryx, tryy, i) && !hitBlocks(tryx,tryy,e.mon.width,e.mon.height);
+    }
 };
 
 // Monsters move every turn, and also when they get bumped by another monster
@@ -6248,7 +6248,7 @@ draw = function() {
         fill(255, 255, 255);
         text("Dragon Adventure", 37, 80);
         textSize(15);
-        text("Version 2.8.1",10,30);
+        text("Version 2.8.2",10,30);
         if(darkMode === "ON"){
             tint(55, 55, 55, 255);
             image(player,260,100);
@@ -6506,6 +6506,8 @@ draw = function() {
     }
     //update log
     var updates = [
+    "- Fixed various bugs on level 40 2/23/2025",
+    "- Nerfed B10 2/23/2025",
     "- Added alerts for when to use charge 2/22/2025",
     "- Made heal and restore scale with difficulty 2/22/2025",
     "- Fixed some bugs on B10! 2/22/2025",
@@ -10330,8 +10332,8 @@ if (level === -800){
                 es[0].mon.speed = 1;
            }
            fill(0, 230, 255);
-           ellipse(es[0].x+es[0].mon.width/3.5,es[0].y+es[0].mon.height/3.5,es[0].mon.width*3.5,es[0].mon.height*3.5);
-           if(pointInEllipse(px+pw/2,py+ph/3.5,es[0].x+es[0].mon.width/3.5,es[0].y+es[0].mon.height/3.5,es[0].mon.width*3.5,es[0].mon.height*3.5)){
+           ellipse(es[0].x+es[0].mon.width/2,es[0].y+es[0].mon.height/2,es[0].mon.width*3.5,es[0].mon.height*3.5);
+           if(pointInEllipse(px+pw/2,py+ph/2,es[0].x+es[0].mon.width/2,es[0].y+es[0].mon.height/3.5,es[0].mon.width*3.5,es[0].mon.height*3.5)){
                stun = 160;
               }
        }
@@ -17065,18 +17067,6 @@ if (level === -800){
                     }
                     if(lichAttack === "illusion ring"){
                         if(halfHealth){
-                            if(testFrame3 === 310){
-                                addMonster(px-65,py-65,monsters.ringClone); 
-                                addMonster(px+65,py-65,monsters.ringClone); 
-                                addMonster(px-65,py+65,monsters.ringClone); 
-                                addMonster(px+65,py+65,monsters.ringClone);
-                            }
-                            if(testFrame3 === 340){
-                                addMonster(px-65,py-65,monsters.ringClone); 
-                                addMonster(px+65,py-65,monsters.ringClone); 
-                                addMonster(px-65,py+65,monsters.ringClone); 
-                                addMonster(px+65,py+65,monsters.ringClone);
-                            }
                             if(testFrame3 === 370){
                                 addMonster(px-65,py-65,monsters.ringClone); 
                                 addMonster(px+65,py-65,monsters.ringClone); 
@@ -17123,22 +17113,14 @@ if (level === -800){
                             }
                             if(halfHealth){
                                 if(frame%15 === 14) {
-                                    MP-=soulLink*10;
-                                    if(MP<0){
-                                        MP=0;   
-                                    }
-                                    e.hp+=soulLink*3;
+                                    e.hp+=soulLink*8;
                                     if(e.hp>=e.mon.maxHp){
                                         e.hp = e.mon.maxHp;   
                                     }
                                 }
                             }else{
                                 if(frame%20 === 19) {
-                                    MP-=soulLink*10;
-                                    if(MP<0){
-                                        MP=0;   
-                                    }
-                                    e.hp+=soulLink*3;
+                                    e.hp+=soulLink*8;
                                     if(e.hp>=e.mon.maxHp){
                                         e.hp = e.mon.maxHp;   
                                     }
@@ -17191,7 +17173,7 @@ if (level === -800){
                                 HP -= 450;
                             }
                             if(halfHealth){
-                                var m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = -10;m.vy = 0;//horrendous code but it's more compact
+                                var m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = -10;m.vy = 0;//horrendous code but it's more compact
                             }
                             metShadow = 0;
                             metx = floor(random(10,240));
@@ -17209,7 +17191,7 @@ if (level === -800){
                                 HP -= 450;
                             }
                             if(halfHealth){
-                                var m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = -10;m.vy = 0;
+                                var m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = -10;m.vy = 0;
                             }
                             metShadow2 = 0;
                             metx2 = floor(random(10,240));
@@ -17227,7 +17209,7 @@ if (level === -800){
                                 HP -= 450;
                             }
                             if(halfHealth){
-                                var m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx3,mety3,10,15,25,99,54,0);m.vx = -10;m.vy = 0;
+                                var m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx3,mety3,10,15,10,99,54,0);m.vx = -10;m.vy = 0;
                             }
                             metShadow3 = 0;
                             metx3 = floor(random(10,240));
@@ -17245,7 +17227,7 @@ if (level === -800){
                                 HP -= 450;
                             }
                             if(halfHealth){
-                                var m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx,mety,10,15,25,99,54,0);m.vx = -10;m.vy = 0;
+                                var m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx,mety,10,15,10,99,54,0);m.vx = -10;m.vy = 0;
                             }
                             metShadow = 0;
                             metx = floor(random(10,240));
@@ -17263,7 +17245,7 @@ if (level === -800){
                                 HP -= 450;
                             }
                             if(halfHealth){
-                                var m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx2,mety2,10,15,25,99,54,0);m.vx = -10;m.vy = 0;
+                                var m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 10;m.vy = 10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = -10;m.vy = -10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 10;m.vy = -10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = -10;m.vy = 10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 0;m.vy = 10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 0;m.vy = -10;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = 10;m.vy = 0;m = addMissile(metx2,mety2,10,15,10,99,54,0);m.vx = -10;m.vy = 0;
                             }
                             metShadow2 = 0;
                             metx2 = floor(random(10,240));
@@ -17298,7 +17280,7 @@ if (level === -800){
                             }
                         }
                         if(testFrame3 >= 150){
-                            rotation+=1;
+                            rotation+=1.5;
                             if(frame%5 === 4){
                                 var m = addMissile(e.x,e.y,10,15,30,255, 0, 0);
                                 m.vx = cos(rotation+90)*3;
@@ -17313,14 +17295,6 @@ if (level === -800){
                                 m.vy = sin(rotation)*3;
                                 var m = addMissile(e.x,e.y,10,15,15,232, 139, 8);
                                 m.slow = true;
-                                m.vx = cos(rotation)*3;
-                                m.vy = -sin(rotation)*3;
-                                var m = addMissile(e.x,e.y,10,15,15,79, 0, 158);
-                                m.poison = true;
-                                m.vx = -cos(rotation)*3;
-                                m.vy = sin(rotation)*3;
-                                var m = addMissile(e.x,e.y,10,15,15,0, 0, 0);
-                                m.decay = true;
                                 m.vx = -cos(rotation)*3;
                                 m.vy = -sin(rotation)*3;
                             }
@@ -17420,6 +17394,9 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    charged = 0;
+                                    charging = 0;
+                                    charge = false;
                                     swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
@@ -17490,6 +17467,7 @@ if (level === -800){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
                                     dark = 0;
+                                    metShadow = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17552,6 +17530,9 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    charged = 0;
+                                    charging = 0;
+                                    charge = false;
                                     swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
@@ -17618,6 +17599,7 @@ if (level === -800){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
                                     dark = 0;
+                                    metShadow = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17689,6 +17671,9 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    charged = 0;
+                                    charging = 0;
+                                    charge = false;
                                     swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
@@ -17756,6 +17741,7 @@ if (level === -800){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
                                     dark = 0;
+                                    metShadow = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17819,6 +17805,9 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    charged = 0;
+                                    charging = 0;
+                                    charge = false;
                                     swipe = 0;
                                     e2.x = 240;
                                     e2.y = 203;
@@ -17895,6 +17884,7 @@ if (level === -800){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
                                     dark = 0;
+                                    metShadow = 0;
                                     e2.x = 240;
                                     e2.y = 203;
                                     e2.hp += 1500;
@@ -17960,6 +17950,9 @@ if (level === -800){
                             for(var j = 0; j < es.length; j++){
                                 var e2 = es[j];
                                 if(e2.mon.name === "sirBlobsalotII"){
+                                    charged = 0;
+                                    charging = 0;
+                                    charge = false;
                                     swipe = 0;
                                     e2.x = 240;
                                     e2.y = 153;
@@ -18028,6 +18021,7 @@ if (level === -800){
                                 var e2 = es[j];
                                 if(e2.mon.name === "archBlobolich"){
                                     dark = 0;
+                                    metShadow = 0;
                                     e2.x = 240;
                                     e2.y = 253;
                                     e2.hp += 1500;
@@ -18104,14 +18098,14 @@ if (level === -800){
                         if(frame+60 > lastCataFrame + 500 && ballistaWait){
                             fill(217, 217, 217);
                             textSize(120);
-                            if(!blobolichOut || (lichAttack !== "energy surge" && lichAttack !== "meteor swarm")){
+                            if(!blobolichOut && !blobsalotOut){
                                 text("!",catax-15,catay+40);
                             }
                             textSize(12);
                         }
                         if(frame > lastCataFrame + 500 && ballistaWait) {
                             lastCataFrame = frame;
-                            if(!blobolichOut || (lichAttack !== "energy surge" && lichAttack !== "meteor swarm")){
+                            if(!blobolichOut && !blobsalotOut){
                                 ellipse(catax,catay,200,200);
                                 if(overlapCircle(px+pw/2, py+ph/2, catax, catay, pw, 200)) {
                                     HP -= 200; 
