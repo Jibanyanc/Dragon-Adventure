@@ -10074,7 +10074,7 @@ if (level === -800){
                     var poundy= py+ph/2;  
                     var poundSize = 300;
                     ellipse(poundx,poundy,poundSize,poundSize);
-                    doAttack(poundx,poundy,poundSize,attack,450000);//change this (450)
+                    doAttack(poundx,poundy,poundSize,attack,450);//change this (450)
                   }
                   if ( attack === "blob cannon"&&keyJustPressed&&MP>99) {
                     fill(255, 255, 255);
