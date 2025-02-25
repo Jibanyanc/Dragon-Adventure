@@ -318,6 +318,8 @@ var mety3 = 0;
 var metShadow3 = 0;
 var rotation = 0;
 var soulAttack = 100;
+var bestx = 0;
+var besty = 10;
 
 frameRate(60);
 
@@ -6248,7 +6250,7 @@ draw = function() {
         fill(255, 255, 255);
         text("Dragon Adventure", 37, 80);
         textSize(15);
-        text("Version 2.8.2",10,30);
+        text("Version 2.8.3",10,30);
         if(darkMode === "ON"){
             tint(55, 55, 55, 255);
             image(player,260,100);
@@ -7081,7 +7083,6 @@ draw = function() {
         return;
     }
     
-    
     if (level === -200){
         background(82, 49, 0);
         textSize(20);
@@ -7104,8 +7105,8 @@ draw = function() {
             level = -204;
         }
         fill(255, 133, 51);
-        ellipse(67,300,110,110);
-        image(getImage("avatars/spunky-sam-red"),17,250,100,100);
+        ellipse(64,300,110,110);
+        image(getImage("avatars/spunky-sam-red"),27,257,75,75);
         image(getImage("avatars/spunky-sam-orange"),180,275,20,20);
         image(getImage("avatars/robot_male_1"),280,240,100,100);
         fill(56, 32, 1);
@@ -7131,8 +7132,8 @@ draw = function() {
         fill(82, 49, 0);
         rect(280,36,110,110);
         fill(255, 133, 51);
-        ellipse(339,90,100,100);
-        image(getImage("avatars/spunky-sam-red"),290,36,100,100);
+        ellipse(336,90,100,100);
+        image(getImage("avatars/spunky-sam-red"),297,46,75,75);
         return;
     }
     if (level === -202){
@@ -7211,27 +7212,27 @@ draw = function() {
         }
         if (addButton("", -1, 0, 400, 120)) {
             level = -305;
-        }
+        }//the start
         image(getImage("avatars/spunky-sam"),17,250,100,100);
         image(getImage("avatars/spunky-sam"),57,165,20,20);
         fill(255, 212, 246);
         pushMatrix();
         translate(240,145);
-            ellipse(x+80/2,y+50/2,80*2,50*2);
+            ellipse(bestx+80/2,besty+50/2,80*2,50*2);
             fill(247, 172, 231);
-            ellipse(x+80/2,y+50/2,80,50);
-            arc(x+80*0.3,y+50*0.3,10,5,180,360);
-            arc(x+80*0.7,y+50*0.3,10,5,180,360);
+            ellipse(bestx+80/2,besty+50/2,80,50);
+            arc(bestx+80*0.3,besty+50*0.3,10,5,180,360);
+            arc(bestx+80*0.7,besty+50*0.3,10,5,180,360);
         popMatrix();
         pushMatrix();
         fill(84, 79, 8);
         translate(240,256);
-            ellipse(x+80/2,y+50/2,80*2,50*2);
+            ellipse(bestx+80/2,besty+50/2,80*2,50*2);
             fill(0, 0, 0);
-            ellipse(x+80/2,y+50/2,80,50);
+            ellipse(bestx+80/2,besty+50/2,80,50);
             fill(255, 255, 255);
-            arc(x+80*0.3,y+50*0.3,10,5,180,360);
-            arc(x+80*0.7,y+50*0.3,10,5,180,360);
+            arc(bestx+80*0.3,besty+50*0.3,10,5,180,360);
+            arc(bestx+80*0.7,besty+50*0.3,10,5,180,360);
         popMatrix();
         fill(255, 217, 255);
         ellipse(200,50,400,100);
@@ -7284,11 +7285,11 @@ draw = function() {
         pushMatrix();
         fill(255, 212, 246);
         translate(240,55);
-            ellipse(x+80/2,y+50/2,80*2,50*2);
+            ellipse(bestx+80/2,besty+50/2,80*2,50*2);
             fill(247, 172, 231);
-            ellipse(x+80/2,y+50/2,80,50);
-            arc(x+80*0.3,y+50*0.3,10,5,180,360);
-            arc(x+80*0.7,y+50*0.3,10,5,180,360);
+            ellipse(bestx+80/2,besty+50/2,80,50);
+            arc(bestx+80*0.3,besty+50*0.3,10,5,180,360);
+            arc(bestx+80*0.7,besty+50*0.3,10,5,180,360);
         popMatrix();
         
         return;
@@ -7308,12 +7309,12 @@ draw = function() {
         pushMatrix();
         fill(84, 79, 8);
         translate(240,55);
-            ellipse(x+80/2,y+50/2,80*2,50*2);
+            ellipse(bestx+80/2,besty+50/2,80*2,50*2);
             fill(0, 0, 0);
-            ellipse(x+80/2,y+50/2,80,50);
+            ellipse(bestx+80/2,besty+50/2,80,50);
             fill(255, 255, 255);
-            arc(x+80*0.3,y+50*0.3,10,5,180,360);
-            arc(x+80*0.7,y+50*0.3,10,5,180,360);
+            arc(bestx+80*0.3,besty+50*0.3,10,5,180,360);
+            arc(bestx+80*0.7,besty+50*0.3,10,5,180,360);
         popMatrix();
         
         return;
@@ -7366,7 +7367,7 @@ draw = function() {
         if (addButton("Back", 3, 368, 0, 30)) {
             level = -50;
         }
-        if (addButton("", 4, 240, 120, 120)) {
+        if (addButton("", 4, 230, 120, 120)) {
             level = -401;
         }
         if (addButton("", 140, 240, 100, 101)) {
@@ -7375,10 +7376,10 @@ draw = function() {
         if (addButton("", 278, 240, 102, 101)) {
             level = -403;
         }
-        if (addButton("", 180, 0, 110, 110)) {
+        if (addButton("", 135, 0, 110, 110)) {
             level = -404;
         }
-        image(getImage("avatars/spunky-sam"),17,250,100,100);
+        image(getImage("avatars/spunky-sam"),17,240,100,100);
         fill(171, 206, 245);
             rect(150,250,80,80);
             line(150+15,250+10,150+25,250+20);
@@ -7386,18 +7387,18 @@ draw = function() {
         pushMatrix();
         translate(280,250);
         fill(186, 186, 186);
-            ellipse(x+100/2,y+60/2,100,60);
+            ellipse(bestx+100/2,besty+60/2,100,60);
             fill(0, 0, 0);
-            line(x+25,y+10,x+35,y+25);
-            line(x+65,y+25,x+75,y+10);
+            line(bestx+25,besty+10,bestx+35,besty+25);
+            line(bestx+65,besty+25,bestx+75,besty+10);
      popMatrix();
      pushMatrix();
      translate(187,-5);
      fill(150, 215, 255);
-            ellipse(x+100/2,y+100/2,100,100);
+            ellipse(bestx+5,besty+100/2,100,100);
             fill(0, 0, 0);
-            line(x+25,y+10,x+35,y+25);
-            line(x+65,y+25,x+75,y+10);
+            line(bestx-20,besty+10,bestx-10,besty+25);
+            line(bestx+20,besty+25,bestx+30,besty+10);
     popMatrix();
         return;
     }
@@ -7452,10 +7453,10 @@ draw = function() {
         pushMatrix();
         translate(285,50);
         fill(186, 186, 186);
-            ellipse(x+100/2,y+60/2,100,60);
+            ellipse(bestx+100/2,besty+60/2,100,60);
             fill(0, 0, 0);
-            line(x+25,y+10,x+35,y+25);
-            line(x+65,y+25,x+75,y+10);
+            line(bestx+25,besty+10,bestx+35,besty+25);
+            line(bestx+65,besty+25,bestx+75,besty+10);
      popMatrix();
         return;
     }
@@ -7477,10 +7478,10 @@ draw = function() {
         pushMatrix();
      translate(285,33);
      fill(150, 215, 255);
-            ellipse(x+100/2,y+100/2,100,100);
+            ellipse(bestx+100/2,besty+100/2,100,100);
             fill(0, 0, 0);
-            line(x+25,y+10,x+35,y+25);
-            line(x+65,y+25,x+75,y+10);
+            line(bestx+25,besty+10,bestx+35,besty+25);
+            line(bestx+65,besty+25,bestx+75,besty+10);
     popMatrix();
         return;
     }
@@ -7499,10 +7500,10 @@ draw = function() {
         pushMatrix();
      translate(285,33);
      fill(150, 215, 255);
-            ellipse(x+100/2,y+100/2,100,100);
+            ellipse(bestx+100/2,besty+100/2,100,100);
             fill(0, 0, 0);
-            line(x+25,y+10,x+35,y+25);
-            line(x+65,y+25,x+75,y+10);
+            line(bestx+25,besty+10,bestx+35,besty+25);
+            line(bestx+65,besty+25,bestx+75,besty+10);
     popMatrix();
         return;
     }
@@ -7647,23 +7648,23 @@ draw = function() {
         if (addButton("", 270, 10, 120, 120)) {
             level = -603;
         }
-        if (addButton("", 140, 10, 100, 101)) {
+        if (addButton("", 140, 20, 100, 101)) {
             level = -602;
         }
-        if (addButton("", 10, 10, 102, 101)) {
+        if (addButton("", 10, 20, 102, 101)) {
             level = -601;
         }
         if (addButton("",150, 240, 120, 100)) {
             level = -604;
         }
-        image(getImage("avatars/starky-seed"),145,10,95,95);
-        image(getImage("avatars/spunky-sam-orange"),17,13,95,95);
+        image(getImage("avatars/starky-seed"),145,20,95,95);
+        image(getImage("avatars/spunky-sam-orange"),17,25,85,85);
         fill(255, 200, 0);
         pushMatrix();
         translate(310,20);
-            rect(x,y,50,85);
-            line(x+3,y+10,x+13,y+20);
-            line(x+48,y+10,x+38,y+20);
+            rect(bestx,besty,50,85);
+            line(bestx+3,besty+10,bestx+13,besty+20);
+            line(bestx+48,besty+10,bestx+38,besty+20);
             popMatrix();
         image(getImage("avatars/primosaur-ultimate"),160,240,100,100);
         return;
@@ -7713,9 +7714,9 @@ draw = function() {
         fill(255, 200, 0);
         pushMatrix();
         translate(310,35);
-            rect(x,y,50,85);
-            line(x+3,y+10,x+13,y+20);
-            line(x+48,y+10,x+38,y+20);
+            rect(bestx,besty,50,85);
+            line(bestx+3,besty+10,bestx+13,besty+20);
+            line(bestx+48,besty+10,bestx+38,besty+20);
             popMatrix();
         return;
     }
@@ -7793,8 +7794,8 @@ draw = function() {
             line(380,230,380,210);
             line(300,220,330,220);
         fill(6, 102, 16);
-        arc( 70, 280, 70, 70,  -50, 230 );
         rect(65 + 50/2 - 25, 310 + 50 - 55, 10, 50);
+        arc( 70, 280, 70, 70,  -50, 230 );
         return;
     }
     if (level === -701){
@@ -7909,10 +7910,10 @@ if (level === -800){
         if (addButton("", 10, 10, 102, 100)) {
             level = -801;
         }
-        if (addButton("",15, 240, 120, 120)) {
+        if (addButton("",10, 240, 120, 120)) {
             level = -804;
         }
-        if (addButton("",150, 120, 50, 50)) {
+        if (addButton("",140, 120, 50, 50)) {
             level = -805;
         }
         if (addButton("",250, 40, 300, 350)) {
@@ -7920,12 +7921,12 @@ if (level === -800){
         }
         tint(160, 0, 130, 255);
         image(poisonBlob, 180, 50, 20, 20);
-        image(poisonBlob, 15, 10, 100, 100);
+        image(poisonBlob, 12, 10, 100, 100);
         noTint();
         
         fill(49, 6, 102);
-        arc( 70, 280, 70, 70,  -50, 230 );
         rect(65 + 50/2 - 25, 310 + 50 - 55, 10, 50);
+        arc( 70, 280, 70, 70,  -50, 230 );
         pushMatrix();
         translate(100,-160);
         fill(121, 0, 191);
@@ -7935,14 +7936,14 @@ if (level === -800){
             ellipse(200+33,200+76,80,80);
         popMatrix();
         fill(125, 125, 125);
-            ellipse(170+10/2,140+10/2,10,10);
+            ellipse(165,140+10/2,10,10);
         pushMatrix();
-        translate(50,120);
+        translate(40,125);
         fill(120+500/30, 0, 0);
-            ellipse(x+50/2,y+50-5,(50/1.5)*(500/1000),(50/1.5)*(500/1000));
+            ellipse(bestx+50/2,besty+50-5,(50/1.5)*(1/2),(50/1.5)*(1/2));
             fill(125, 125, 125);
-            ellipse(x+50/2,y+50/2,50/1.5,50/1.5);
-            rect(x+50-10,y+50-30,20,0);
+            ellipse(bestx+50/2,besty+50/2,50/1.5,50/1.5);
+            rect(bestx+50-10,besty+50-30,20,0);
         popMatrix();
         return;
     }
@@ -7993,10 +7994,10 @@ if (level === -800){
         pushMatrix();
         translate(310,50);
         fill(120+500/30, 0, 0);
-            ellipse(x+50/2,y+50-5,(50/1.5)*(500/1000),(50/1.5)*(500/1000));
+            ellipse(bestx+50/2,besty+50-5,(50/1.5)*(500/1000),(50/1.5)*(500/1000));
             fill(125, 125, 125);
-            ellipse(x+50/2,y+50/2,50/1.5,50/1.5);
-            rect(x+50-10,y+50-30,20,0);
+            ellipse(bestx+50/2,besty+50/2,50/1.5,50/1.5);
+            rect(bestx+50-10,besty+50-30,20,0);
         popMatrix();
         return;
     }
@@ -8143,21 +8144,21 @@ if (level === -800){
         image(lavaHound, 140, 10, 100, 100);
         noTint();
         pushMatrix();
-        translate(50,150);
+        translate(45,145);
         fill(46, 46, 46);
-            ellipse(x+50/2,y+50/2,50/1.2,50/1.2);
+            ellipse(bestx+50/2,besty+50/2,50/1.2,50/1.2);
             fill(77, 62, 0);
-            rect(x+50/2-3, y-50/2+10, 5, 50/2.5);
-            line(x+40,y+15,x+30,y+25);
-            line(x+10,y+15,x+20,y+25);
+            rect(bestx+50/2-3, y-50/2+10, 5, 50/2.5);
+            line(bestx+40,besty+15,bestx+30,besty+25);
+            line(bestx+10,besty+15,bestx+20,besty+25);
             fill(255, 0, 0);
-                ellipse(x+25,y-10,10,10);
+                ellipse(bestx+25,besty-10,10,10);
         popMatrix();
         image(getImage("avatars/robot_male_3"),35,250,75,75);
         pushMatrix();
         translate(46,265);
         fill(189, 0, 0);
-        arc(x+27,y+50,75,25,0,180);
+        arc(bestx+27,besty+50,75,25,0,180);
         popMatrix();
         fill(125, 125, 125);
             rect(300,60-10,100,100);
@@ -8233,13 +8234,13 @@ if (level === -800){
         pushMatrix();
         translate(310,65);
         fill(46, 46, 46);
-            ellipse(x+50/2,y+50/2,50/1.2,50/1.2);
+            ellipse(bestx+50/2,besty+50/2,50/1.2,50/1.2);
             fill(77, 62, 0);
-            rect(x+50/2-3, y-50/2+10, 5, 50/2.5);
-            line(x+40,y+15,x+30,y+25);
-            line(x+10,y+15,x+20,y+25);
+            rect(bestx+50/2-3, y-50/2+10, 5, 50/2.5);
+            line(bestx+40,besty+15,bestx+30,besty+25);
+            line(bestx+10,besty+15,bestx+20,besty+25);
             fill(255, 0, 0);
-                ellipse(x+25,y-10,10,10);
+                ellipse(bestx+25,besty-10,10,10);
         popMatrix();
         return;
     }
@@ -8276,7 +8277,7 @@ if (level === -800){
         pushMatrix();
         translate(310,60);
         fill(189, 0, 0);
-        arc(x+27,y+50,75,25,0,180);
+        arc(bestx+27,besty+50,75,25,0,180);
         popMatrix();
         return;
     }
@@ -8431,15 +8432,15 @@ if (level === -800){
             level = -1008;
         }
         tint(255, 0, 0, 255);
-        image(darkBlob, 10, y, 100, 100);
+        image(darkBlob, 10, besty, 100, 100);
         noTint();
         
         tint(122, 118, 157, 25);
-        image(darkBlob, 140, y, 100, 100);
+        image(darkBlob, 140, besty, 100, 100);
         noTint();
         
         tint(0, 0, 0, 255);
-        image(darkBlob, 280, y, 100, 100);
+        image(darkBlob, 280, besty, 100, 100);
         noTint();
         
         image(getImage("avatars/spunky-sam-green"),22,240,85,85);
@@ -8620,25 +8621,30 @@ if (level === -800){
     if (level === -20) {
         background(102, 97, 97);
         if(oneLife === "ON"){
+            fill(163, 0, 0);
             textSize(15);
             text("WARNING: One life mode is turned on! This means a single death will send you to the beginning!", 55, 50,300,99999);   
         }
-        textSize(40);
         fill(255, 255, 255);
+        textSize(40);
         text("Difficulty", 125, 35);
         if(dif === 1){
+            fill(255, 255, 255);
             text("Normal", 135, 210);
             textSize(15);
             text("The classic experience!", 120, 280,300,99999);
         }else if (dif === 0){
+            fill(89, 255, 0);
             text("Easy", 155, 210);
             textSize(15);
             text("For those who find the original game too hard!", 55, 280,300,99999);
         }else if(dif === 2){
+            fill(145, 0, 0);
             text("Hard", 155, 210);
             textSize(15);
             text("WARNING: The original game is really hard! Enabling hard mode will only cause pain and suffering!", 50, 280,300,99999);
         }else if(dif === 4){
+            fill(0, 255, 242);
             text("Baby", 155, 210);
             textSize(15);
             text("For the newcomers who really really struggle with this game lol", 55, 280,300,99999);
@@ -8730,7 +8736,7 @@ if (level === -800){
             fill(89, 255, 0);
             text("Easy",291,145);
         }else if(dif === 2){
-            fill(255, 0, 0);
+            fill(145, 0, 0);
             text("Hard",291,145);
         }else if(dif === 4){
             fill(0, 255, 242);
@@ -8741,7 +8747,7 @@ if (level === -800){
         text("Welcome to Speedrun mode! Pick a category, and try to beat the levels as fast as you can!",5,60,400,9999);
         text("The timer will start as soon as a category is selected.",30,380);
         if(oneLife === "ON"){
-            fill(255, 0, 0);
+            fill(163, 0, 0);
             text("ONE LIFE MODE IS ON!",160,335);
         }
         if(darkMode === "ON"){
@@ -17922,10 +17928,8 @@ if (level === -800){
                                 MP=maxMP*2;   
                             }
                             addMonster( 225, 71, monsters.wrathHound);
-                            addMonster( 225, 125, monsters.lavaHound);
                             addMonster( 225, 173, monsters.demon);
-                            addMonster( 225, 255, monsters.lavaHound);
-                            addMonster( 225, 325, monsters.wrathHound);
+                            addMonster( 225, 325, monsters.lavaHound);
                             wave9 = true;
                         }
                         if(wave9 && !boss9){
@@ -20535,7 +20539,6 @@ if (level === -800){
   
 };
 `
-
 
 //WOAH! 20,000+ lines!?!?!?! YEEAAAAAAAAAAAAAAAAAAAAAAA LES GOOOOOOOOOOO!!!!
 
