@@ -26,7 +26,7 @@ leaderboard for first 50 levels {
 var gameCode = `
 
 var StartLevel;
-var level = 0;
+var level = "B8";
 var HP = 100;
 var maxHP = 100;
 var MP= 100;
@@ -162,6 +162,7 @@ var catax = px;
 var catay = py;
 var dtargx = px;
 var dtargy = py;
+var shoot = 0;
 var prex = 0;
 var prey = 0;
 var cycle = "charge";
@@ -683,15 +684,6 @@ var monsters = {
         name: "poisonMiniBlob",
         image: "avatars/spunky-sam",
         maxHp: 500,
-        damage: 1,
-        width: 20,
-        height: 20,
-        speed: 1.8,
-    },
-    miniPoisonMiniBlob : {
-        name: "miniPoisonMiniBlob",
-        image: "avatars/spunky-sam",
-        maxHp: 300,
         damage: 1,
         width: 20,
         height: 20,
@@ -1684,11 +1676,16 @@ var addMonster = function(xx,yy,mons){
         scarabSink : random(100,500),
         tents : tentsAlive,
         sporeDrop : 0,
-        headTime : frame+random(400,600),
+        stalkShootingTime : 0,
         hasBody : false,
         revive : 500,
         necronum : necromancers,
         cloneFire : 0,
+        stalkAttack : "weed head",
+        bloom : floor(random(400,800)),
+        bloomTime : 0,
+        sap : 0,
+        hurt : 0,
     };
     if (mons.image !== "") {
         e.image = getImage(mons.image);
@@ -2359,6 +2356,7 @@ StartLevel = function() {
     blobolich = [];
     blobsalotDmg = 0;
     blobolichDmg = 0;
+    shoot = 0;
     targx = px;
     targy = py;
     catax = px;
@@ -4234,6 +4232,8 @@ StartLevel = function() {
         addMonster( 3230000000, 200, monsters.damageCloudPleaseIgnore);
         addMonster( 220, 120, monsters.ruinedAltar);
         addMonster( 3000, 60, monsters.rottenYggdrasil);
+        addMonster( 320, 100, monsters.rottenStalk);
+        addMonster( 320, 320, monsters.rottenStalk);
      }
      if(level === "B9"){
         px = 10;
@@ -4418,6 +4418,15 @@ var hitBlocks = function(tryX, tryY, w,h) {
 var doDamage = function(e, type, damage) {
     if(e.mon.name === "darkLord"){
         hurt = 20;
+    }
+    if(e.mon.name === "rottenStalk"){
+        if(yggSummon){
+            e.hurt = 25;
+            e.sap-=damage/3;
+        }else{
+            e.hurt = 50;
+            e.sap-=damage/2;
+        }
     }
     if (type === "stun slash" && e.mon.name !== "rainbowBlob"&& e.mon.name!=="livingTornado"&& e.mon.name!=="livingBlizzard" && e.mon.name !== "thrym" && e.mon.name !== "frozenWarrior" && e.mon.name !== "frozenDefender" && e.mon.name !== "sandWall" && e.mon.name !== "tentacle" && e.mon.name !== "tent" && e.mon.name !== "vampireMosquito") {
         if(e.mon.name === "darkLord" || e.mon.name === "ULTRAMech"){
@@ -4604,9 +4613,6 @@ var doDamage = function(e, type, damage) {
         scale = 0;
     }
     if (e.mon.name === "poisonMiniBlob" && type === "poison") {
-        scale = 0;
-    }
-    if (e.mon.name === "miniPoisonMiniBlob" && type === "poison") {
         scale = 0;
     }
     if (e.mon.name === "poisonWeed" && type === "poison") {
@@ -5223,6 +5229,37 @@ var doDamage = function(e, type, damage) {
         scale = 0.75;
     }
     if (e.mon.name === "rottenYggdrasil" && type === "charge") {
+        scale = 0;
+    }
+    
+    if (e.mon.name === "rottenStalk" && type === "blob cannon") {
+        scale = 0.5;
+    }
+    if (e.mon.name === "rottenStalk" && type === "slow dart") {
+        scale = 0.25;
+    }
+    if (e.mon.name === "rottenStalk" && type === "fire") {
+        scale = 2;
+    }
+    if (e.mon.name === "rottenStalk" && type === "poison") {
+        scale = 0;
+    }
+    if (e.mon.name === "rottenStalk" && type === "stun slash") {
+        scale = 0.75;
+    }
+    if (e.mon.name === "rottenStalk" && type === "tentacle") {
+        scale = 0.75;
+    }
+    if (e.mon.name === "rottenStalk" && type === "sand pit") {
+        scale = 0.1;
+    }
+    if (e.mon.name === "rottenStalk" && type === "eruption") {
+        scale = 0.25;
+    }
+    if (e.mon.name === "rottenStalk" && type === "charge") {
+        scale = 0;
+    }
+    if (e.mon.name === "rottenStalk" && e.bloomTime < e.bloom) {
         scale = 0;
     }
     if (e.mon.name === "lavaHound" && type === "fire") {
@@ -8148,7 +8185,7 @@ if (level === -800){
         fill(46, 46, 46);
             ellipse(bestx+50/2,besty+50/2,50/1.2,50/1.2);
             fill(77, 62, 0);
-            rect(bestx+50/2-3, y-50/2+10, 5, 50/2.5);
+            rect(bestx+50/2-3, besty-50/2+10, 5, 50/2.5);
             line(bestx+40,besty+15,bestx+30,besty+25);
             line(bestx+10,besty+15,bestx+20,besty+25);
             fill(255, 0, 0);
@@ -8236,7 +8273,7 @@ if (level === -800){
         fill(46, 46, 46);
             ellipse(bestx+50/2,besty+50/2,50/1.2,50/1.2);
             fill(77, 62, 0);
-            rect(bestx+50/2-3, y-50/2+10, 5, 50/2.5);
+            rect(bestx+50/2-3, besty-50/2+10, 5, 50/2.5);
             line(bestx+40,besty+15,bestx+30,besty+25);
             line(bestx+10,besty+15,bestx+20,besty+25);
             fill(255, 0, 0);
@@ -9563,6 +9600,8 @@ if (level === -800){
     for (var i = 0;i<poison.length;i++) {
         if(level === 102 || level === "B6"){
             fill(0, 0, 0);
+        }else if(level === "B8"){
+            fill(140, 255, 0);
         }else{
             fill(79, 0, 158);
         }
@@ -9578,12 +9617,8 @@ if (level === -800){
                 p.w-=2;
                 p.h-=2;
                 if(p.w<=0){
-                    if(level!==102&&level!=="B6"&&level!=="B7"&&level!=="B10"){
-                        if(level === "B8"){
-                            addMonster(p.x,p.y,monsters.miniPoisonMiniBlob);
-                        }else{
-                            addMonster(p.x,p.y,monsters.poisonMiniBlob);
-                        }
+                    if(level!==102&&level!=="B6"&&level!=="B7"&&level!=="B8"&&level!=="B10"){
+                        addMonster(p.x,p.y,monsters.poisonMiniBlob);
                     }
                     poison.splice(i,1);
                     i--;
@@ -14717,6 +14752,7 @@ if (level === -800){
       //move missiles
        for(var i = 0; i < ms.length; i++){
           var m = ms[i];
+          m.burst--;
           if(m.red === 1 && m.green === 0 && m.blue === 0 && m.homingTime > 0){
               var errorInc = 0.05;
               if(inBonus && level !== "B4" && level !== "B2" && es.length > 1){
@@ -14819,6 +14855,48 @@ if (level === -800){
                     m.x += m.vx;
                     m.y += m.vy;
                 }
+          }
+          if(m.burst === 0){
+                if(m.red === 97 && m.green === 81 && m.blue === 52){
+                    var numMissiles = 6;
+                    if(yggSummon){
+                        numMissiles = 10;   
+                    }
+                    var altarM = 2;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                        var m = {
+                          x: m.x + m.size/2,
+                          y: m.y + m.size/2,
+                          vx: 5 * cos(angle),
+                          vy: 5 * sin(angle),
+                          size: 5,
+                          damage: altarM,
+                          red: 97,
+                          green: 81,
+                          blue: 52,
+                          bounce: 2,
+                        };
+                        ms.push(m);
+                    }
+                }else if(m.red === 255 && m.green === 203 && m.blue === 0){
+                    fill(255,204, 0);
+                    ellipse(m.x,m.y,200,200);
+                    if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
+                        confuse = 600;
+                        Phurt = true;
+                    }
+                    if(yggSummon){
+                        fill(255, 102, 0);
+                        ellipse(m.x,m.y,100,100);
+                        if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 100) && !Pinvincible) {
+                            HP -= 50;
+                            Phurt = true;
+                        }
+                    }
+                }
+            ms.splice(i,1);
           }
             if(m.red === 25 && m.green === 25 && m.blue === 25){
                 //head missile
@@ -14980,7 +15058,7 @@ if (level === -800){
                 p.life = 500;   
             }
             if(level === "B8"){
-                p.life = 500;   
+                p.life = 750;   
             }
             ms.splice(i,1);
             i--;
@@ -15061,18 +15139,22 @@ if (level === -800){
           if(m.bounce>0){
             if(m.x<0){
                 m.vx = -m.vx;
+                m.homingErrorX = -m.homingErrorX;
                 m.bounce-=1;
             }
             if(m.y>400){
                 m.vy = -m.vy;
+                m.homingErrorY = -m.homingErrorY;
                 m.bounce-=1;
             }
             if(m.x>400){
                 m.vx = -m.vx;
+                m.homingErrorX = -m.homingErrorX;
                 m.bounce-=1;
             }
             if(m.y<55){
                 m.vy = -m.vy;
+                m.homingErrorY = -m.homingErrorY;
                 m.bounce-=1;
             }
           }
@@ -15933,21 +16015,30 @@ if (level === -800){
                             }
                         }
                         if(testFrame >= 700){
+                            shoot = 0;
                             altarAttack = "explode";
                             testFrame = 0;
                         }
                     }
                     if(altarAttack === "explode"){
                         if(testFrame <= 500){
-                            if(testFrame % 80 === 79) {
+                            shoot++;
+                            if(shoot >= 50) {
+                                textSize(100);
+                                fill(255, 102, 0);
+                                text("!",190,260);  
+                            }
+                            if(shoot >= 80) {
                                 var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,15,255, 102, 0);
                                 m.explode = true;
+                                shoot = 0;
                             }
                         }
                         if(testFrame >= 600){
                             altarAttack = "suck";
                             testFrame = 0;
                             order = [];
+                            shoot = 0;
                         }
                     }
                     if(altarAttack === "suck"){
@@ -16370,35 +16461,63 @@ if (level === -800){
                     }
                     if(altarAttack === "spin"){
                         if(testFrame <= 500){
-                            if(testFrame % 100 === 99) {
-                                var numMissiles = 18;
-                                var altarM = 12;
-                                var angleOffset = random() * 360 / numMissiles;
-                                for (var i = 0 ; i < numMissiles ; i++) {
-                                    var angle = i * 360 / numMissiles + angleOffset;
-                                      var m = {
-                                          x: e.x + e.mon.width/2,
-                                          y: e.y + e.mon.height/2,
-                                          vx: 5 * cos(angle),
-                                          vy: 5 * sin(angle),
-                                          size: 20,
-                                          damage: altarM,
-                                          red: 232,
-                                          green: 140,
-                                          blue: 9,
-                                          pulse: false,
-                                          pulseTimeIn: 30,
-                                          pulseTimeOut: 32,
-                                          pulseTime: 0,
-                                          spin: true,
-                                          angle: angle,
-                                          angleInc: 5,
-                                          angleDecay: 0.1,
-                                      };
-                                    if(!halfHealth){
-                                        m.pulse = true;   
+                            if(halfHealth){
+                                if(testFrame % 50 === 49) {
+                                    var numMissiles = 18;
+                                    var altarM = 12;
+                                    var angleOffset = random() * 360 / numMissiles;
+                                    for (var i = 0 ; i < numMissiles ; i++) {
+                                        var angle = i * 360 / numMissiles + angleOffset;
+                                          var m = {
+                                              x: e.x + e.mon.width/2,
+                                              y: e.y + e.mon.height/2,
+                                              vx: 5 * cos(angle),
+                                              vy: 5 * sin(angle),
+                                              size: 20,
+                                              damage: altarM,
+                                              red: 232,
+                                              green: 140,
+                                              blue: 9,
+                                              pulse: false,
+                                              pulseTimeIn: 30,
+                                              pulseTimeOut: 32,
+                                              pulseTime: 0,
+                                              spin: true,
+                                              angle: angle,
+                                              angleInc: 5,
+                                              angleDecay: 0.1,
+                                          };
+                                        ms.push(m);
                                     }
-                                    ms.push(m);
+                                }
+                            }else{
+                                if(testFrame % 100 === 99) {
+                                    var numMissiles = 18;
+                                    var altarM = 12;
+                                    var angleOffset = random() * 360 / numMissiles;
+                                    for (var i = 0 ; i < numMissiles ; i++) {
+                                        var angle = i * 360 / numMissiles + angleOffset;
+                                          var m = {
+                                              x: e.x + e.mon.width/2,
+                                              y: e.y + e.mon.height/2,
+                                              vx: 5 * cos(angle),
+                                              vy: 5 * sin(angle),
+                                              size: 20,
+                                              damage: altarM,
+                                              red: 232,
+                                              green: 140,
+                                              blue: 9,
+                                              pulse: false,
+                                              pulseTimeIn: 30,
+                                              pulseTimeOut: 32,
+                                              pulseTime: 0,
+                                              spin: true,
+                                              angle: angle,
+                                              angleInc: 5,
+                                              angleDecay: 0.1,
+                                          };
+                                        ms.push(m);
+                                    }
                                 }
                             }
                         }
@@ -16485,9 +16604,7 @@ if (level === -800){
                 if(e.mon.name === "rottenYggdrasil") {
                     if(!yggSummon && e.hp<=e.mon.maxHp/2){
                         yggSummon = true;
-                        addMonster( 20, 100, monsters.rottenStalk);
                         addMonster( 320, 100, monsters.rottenStalk);
-                        addMonster( 20, 320, monsters.rottenStalk);
                         addMonster( 320, 320, monsters.rottenStalk);
                     }
                     if(showYggdrasil){
@@ -16548,6 +16665,7 @@ if (level === -800){
                                       green: 15,
                                       blue: 15,
                                       bounce: 1,
+                                      burst: -1,
                                       spin: true,
                                       angle: angle,
                                       angleInc: 10,
@@ -18569,7 +18687,7 @@ if (level === -800){
             if (stun <-240 && e.mon.name === "frostBeast"){
               stun = 160;   
             }
-            if (e.mon.name === "poisonBlob" || e.mon.name === "poisonMiniBlob" || e.mon.name === "miniPoisonMiniBlob"|| e.mon.name === "rainbowBlob"){
+            if (e.mon.name === "poisonBlob" || e.mon.name === "poisonMiniBlob" || e.mon.name === "rainbowBlob"){
               poisonFrame = frame + 150;   
             }
             if (e.mon.name === "robot" || e.mon.name === "Trobot" || e.mon.name === "ULTRAMech") {
@@ -19144,31 +19262,187 @@ if (level === -800){
             ellipse(e.x+33,e.y+76,80,80);
        }
        if (e.mon.name === "rottenStalk") {
-            fill(168, 15, 15);
+            e.hurt-=1;
             var x = e.x+e.mon.width/2;
             var y = e.y+e.mon.height/2;
+            if(e.sap > 0 && e.hurt < 0){
+                fill(232,140,9);
+                ellipse(x,y,50+e.sap/10,50+e.sap/10);
+                e.hp++;
+                if(e.hp >= e.mon.maxHp){
+                    e.hp = e.mon.maxHp;   
+                }
+            }
+            e.sap--;
+            fill(168, 15, 15);
             if(e.y<200){
                 rect(x-10,y-10,20,-70);
             }else{
                 rect(x-10,y-10,20,70);
             }
-            drawFlower(x,y, 5, e.hp/200,0.7);
-            if(e.undead){
-               fill(255,255,255);
+            e.bloomTime++;
+            if(e.bloomTime >= e.bloom){
+                drawFlower(x,y, 5, e.hp/200,0.7);
+                if(e.undead){
+                   fill(255,255,255);
+                }else{
+                    fill(183, 255, 181);
+                }
+                ellipse(x,y,e.mon.width,e.mon.height);
+                if(altarAttack !== "suck"){
+                    e.stalkShootingTime++;
+                    if(e.stalkAttack === "weed head"){
+                        if(e.stalkShootingTime >= 160){
+                            textSize(120);
+                            fill(107, 107, 107);
+                            text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
+                        }
+                        if(e.stalkShootingTime >= 200){
+                            var m = addMissile(e.x,e.y, 7, 0, 2, 25, 25, 25); 
+                            if(yggSummon){
+                                m.bounce = 3;
+                            }else{
+                                m.bounce = 2;
+                            }
+                            e.stalkShootingTime = 0;
+                        }
+                    }
+                    if(e.stalkAttack === "petal burst"){
+                        if(e.stalkShootingTime >= 260){
+                            textSize(120);
+                            fill(168, 15, 15);
+                            text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
+                        }
+                        if(e.stalkShootingTime >= 300){
+                            var numMissiles = 5;
+                            var altarM = 5;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var j = 0 ; j < numMissiles ; j++) {
+                                var angle = j * 360 / numMissiles + angleOffset;
+                                if(yggSummon){
+                                    var m = {
+                                      x: e.x + e.mon.width/2,
+                                      y: e.y + e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 20,
+                                      damage: altarM,
+                                      red: 79,
+                                      green: 0,
+                                      blue: 158,
+                                      bounce: 1,
+                                      poison: true,
+                                    };
+                                    ms.push(m);
+                                }else{
+                                    var m = {
+                                      x: e.x + e.mon.width/2,
+                                      y: e.y + e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 20,
+                                      damage: altarM,
+                                      red: 168,
+                                      green: 15,
+                                      blue: 15,
+                                      bounce: 1,
+                                    };
+                                    ms.push(m);
+                                }
+                            }
+                            e.stalkShootingTime = 0;
+                        }
+                    }
+                    if(e.stalkAttack === "acid"){
+                        if(yggSummon){
+                            if(e.stalkShootingTime >= 210){
+                                textSize(120);
+                                fill(140, 255, 0);
+                                text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
+                            }
+                            if(e.stalkShootingTime >= 250){
+                                var m = addMissile(e.x,e.y, 10, 30, 0, 140, 255, 0);
+                                m.splat = true;
+                                e.stalkShootingTime = 0;
+                            }
+                        }else{
+                            if(e.stalkShootingTime >= 360){
+                                textSize(120);
+                                fill(140, 255, 0);
+                                text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
+                            }
+                            if(e.stalkShootingTime >= 400){
+                                var m = addMissile(e.x,e.y, 10, 30, 0, 140, 255, 0);
+                                m.splat = true;
+                                e.stalkShootingTime = 0;
+                            }
+                        }
+                    }
+                    if(e.stalkAttack === "healing sap"){
+                        if(e.stalkShootingTime === 100){
+                            e.sap = 500;
+                        }
+                    }
+                    if(e.stalkAttack === "thorns"){
+                        if(e.stalkShootingTime >= 60){
+                            textSize(120);
+                            fill(97, 81, 52);
+                            text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
+                        }
+                        if(e.stalkShootingTime >= 100){
+                            var m = addMissile(e.x,e.y, 7, 20, 2, 97, 81, 52, false, 400); 
+                            m.bounce = 9999999;
+                            m.burst = 399;
+                            e.stalkShootingTime = 0;
+                        }
+                    }
+                    if(e.stalkAttack === "pollen"){
+                        if(e.stalkShootingTime >= 260){
+                            textSize(120);
+                            fill(255, 204, 0);
+                            text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
+                        }
+                        if(e.stalkShootingTime >= 300 && e.stalkShootingTime <= 450){
+                            if(frame%5 === 4){
+                                var m = addMissile(e.x,e.y, 7, 20, 0, 255, 203, 0, false, 400);
+                                m.burst = 120;
+                            }
+                        }
+                    }
+                }
+                if(e.bloomTime >= e.bloom+600){
+                    e.stalkShootingTime = 0;
+                    e.bloom = floor(random(400,800));
+                    e.bloomTime = 0;
+                    var newAttack;
+                    if(numinFlowers <= 1){
+                        newAttack = floor(random(0,6));
+                    }else{
+                        newAttack = floor(random(0,4));
+                    }
+                    if(newAttack === 0){
+                        e.stalkAttack = "weed head";
+                    }else if(newAttack === 1){
+                        e.stalkAttack = "petal burst";
+                    }else if(newAttack === 2){
+                        e.stalkAttack = "acid";
+                    }else if(newAttack === 3){
+                        e.stalkAttack = "healing sap";
+                    }else if(newAttack === 4){
+                        e.stalkAttack = "thorns";
+                    }else if(newAttack === 5){
+                        e.stalkAttack = "pollen";
+                    }
+                }
             }else{
-            fill(183, 255, 181);
+                if(e.undead){
+                   fill(255,255,255);
+                }else{
+                    fill(125, 11, 11);
+                }
+                ellipse(x,y,e.mon.width,e.mon.height);
             }
-            ellipse(x,y,e.mon.width,e.mon.height);
-            if(frame >= e.headTime-60){
-                textSize(120);
-                fill(107, 107, 107);
-                text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
-            }
-            if(frame >= e.headTime){
-                var m = addMissile(e.x,e.y, 7, 0, 2, 25, 25, 25);   
-                m.bounce = 2;
-                e.headTime = frame+random(400,600);
-            }
+            /*
             if(numinFlowers <= 3){
                 if(frame % 500 === 499) {
                     var numMissiles = ceil(e.hp/200);
@@ -19191,10 +19465,7 @@ if (level === -800){
                         ms.push(m);
                     }
                 }
-            }
-            if(numinFlowers<=2){
-                runPlant(e);   
-            }
+            }*/
        }
        if (e.mon.name === "castle") {
             fill(125, 125, 125);
@@ -19444,7 +19715,7 @@ if (level === -800){
        }
        
         if (e.mon.image !== "") {
-            if (e.mon.name === "poisonBlob" || e.mon.name === "poisonMiniBlob" || e.mon.name === "miniPoisonMiniBlob"){
+            if (e.mon.name === "poisonBlob" || e.mon.name === "poisonMiniBlob"){
                 tint(160, 0, 130, 255);
                 image(poisonBlob, x, y, e.mon.width, e.mon.height);
                 noTint();
@@ -20427,10 +20698,7 @@ if (level === -800){
             es.splice(i,1);
             testFrame2 = 0;
             altarAttack = "";
-            addMonster( 20, 100, monsters.rottenStalk);
-            addMonster( 320, 100, monsters.rottenStalk);
-            addMonster( 20, 320, monsters.rottenStalk);
-            addMonster( 320, 320, monsters.rottenStalk);
+            //change this
             altarDead = true;
             mechanize = 0;
         }else if(e.mon.name === "bodySnatcher" && e.hasBody){
