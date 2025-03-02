@@ -5281,9 +5281,6 @@ var doDamage = function(e, type, damage) {
     if (e.mon.name === "rottenStalk" && type === "stun slash") {
         scale = 0.75;
     }
-    if (e.mon.name === "rottenStalk" && type === "tentacle") {
-        scale = 0.75;
-    }
     if (e.mon.name === "rottenStalk" && type === "sand pit") {
         scale = 0.1;
     }
@@ -9221,7 +9218,7 @@ if (level === -800){
     if(altarDead){
         doom += 1;
     }
-    if(doom >= 3600){
+    if(doom >= 9000){
         HP = 0;   
     }
     background(backr, backg, backb);
@@ -20598,7 +20595,7 @@ x();            vertex(e.x+55,e.y+5);
     }
     if (doom > 0){
         var barD = 100;
-        var doomW = barD*(1-(doom/3600));
+        var doomW = barD*(1-(doom/9000));
         fill(0, 0, 0);
         rect(300,40, doomW, 10);
         textSize(15);
