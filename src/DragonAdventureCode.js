@@ -26,7 +26,7 @@ leaderboard for first 50 levels {
 var gameCode = `
 
 var StartLevel;
-var level = "B8";
+var level = 0;
 var HP = 100;
 var maxHP = 100;
 var MP= 100;
@@ -56,6 +56,7 @@ var stun = 0;
 var decay = 0;
 var slow = 0;
 var confuse = 0;
+var doom = 0;
 var poisonFrame = 0;
 var superSlow = 0;
 var grab = false;
@@ -293,6 +294,7 @@ var altarDead = false;
 var showYggdrasil = false;
 var yggAttack = "poison stream";
 var yggSummon = false;
+var yggDead = false;
 var noBody = false;
 var deadPool = [];
 var necromancers = 0;
@@ -1676,7 +1678,7 @@ var addMonster = function(xx,yy,mons){
         scarabSink : random(100,500),
         tents : tentsAlive,
         sporeDrop : 0,
-        stalkShootingTime : 0,
+        shootingTime : 0,
         hasBody : false,
         revive : 500,
         necronum : necromancers,
@@ -2055,6 +2057,9 @@ var runPlant = function( e ) {
     if(e.mon.name === "ironweedHydra3"){
         e.charge=0;   
     }
+    if(e.mon.name === "rottenYggdrasil" && yggAttack !== "weed drag"){
+        e.charge=0;   
+    }
     if (!e.charge) {
         // 0 charge aims at player
         
@@ -2068,8 +2073,8 @@ var runPlant = function( e ) {
     } else if (e.charge > 0) {
         // Positive charge is running out
         e.charge += 5;
-        if(e.mon.name === "rottenStalk" && numinFlowers <= 1){
-            e.charge += 5;
+        if(e.mon.name === "rottenYggdrasil"){
+            e.charge += 15;
         }
         if(e.mon.name === "ironweedHydra1"){
             if (e.charge > 250) {
@@ -2086,6 +2091,11 @@ var runPlant = function( e ) {
                 // start retracting
                 e.charge = -e.charge;
             }
+        }else if(e.mon.name === "rottenYggdrasil"){
+            if (e.charge > 350) {
+                // start retracting
+                e.charge = -e.charge;
+            }
         }else{
             if (e.charge > 150) {
                 // start retracting
@@ -2095,8 +2105,8 @@ var runPlant = function( e ) {
     } else if (e.charge < 0) {
         // Negative charge are slowly retracting
         e.charge += 2;
-        if(e.mon.name === "rottenStalk" && numinFlowers <= 1){
-            e.charge += 2;
+        if(e.mon.name === "rottenYggdrasil"){
+            e.charge += 5;
         }
         if (e.charge > 0) {
             e.charge = 0;
@@ -2106,6 +2116,11 @@ var runPlant = function( e ) {
     // Find the position of the head
     var x = e.x + cos(e.mouthDir) * abs(e.charge);
     var y = e.y + sin(e.mouthDir) * abs(e.charge);
+    
+    if(e.mon.name === "rottenYggdrasil"){
+        x = e.x+30 + cos(e.mouthDir) * abs(e.charge);
+        y = e.y+60 + sin(e.mouthDir) * abs(e.charge);
+    }
     
     var size = 60;
     
@@ -2119,6 +2134,18 @@ var runPlant = function( e ) {
         e.charge+=4;
         x = e.x + cos(e.mouthDir) * abs(e.charge);
         y = e.y + sin(e.mouthDir) * abs(e.charge);
+    }
+    
+    if (overlap(px, py, pw, ph, x-size/2, y-size/2, size, size) && yggAttack === "weed drag") {
+        var tryx = px-cos(e.mouthDir)*12;
+        var tryy = py-sin(e.mouthDir)*12;    
+        if(!HitLines(tryx,tryy,pw,ph)) {
+            px = tryx;
+            py = tryy;
+        }
+        e.charge+=4;
+        x = e.x+30 + cos(e.mouthDir) * abs(e.charge);
+        y = e.y+60 + sin(e.mouthDir) * abs(e.charge);
     }
     
     if(e.mon.name === "sirBlobsalotII"){
@@ -2142,13 +2169,16 @@ var runPlant = function( e ) {
         if (e.mon.name === "sirBlobsalotII"){
             HP-=5;
         }
+        if (e.mon.name === "rottenYggdrasil"){
+            HP-=10;
+        }
         Phurt = true;
     }
     
     // draw leash
     strokeWeight(8);
-    if(e.mon.name === "rottenStalk"){
-        line(x, y, e.x+e.mon.width/2, e.y+e.mon.height/2);
+    if(e.mon.name === "rottenYggdrasil"){
+        line(x, y, e.x+30, e.y+60);
     }else{
         if(e.mon.name === "sirBlobsalotII"){
             if(px>=e.x){
@@ -2183,7 +2213,7 @@ var runPlant = function( e ) {
         fill(158, 158, 158);
     }else if (e.mon.name === "ironweedHydra3"){
         fill(158, 158, 158);
-    }else if (e.mon.name === "rottenStalk"){
+    }else if (e.mon.name === "rottenYggdrasil"){
         fill(183, 255, 181);
     }
     arc( x, y, size, size,  angle1, angle2 );
@@ -2405,8 +2435,9 @@ StartLevel = function() {
     altarDead = false;
     showYggdrasil = false;
     altarAttack = "pulse";
-    yggAttack = "petal barrage";
+    yggAttack = "petal burst";
     yggSummon = false;
+    yggDead = false;
     order = [];
     scroll = "down";
     numPharaohs = 0;
@@ -2844,6 +2875,7 @@ StartLevel = function() {
     bitten = false;
     slow = 0;
     confuse = 0;
+    doom = 0;
     superSlow = 0;
     poisonFrame = 0;
     grab = false;
@@ -5231,7 +5263,9 @@ var doDamage = function(e, type, damage) {
     if (e.mon.name === "rottenYggdrasil" && type === "charge") {
         scale = 0;
     }
-    
+    if (e.mon.name === "rottenYggdrasil" && !altarDead) {
+        scale *= 0.4;
+    }
     if (e.mon.name === "rottenStalk" && type === "blob cannon") {
         scale = 0.5;
     }
@@ -5527,6 +5561,10 @@ var doDamage = function(e, type, damage) {
     damage *= scale;
     e.jitter = 10 * scale * scale;
     
+    if(e.mon.name === "rottenYggdrasil" && damage !== 0){
+        e.hurt = 1;
+    }
+    
     if(e.mon.name === "darkKingBlob"){
         kingBlobBurst += damage;
     }
@@ -5620,6 +5658,21 @@ var doAttack = function(x,y,size,type,damage) {
             }
         }   
     }
+    /*if(level === "B8"){ //scrapped mechanic for burning pollen
+        if(type === "fire" || type === "eruption" || type === "lightning"){
+            for( var i = 0; i < ms.length; i++) {
+                var m = ms[i];
+                if(m.red === 255 && m.green === 200 && m.blue === 0){
+                    var emx = m.x + m.size/2;
+                    var emy = m.y + m.size/2;
+                    var dist = sqrt( (emx-x) * (emx-x) + (emy-y) * (emy-y));
+                    if (dist< (size + size)  * 0.5) {
+                        ms.splice(i,1);
+                    }   
+                }
+            }   
+        }
+    }*/
 };
 var doAttackBox = function(x,y,w,h,type,damage) {
     for( var i = 0; i < es.length; i++) {
@@ -6287,7 +6340,7 @@ draw = function() {
         fill(255, 255, 255);
         text("Dragon Adventure", 37, 80);
         textSize(15);
-        text("Version 2.8.3",10,30);
+        text("Version 2.9.0",10,30);
         if(darkMode === "ON"){
             tint(55, 55, 55, 255);
             image(player,260,100);
@@ -6545,6 +6598,7 @@ draw = function() {
     }
     //update log
     var updates = [
+    "- Rotten Yggrasil got a complete rework! 3/1/2025",
     "- Fixed various bugs on level 40 2/23/2025",
     "- Nerfed B10 2/23/2025",
     "- Added alerts for when to use charge 2/22/2025",
@@ -6689,6 +6743,28 @@ draw = function() {
         textSize(20);
         if (addButton("Back", 5, 368, 0, 30)) {
             level = -12;
+        }
+        if (addButton("Next", 332, 368, 0, 30)) {
+            level = -14;
+        }
+        return;   
+    }
+    if (level === -14) {
+        background(102, 97, 97);
+        textSize(40);
+        fill(255, 255, 255);
+        text("Update log", 100, 35);
+        textSize(20);
+        if (addButton("Menu", 5, 5, 0, 30)) {
+            level = 0;
+        }
+        textSize(14);
+        for (var i = 60; i < 75 ; i++) {
+            text(updates[i], 5, 70+20*(i-60));
+        }
+        textSize(20);
+        if (addButton("Back", 5, 368, 0, 30)) {
+            level = -13;
         }
         return;   
     }
@@ -9142,6 +9218,12 @@ if (level === -800){
     confuse -= 1;
     decay -= 1;
     superSlow -= 1;
+    if(altarDead){
+        doom += 1;
+    }
+    if(doom >= 3600){
+        HP = 0;   
+    }
     background(backr, backg, backb);
     //draw pit
     if (level === 60) {
@@ -14862,7 +14944,7 @@ if (level === -800){
                     if(yggSummon){
                         numMissiles = 10;   
                     }
-                    var altarM = 2;
+                    var altarM = 5;
                     var angleOffset = random() * 360 / numMissiles;
                     for (var j = 0 ; j < numMissiles ; j++) {
                         var angle = j * 360 / numMissiles + angleOffset;
@@ -14876,7 +14958,6 @@ if (level === -800){
                           red: 97,
                           green: 81,
                           blue: 52,
-                          bounce: 2,
                         };
                         ms.push(m);
                     }
@@ -14895,6 +14976,47 @@ if (level === -800){
                             Phurt = true;
                         }
                     }
+                }else if(m.red === 255 && m.green === 102 && m.blue === 0){
+                    var numMissiles = 4;
+                    var altarM = 2;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                        var m = {
+                          x: m.x + m.size/2,
+                          y: m.y + m.size/2,
+                          vx: 5 * cos(angle),
+                          vy: 5 * sin(angle),
+                          size: 10,
+                          damage: altarM,
+                          red: 255,
+                          green: 200,
+                          blue: 0,
+                          confuse: true,
+                        };
+                        ms.push(m);
+                    }
+                }else if(m.red === 30 && m.green === 30 && m.blue === 30){
+                    var numMissiles = 4;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                        var m = {
+                          x: m.x + m.size/2,
+                          y: m.y + m.size/2,
+                          vx: 5 * cos(angle),
+                          vy: 5 * sin(angle),
+                          size: 0,
+                          damage: 0,
+                          red: 25,
+                          green: 25,
+                          blue: 25,
+                        };
+                        if(yggSummon){
+                            m.bounce = 1;   
+                        }
+                        ms.push(m);
+                    }
                 }
             ms.splice(i,1);
           }
@@ -14906,7 +15028,66 @@ if (level === -800){
                 var size = 60;
                 m.charge = 1;
                 
-                if (overlap(px, py, pw, ph, x-size/2, y-size/2, size, size)) {
+                if (overlap(px, py, pw, ph, m.x-size/2, m.y-size/2, size, size)) {
+                    HP -= 5;
+                    Phurt = true;
+                }
+                var dx = px - m.x;
+                var dy = py - m.y;
+                
+                m.mouthDir = atan2( dy, dx );
+                var mouthDir = m.mouthDir;
+                var biteSpeed = 8;
+                // The mouth will go between 0 and 90 degrees open, then back to 0.
+                var mouthAngle = abs( (frame*biteSpeed % 180) - 90 );
+                
+                var angle1 = mouthDir + mouthAngle / 2;
+                var angle2 = mouthDir + 360 -  mouthAngle / 2;
+                // draw the circle part
+                fill(158, 158, 158);
+                arc( x, y, size, size,  angle1, angle2 );
+            }
+            if(m.red === 20 && m.green === 20 && m.blue === 20){
+                //drag head missile
+                m.noBounce = true;
+                var x = m.x + cos(m.mouthDir) * abs(m.charge);
+                var y = m.y + sin(m.mouthDir) * abs(m.charge);
+            
+                var size = 60;
+                m.charge = 1;
+                
+                if (overlap(px, py, pw, ph, m.x-size/2, m.y-size/2, size, size)) {
+                    HP -= 5;
+                    Phurt = true;
+                    if(!HitLines(px+m.vx,py+m.vy,pw,ph)) {
+                        px += m.vx;
+                        py += m.vy;
+                    }
+                }
+                var dx = px - m.x;
+                var dy = py - m.y;
+                
+                m.mouthDir = atan2( dy, dx );
+                var mouthDir = m.mouthDir;
+                var biteSpeed = 8;
+                // The mouth will go between 0 and 90 degrees open, then back to 0.
+                var mouthAngle = abs( (frame*biteSpeed % 180) - 90 );
+                
+                var angle1 = mouthDir + mouthAngle / 2;
+                var angle2 = mouthDir + 360 -  mouthAngle / 2;
+                // draw the circle part
+                fill(183, 255, 181);
+                arc( x, y, size, size,  angle1, angle2 );
+            }
+            if(m.red === 30 && m.green === 30 && m.blue === 30){
+                //multi head missile
+                var x = m.x + cos(m.mouthDir) * abs(m.charge);
+                var y = m.y + sin(m.mouthDir) * abs(m.charge);
+            
+                var size = 120;
+                m.charge = 1;
+                
+                if (overlap(px, py, pw, ph, m.x-size/2, m.y-size/2, size, size)) {
                     HP -= 5;
                     Phurt = true;
                 }
@@ -14966,6 +15147,30 @@ if (level === -800){
                     stroke(0, 0, 0);
                 }
           }
+            if(m.pollen){
+                //pollen rain
+                m.changeDir--;
+                if(m.changeDir <= 0){
+                    if(m.way === "right"){
+                        m.way = "left";
+                    }else if(m.way === "left"){
+                        m.way = "right";
+                    }
+                    m.changeDir = floor(random(10,50));
+                }
+                if(m.way === "right"){
+                    m.inc+=0.1;
+                }else if(m.way === "left"){
+                    m.inc-=0.1; 
+                }
+                if(m.inc <0){
+                    m.y+=3;
+                }else if(m.inc>0){
+                    m.y+=3;   
+                }
+                m.x+=m.inc/3;
+            
+            }
           if(m.red === 82 && m.green === 233 && m.blue === 253){
               //sandstorm missiles
                 m.xpit = m.x;
@@ -15141,21 +15346,37 @@ if (level === -800){
                 m.vx = -m.vx;
                 m.homingErrorX = -m.homingErrorX;
                 m.bounce-=1;
+                if(m.noBounce){
+                    m.vx = 0;
+                    m.vy = 0;
+                }
             }
             if(m.y>400){
                 m.vy = -m.vy;
                 m.homingErrorY = -m.homingErrorY;
                 m.bounce-=1;
+                if(m.noBounce){
+                    m.vx = 0;
+                    m.vy = 0;
+                }
             }
             if(m.x>400){
                 m.vx = -m.vx;
                 m.homingErrorX = -m.homingErrorX;
                 m.bounce-=1;
+                if(m.noBounce){
+                    m.vx = 0;
+                    m.vy = 0;
+                }
             }
             if(m.y<55){
                 m.vy = -m.vy;
                 m.homingErrorY = -m.homingErrorY;
                 m.bounce-=1;
+                if(m.noBounce){
+                    m.vx = 0;
+                    m.vy = 0;
+                }
             }
           }
           if (m.red === 88 && m.green === 166 && m.blue === 255){
@@ -15240,6 +15461,9 @@ if (level === -800){
                 }
                 if(m.confuse === true){
                     confuse = 150;  
+                    if(level === "B8"){
+                        confuse = 300;   
+                    }
                 }
                 if(m.red === 232 && m.green === 140 && m.blue === 8){
                     superSlow = 300;  
@@ -15982,375 +16206,74 @@ if (level === -800){
                     }
                 }
                 //EX boss 7 effects
-                if(e.mon.name === "ruinedAltar") {
-                    if(e.hp <= e.mon.maxHp/2 && altarAttack !== "suck"){
-                        halfHealth = true;   
-                    }
-                    if(altarAttack === "pulse"){
-                        if(testFrame <= 500){
-                            if(testFrame % 100 === 99) {
-                                var numMissiles = 18;
-                                var altarM = 5;
-                                var angleOffset = random() * 360 / numMissiles;
-                                for (var i = 0 ; i < numMissiles ; i++) {
-                                    var angle = i * 360 / numMissiles + angleOffset;
-                                      var m = {
-                                          x: e.x + e.mon.width/2,
-                                          y: e.y + e.mon.height/2,
-                                          vx: 5 * cos(angle),
-                                          vy: 5 * sin(angle),
-                                          size: 20,
-                                          damage: altarM,
-                                          red: 232,
-                                          green: 140,
-                                          blue: 9,
-                                          slow: true,
-                                          pulse: true,
-                                          pulseTimeIn: 50,
-                                          pulseTimeOut: 505,
-                                          pulseTime: 0,
-                                      };
-                                    ms.push(m);
+                if(e.mon.name === "ruinedAltar"){
+                    if(!showYggdrasil) {
+                        e.x = 220;
+                        e.y = 120;
+                        if(e.hp <= e.mon.maxHp/2 && altarAttack !== "suck"){
+                            halfHealth = true;   
+                        }
+                        if(altarAttack === "pulse"){
+                            if(testFrame <= 500){
+                                if(testFrame % 100 === 99) {
+                                    var numMissiles = 18;
+                                    var altarM = 5;
+                                    var angleOffset = random() * 360 / numMissiles;
+                                    for (var i = 0 ; i < numMissiles ; i++) {
+                                        var angle = i * 360 / numMissiles + angleOffset;
+                                          var m = {
+                                              x: e.x + e.mon.width/2,
+                                              y: e.y + e.mon.height/2,
+                                              vx: 5 * cos(angle),
+                                              vy: 5 * sin(angle),
+                                              size: 20,
+                                              damage: altarM,
+                                              red: 232,
+                                              green: 140,
+                                              blue: 9,
+                                              slow: true,
+                                              pulse: true,
+                                              pulseTimeIn: 50,
+                                              pulseTimeOut: 505,
+                                              pulseTime: 0,
+                                          };
+                                        ms.push(m);
+                                    }
                                 }
                             }
-                        }
-                        if(testFrame >= 700){
-                            shoot = 0;
-                            altarAttack = "explode";
-                            testFrame = 0;
-                        }
-                    }
-                    if(altarAttack === "explode"){
-                        if(testFrame <= 500){
-                            shoot++;
-                            if(shoot >= 50) {
-                                textSize(100);
-                                fill(255, 102, 0);
-                                text("!",190,260);  
+                            if(testFrame >= 700){
+                                shoot = 0;
+                                altarAttack = "explode";
+                                testFrame = 0;
                             }
-                            if(shoot >= 80) {
-                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,15,255, 102, 0);
-                                m.explode = true;
+                        }
+                        if(altarAttack === "explode"){
+                            if(testFrame <= 500){
+                                shoot++;
+                                if(shoot >= 50) {
+                                    textSize(100);
+                                    fill(255, 102, 0);
+                                    text("!",190,260);  
+                                }
+                                if(shoot >= 80) {
+                                    var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,15,255, 102, 0);
+                                    m.explode = true;
+                                    shoot = 0;
+                                }
+                            }
+                            if(testFrame >= 600){
+                                altarAttack = "suck";
+                                testFrame = 0;
+                                order = [];
                                 shoot = 0;
                             }
                         }
-                        if(testFrame >= 600){
-                            altarAttack = "suck";
-                            testFrame = 0;
-                            order = [];
-                            shoot = 0;
-                        }
-                    }
-                    if(altarAttack === "suck"){
-                        if(testFrame === 50){
-                            randPlace = floor(random(0,4));   
-                            order.push(randPlace);
-                        }
-                        if(testFrame >= 50 && testFrame <= 100){
-                            textSize(100);
-                            fill(166, 0, 0);
-                            if(randPlace !== 0){
-                                text("!",10,130);   
+                        if(altarAttack === "suck"){
+                            if(testFrame === 50){
+                                randPlace = floor(random(0,4));   
+                                order.push(randPlace);
                             }
-                            if(randPlace !== 1){
-                                text("!",10,210);   
-                            }
-                            if(randPlace !== 2){
-                                text("!",10,290);   
-                            }
-                            if(randPlace !== 3){
-                                text("!",10,370);   
-                            }
-                        }
-                        if(testFrame >= 100&& testFrame <= 150){
-                            if(randPlace !== 0){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,50,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(0,5);  
-                                }
-                            }
-                            if(randPlace !== 1){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,150,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,2); 
-                                }
-                            }
-                            if(randPlace !== 2){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,250,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,2); 
-                                }
-                            }
-                            if(randPlace !== 3){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,350,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,-4);  
-                                }
-                            }
-                        }
-                        
-                        
-                        if(testFrame === 180){
-                            if(randPlace === 0){
-                                randPlace = floor(random(0,3));  
-                            }else if(randPlace === 3){
-                                randPlace = floor(random(1,4)); 
-                            }else{
-                                randPlace = floor(random(0,4)); 
-                            }
-                            order.push(randPlace);
-                        }
-                        if(testFrame >= 180 && testFrame <= 230){
-                            textSize(100);
-                            fill(166, 0, 0);
-                            if(randPlace !== 0){
-                                text("!",10,130);   
-                            }
-                            if(randPlace !== 1){
-                                text("!",10,210);   
-                            }
-                            if(randPlace !== 2){
-                                text("!",10,290);   
-                            }
-                            if(randPlace !== 3){
-                                text("!",10,370);   
-                            }
-                        }
-                        if(testFrame >= 230&& testFrame <= 280){
-                            if(randPlace !== 0){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,50,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(0,5);  
-                                }
-                            }
-                            if(randPlace !== 1){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,150,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,2); 
-                                }
-                            }
-                            if(randPlace !== 2){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,250,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,2); 
-                                }
-                            }
-                            if(randPlace !== 3){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,350,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,-4);  
-                                }
-                            }
-                        }
-                        
-                        
-                        if(testFrame === 310){
-                            if(randPlace === 0){
-                                randPlace = floor(random(0,3));  
-                            }else if(randPlace === 3){
-                                randPlace = floor(random(1,4)); 
-                            }else{
-                                randPlace = floor(random(0,4)); 
-                            } 
-                            order.push(randPlace);
-                        }
-                        if(testFrame >= 310 && testFrame <= 360){
-                            textSize(100);
-                            fill(166, 0, 0);
-                            if(randPlace !== 0){
-                                text("!",10,130);   
-                            }
-                            if(randPlace !== 1){
-                                text("!",10,210);   
-                            }
-                            if(randPlace !== 2){
-                                text("!",10,290);   
-                            }
-                            if(randPlace !== 3){
-                                text("!",10,370);   
-                            }
-                        }
-                        if(testFrame >= 360&& testFrame <= 410){
-                            if(randPlace !== 0){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,50,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(0,5);  
-                                }
-                            }
-                            if(randPlace !== 1){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,150,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,2); 
-                                }
-                            }
-                            if(randPlace !== 2){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,250,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,2); 
-                                }
-                            }
-                            if(randPlace !== 3){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(0,350,10,50,10,128, 128, 128);
-                                    m.vx = 10;
-                                    m.vy = random(-1,-4);  
-                                }
-                            }
-                        }
-                        
-                        
- 
-                        if(halfHealth){
-                            if(testFrame >= 440 && testFrame <= 490){
-                                textSize(100);
-                                fill(166, 0, 0);
-                                text("!",e.x-50,e.y+e.mon.height/2+25); 
-                            }
-                            if(testFrame >= 490&& testFrame <= 540){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                    m.vx = -4;
-                                    m.vy = random(-7,-4);  
-                                }
-                                if(order[2] !== 0){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(-7,-4);  
-                                    }
-                                }
-                                if(order[2] !== 1){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(-2,-1.5); 
-                                    }
-                                }
-                                if(order[2] !== 2){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(0,0.5); 
-                                    }
-                                }
-                                if(order[2] !== 3){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(2,5);  
-                                    }
-                                }
-                            }
-                            
-                            
-                            if(testFrame >= 570 && testFrame <= 620){
-                                textSize(100);
-                                fill(166, 0, 0);
-                                text("!",e.x-50,e.y+e.mon.height/2+25); 
-                            }
-                            if(testFrame >= 620&& testFrame <= 670){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                    m.vx = -4;
-                                    m.vy = random(-7,-4);  
-                                }
-                                if(order[1] !== 0){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(-7,-4);  
-                                    }
-                                }
-                                if(order[1] !== 1){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(-2,-1.5); 
-                                    }
-                                }
-                                if(order[1] !== 2){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(0,0.5); 
-                                    }
-                                }
-                                if(order[1] !== 3){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(2,5);  
-                                    }
-                                }
-                            }
-                            
-                            if(testFrame >= 700 && testFrame <= 750){
-                                textSize(100);
-                                fill(166, 0, 0);
-                                text("!",e.x-50,e.y+e.mon.height/2+25); 
-                            }
-                            if(testFrame >= 750 && testFrame <= 800){
-                                if(testFrame % 5 === 4) {
-                                    var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                    m.vx = -4;
-                                    m.vy = random(-7,-4);  
-                                }
-                                if(order[0] !== 0){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(-7,-4);  
-                                    }
-                                }
-                                if(order[0] !== 1){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(-2,-1.5);  
-                                    }
-                                }
-                                if(order[0] !== 2){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(0,0.5); 
-                                    }
-                                }
-                                if(order[0] !== 3){
-                                    if(testFrame % 5 === 4) {
-                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
-                                        m.vx = -10;
-                                        m.vy = random(2,5);  
-                                    }
-                                }
-                            }
-                            if(testFrame >= 1000){
-                                order = [];
-                                altarAttack = "spin";
-                                testFrame = 0;
-                            }
-                        }else{
-                            if(testFrame === 440){
-                                if(randPlace === 0){
-                                    randPlace = floor(random(0,3));  
-                                }else if(randPlace === 3){
-                                    randPlace = floor(random(1,4)); 
-                                }else{
-                                    randPlace = floor(random(0,4)); 
-                                }  
-                            }
-                            if(testFrame >= 440 && testFrame <= 490){
+                            if(testFrame >= 50 && testFrame <= 100){
                                 textSize(100);
                                 fill(166, 0, 0);
                                 if(randPlace !== 0){
@@ -16366,12 +16289,12 @@ if (level === -800){
                                     text("!",10,370);   
                                 }
                             }
-                            if(testFrame >= 490&& testFrame <= 540){
+                            if(testFrame >= 100&& testFrame <= 150){
                                 if(randPlace !== 0){
                                     if(testFrame % 5 === 4) {
                                         var m = addMissile(0,50,10,50,10,128, 128, 128);
                                         m.vx = 10;
-                                        m.vy = random(2,5);  
+                                        m.vy = random(0,5);  
                                     }
                                 }
                                 if(randPlace !== 1){
@@ -16398,16 +16321,17 @@ if (level === -800){
                             }
                             
                             
-                            if(testFrame === 570){
+                            if(testFrame === 180){
                                 if(randPlace === 0){
                                     randPlace = floor(random(0,3));  
                                 }else if(randPlace === 3){
                                     randPlace = floor(random(1,4)); 
                                 }else{
                                     randPlace = floor(random(0,4)); 
-                                }   
+                                }
+                                order.push(randPlace);
                             }
-                            if(testFrame >= 570 && testFrame <= 620){
+                            if(testFrame >= 180 && testFrame <= 230){
                                 textSize(100);
                                 fill(166, 0, 0);
                                 if(randPlace !== 0){
@@ -16423,12 +16347,12 @@ if (level === -800){
                                     text("!",10,370);   
                                 }
                             }
-                            if(testFrame >= 620&& testFrame <= 670){
+                            if(testFrame >= 230&& testFrame <= 280){
                                 if(randPlace !== 0){
                                     if(testFrame % 5 === 4) {
                                         var m = addMissile(0,50,10,50,10,128, 128, 128);
                                         m.vx = 10;
-                                        m.vy = random(2,5);  
+                                        m.vy = random(0,5);  
                                     }
                                 }
                                 if(randPlace !== 1){
@@ -16453,46 +16377,390 @@ if (level === -800){
                                     }
                                 }
                             }
-                            if(testFrame >= 800){
-                                altarAttack = "spin";
+                            
+                            
+                            if(testFrame === 310){
+                                if(randPlace === 0){
+                                    randPlace = floor(random(0,3));  
+                                }else if(randPlace === 3){
+                                    randPlace = floor(random(1,4)); 
+                                }else{
+                                    randPlace = floor(random(0,4)); 
+                                } 
+                                order.push(randPlace);
+                            }
+                            if(testFrame >= 310 && testFrame <= 360){
+                                textSize(100);
+                                fill(166, 0, 0);
+                                if(randPlace !== 0){
+                                    text("!",10,130);   
+                                }
+                                if(randPlace !== 1){
+                                    text("!",10,210);   
+                                }
+                                if(randPlace !== 2){
+                                    text("!",10,290);   
+                                }
+                                if(randPlace !== 3){
+                                    text("!",10,370);   
+                                }
+                            }
+                            if(testFrame >= 360&& testFrame <= 410){
+                                if(randPlace !== 0){
+                                    if(testFrame % 5 === 4) {
+                                        var m = addMissile(0,50,10,50,10,128, 128, 128);
+                                        m.vx = 10;
+                                        m.vy = random(0,5);  
+                                    }
+                                }
+                                if(randPlace !== 1){
+                                    if(testFrame % 5 === 4) {
+                                        var m = addMissile(0,150,10,50,10,128, 128, 128);
+                                        m.vx = 10;
+                                        m.vy = random(-1,2); 
+                                    }
+                                }
+                                if(randPlace !== 2){
+                                    if(testFrame % 5 === 4) {
+                                        var m = addMissile(0,250,10,50,10,128, 128, 128);
+                                        m.vx = 10;
+                                        m.vy = random(-1,2); 
+                                    }
+                                }
+                                if(randPlace !== 3){
+                                    if(testFrame % 5 === 4) {
+                                        var m = addMissile(0,350,10,50,10,128, 128, 128);
+                                        m.vx = 10;
+                                        m.vy = random(-1,-4);  
+                                    }
+                                }
+                            }
+                            
+                            
+     
+                            if(halfHealth){
+                                if(testFrame >= 440 && testFrame <= 490){
+                                    textSize(100);
+                                    fill(166, 0, 0);
+                                    text("!",e.x-50,e.y+e.mon.height/2+25); 
+                                }
+                                if(testFrame >= 490&& testFrame <= 540){
+                                    if(testFrame % 5 === 4) {
+                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                        m.vx = -4;
+                                        m.vy = random(-7,-4);  
+                                    }
+                                    if(order[2] !== 0){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(-7,-4);  
+                                        }
+                                    }
+                                    if(order[2] !== 1){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(-2,-1.5); 
+                                        }
+                                    }
+                                    if(order[2] !== 2){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(0,0.5); 
+                                        }
+                                    }
+                                    if(order[2] !== 3){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(2,5);  
+                                        }
+                                    }
+                                }
+                                
+                                
+                                if(testFrame >= 570 && testFrame <= 620){
+                                    textSize(100);
+                                    fill(166, 0, 0);
+                                    text("!",e.x-50,e.y+e.mon.height/2+25); 
+                                }
+                                if(testFrame >= 620&& testFrame <= 670){
+                                    if(testFrame % 5 === 4) {
+                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                        m.vx = -4;
+                                        m.vy = random(-7,-4);  
+                                    }
+                                    if(order[1] !== 0){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(-7,-4);  
+                                        }
+                                    }
+                                    if(order[1] !== 1){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(-2,-1.5); 
+                                        }
+                                    }
+                                    if(order[1] !== 2){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(0,0.5); 
+                                        }
+                                    }
+                                    if(order[1] !== 3){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(2,5);  
+                                        }
+                                    }
+                                }
+                                
+                                if(testFrame >= 700 && testFrame <= 750){
+                                    textSize(100);
+                                    fill(166, 0, 0);
+                                    text("!",e.x-50,e.y+e.mon.height/2+25); 
+                                }
+                                if(testFrame >= 750 && testFrame <= 800){
+                                    if(testFrame % 5 === 4) {
+                                        var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                        m.vx = -4;
+                                        m.vy = random(-7,-4);  
+                                    }
+                                    if(order[0] !== 0){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(-7,-4);  
+                                        }
+                                    }
+                                    if(order[0] !== 1){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(-2,-1.5);  
+                                        }
+                                    }
+                                    if(order[0] !== 2){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(0,0.5); 
+                                        }
+                                    }
+                                    if(order[0] !== 3){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(e.x+e.mon.width+50,e.y+e.mon.height/2+25,10,50,10,128, 128, 128);
+                                            m.vx = -10;
+                                            m.vy = random(2,5);  
+                                        }
+                                    }
+                                }
+                                if(testFrame >= 1000){
+                                    order = [];
+                                    altarAttack = "spin";
+                                    testFrame = 0;
+                                }
+                            }else{
+                                if(testFrame === 440){
+                                    if(randPlace === 0){
+                                        randPlace = floor(random(0,3));  
+                                    }else if(randPlace === 3){
+                                        randPlace = floor(random(1,4)); 
+                                    }else{
+                                        randPlace = floor(random(0,4)); 
+                                    }  
+                                }
+                                if(testFrame >= 440 && testFrame <= 490){
+                                    textSize(100);
+                                    fill(166, 0, 0);
+                                    if(randPlace !== 0){
+                                        text("!",10,130);   
+                                    }
+                                    if(randPlace !== 1){
+                                        text("!",10,210);   
+                                    }
+                                    if(randPlace !== 2){
+                                        text("!",10,290);   
+                                    }
+                                    if(randPlace !== 3){
+                                        text("!",10,370);   
+                                    }
+                                }
+                                if(testFrame >= 490&& testFrame <= 540){
+                                    if(randPlace !== 0){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,50,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(2,5);  
+                                        }
+                                    }
+                                    if(randPlace !== 1){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,150,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(-1,2); 
+                                        }
+                                    }
+                                    if(randPlace !== 2){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,250,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(-1,2); 
+                                        }
+                                    }
+                                    if(randPlace !== 3){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,350,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(-1,-4);  
+                                        }
+                                    }
+                                }
+                                
+                                
+                                if(testFrame === 570){
+                                    if(randPlace === 0){
+                                        randPlace = floor(random(0,3));  
+                                    }else if(randPlace === 3){
+                                        randPlace = floor(random(1,4)); 
+                                    }else{
+                                        randPlace = floor(random(0,4)); 
+                                    }   
+                                }
+                                if(testFrame >= 570 && testFrame <= 620){
+                                    textSize(100);
+                                    fill(166, 0, 0);
+                                    if(randPlace !== 0){
+                                        text("!",10,130);   
+                                    }
+                                    if(randPlace !== 1){
+                                        text("!",10,210);   
+                                    }
+                                    if(randPlace !== 2){
+                                        text("!",10,290);   
+                                    }
+                                    if(randPlace !== 3){
+                                        text("!",10,370);   
+                                    }
+                                }
+                                if(testFrame >= 620&& testFrame <= 670){
+                                    if(randPlace !== 0){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,50,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(2,5);  
+                                        }
+                                    }
+                                    if(randPlace !== 1){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,150,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(-1,2); 
+                                        }
+                                    }
+                                    if(randPlace !== 2){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,250,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(-1,2); 
+                                        }
+                                    }
+                                    if(randPlace !== 3){
+                                        if(testFrame % 5 === 4) {
+                                            var m = addMissile(0,350,10,50,10,128, 128, 128);
+                                            m.vx = 10;
+                                            m.vy = random(-1,-4);  
+                                        }
+                                    }
+                                }
+                                if(testFrame >= 800){
+                                    altarAttack = "spin";
+                                    testFrame = 0;
+                                }
+                            }
+                        }
+                        if(altarAttack === "spin"){
+                            if(testFrame <= 500){
+                                if(halfHealth){
+                                    if(testFrame % 50 === 49) {
+                                        var numMissiles = 18;
+                                        var altarM = 12;
+                                        var angleOffset = random() * 360 / numMissiles;
+                                        for (var i = 0 ; i < numMissiles ; i++) {
+                                            var angle = i * 360 / numMissiles + angleOffset;
+                                              var m = {
+                                                  x: e.x + e.mon.width/2,
+                                                  y: e.y + e.mon.height/2,
+                                                  vx: 5 * cos(angle),
+                                                  vy: 5 * sin(angle),
+                                                  size: 20,
+                                                  damage: altarM,
+                                                  red: 232,
+                                                  green: 140,
+                                                  blue: 9,
+                                                  pulse: false,
+                                                  pulseTimeIn: 30,
+                                                  pulseTimeOut: 32,
+                                                  pulseTime: 0,
+                                                  spin: true,
+                                                  angle: angle,
+                                                  angleInc: 5,
+                                                  angleDecay: 0.1,
+                                              };
+                                            ms.push(m);
+                                        }
+                                    }
+                                }else{
+                                    if(testFrame % 100 === 99) {
+                                        var numMissiles = 18;
+                                        var altarM = 12;
+                                        var angleOffset = random() * 360 / numMissiles;
+                                        for (var i = 0 ; i < numMissiles ; i++) {
+                                            var angle = i * 360 / numMissiles + angleOffset;
+                                              var m = {
+                                                  x: e.x + e.mon.width/2,
+                                                  y: e.y + e.mon.height/2,
+                                                  vx: 5 * cos(angle),
+                                                  vy: 5 * sin(angle),
+                                                  size: 20,
+                                                  damage: altarM,
+                                                  red: 232,
+                                                  green: 140,
+                                                  blue: 9,
+                                                  pulse: false,
+                                                  pulseTimeIn: 30,
+                                                  pulseTimeOut: 32,
+                                                  pulseTime: 0,
+                                                  spin: true,
+                                                  angle: angle,
+                                                  angleInc: 5,
+                                                  angleDecay: 0.1,
+                                              };
+                                            ms.push(m);
+                                        }
+                                    }
+                                }
+                            }
+                            if(testFrame >= 700){
+                                if(halfHealth){
+                                    altarAttack = "spiral";
+                                }else{
+                                    altarAttack = "pulse";
+                                }
                                 testFrame = 0;
                             }
                         }
-                    }
-                    if(altarAttack === "spin"){
-                        if(testFrame <= 500){
-                            if(halfHealth){
-                                if(testFrame % 50 === 49) {
-                                    var numMissiles = 18;
-                                    var altarM = 12;
-                                    var angleOffset = random() * 360 / numMissiles;
-                                    for (var i = 0 ; i < numMissiles ; i++) {
-                                        var angle = i * 360 / numMissiles + angleOffset;
-                                          var m = {
-                                              x: e.x + e.mon.width/2,
-                                              y: e.y + e.mon.height/2,
-                                              vx: 5 * cos(angle),
-                                              vy: 5 * sin(angle),
-                                              size: 20,
-                                              damage: altarM,
-                                              red: 232,
-                                              green: 140,
-                                              blue: 9,
-                                              pulse: false,
-                                              pulseTimeIn: 30,
-                                              pulseTimeOut: 32,
-                                              pulseTime: 0,
-                                              spin: true,
-                                              angle: angle,
-                                              angleInc: 5,
-                                              angleDecay: 0.1,
-                                          };
-                                        ms.push(m);
-                                    }
-                                }
-                            }else{
-                                if(testFrame % 100 === 99) {
-                                    var numMissiles = 18;
+                        if(altarAttack === "spiral"){
+                            if(testFrame <= 500){
+                                if(testFrame % 10 === 9) {
+                                    var numMissiles = 4;
                                     var altarM = 12;
                                     var angleOffset = random() * 360 / numMissiles;
                                     for (var i = 0 ; i < numMissiles ; i++) {
@@ -16520,84 +16788,46 @@ if (level === -800){
                                     }
                                 }
                             }
+                            if(testFrame >= 700){
+                                altarAttack = "mechanize";
+                                testFrame = 0;
+                            }
                         }
-                        if(testFrame >= 700){
-                            if(halfHealth){
-                                altarAttack = "spiral";
-                            }else{
+                        if(altarAttack === "mechanize"){
+                            if(testFrame === 200){
+                                mechanize = 600;
+                                if(attack === "fire"){
+                                    attack = "groundPound";
+                                }
+                                if(attack === "lightning"){
+                                    attack = "groundPound";
+                                }
+                                if(attack === "blob cannon"){
+                                    attack = "slash";
+                                }
+                                if(attack === "heal"){
+                                    attack = "stun slash";
+                                }
+                                if(attack === "sand pit"){
+                                    attack = "tentacle";
+                                }
+                                if(attack === "slow dart"){
+                                    attack = "tentacle";
+                                }
+                                if(attack === "poison"){
+                                    attack = "eruption";
+                                }
+                                if(attack === "restore"){
+                                    attack = "charge";
+                                }
+                            }
+                            if(testFrame >= 300){
                                 altarAttack = "pulse";
-                            }
-                            testFrame = 0;
-                        }
-                    }
-                    if(altarAttack === "spiral"){
-                        if(testFrame <= 500){
-                            if(testFrame % 10 === 9) {
-                                var numMissiles = 4;
-                                var altarM = 12;
-                                var angleOffset = random() * 360 / numMissiles;
-                                for (var i = 0 ; i < numMissiles ; i++) {
-                                    var angle = i * 360 / numMissiles + angleOffset;
-                                      var m = {
-                                          x: e.x + e.mon.width/2,
-                                          y: e.y + e.mon.height/2,
-                                          vx: 5 * cos(angle),
-                                          vy: 5 * sin(angle),
-                                          size: 20,
-                                          damage: altarM,
-                                          red: 232,
-                                          green: 140,
-                                          blue: 9,
-                                          pulse: false,
-                                          pulseTimeIn: 30,
-                                          pulseTimeOut: 32,
-                                          pulseTime: 0,
-                                          spin: true,
-                                          angle: angle,
-                                          angleInc: 5,
-                                          angleDecay: 0.1,
-                                      };
-                                    ms.push(m);
-                                }
+                                testFrame = 0;
                             }
                         }
-                        if(testFrame >= 700){
-                            altarAttack = "mechanize";
-                            testFrame = 0;
-                        }
-                    }
-                    if(altarAttack === "mechanize"){
-                        if(testFrame === 200){
-                            mechanize = 600;
-                            if(attack === "fire"){
-                                attack = "groundPound";
-                            }
-                            if(attack === "lightning"){
-                                attack = "groundPound";
-                            }
-                            if(attack === "blob cannon"){
-                                attack = "slash";
-                            }
-                            if(attack === "heal"){
-                                attack = "stun slash";
-                            }
-                            if(attack === "sand pit"){
-                                attack = "tentacle";
-                            }
-                            if(attack === "slow dart"){
-                                attack = "tentacle";
-                            }
-                            if(attack === "poison"){
-                                attack = "eruption";
-                            }
-                            if(attack === "restore"){
-                                attack = "charge";
-                            }
-                        }
-                        if(testFrame >= 300){
-                            altarAttack = "pulse";
-                            testFrame = 0;
-                        }
+                    }else{
+                        e.x = 22000000000000;
                     }
                 }
                 //EX boss 8 effects
@@ -16606,124 +16836,144 @@ if (level === -800){
                         yggSummon = true;
                         addMonster( 320, 100, monsters.rottenStalk);
                         addMonster( 320, 320, monsters.rottenStalk);
+                        testFrame = 0;
+                        shoot = 0;
                     }
                     if(showYggdrasil){
                         e.x = 300;
-                        if(frame%500 === 499) {
+                        e.shootingTime += 1;
+                        /*if(frame%500 === 499) {
                             var m = addMissile(e.x+50,e.y+50, 7, 0, 2, 25, 25, 25);   
                             m.bounce = 3;
                             if(yggSummon){
                                m.bounce = 5; 
                             }
-                        }
-                        if(yggAttack === "poison stream"){
-                            if(testFrame2 >= 200&&testFrame2 < 260){
-                                textSize(120);
-                                fill(174, 0, 255);
-                                text("!",e.x-30,e.y+e.mon.height/2+50);  
-                            }
-                            if(testFrame2>=260 && testFrame2<380){
-                                if(testFrame2%15 === 14){
-                                    var m = addMissile(e.x+30,e.y+80,5,25,0,79, 0, 158);
-                                    m.splat = true;
-                                    if(!yggSummon){
-                                        m.vx=random(-4,0);
-                                        if(m.vx === 0){
-                                            m.vx = 1;   
-                                        }
-                                        m.vy=random(0,3);
-                                        if(m.vy === 0){
-                                            m.vy = 1;   
-                                        }
-                                    }
-                                }
-                            }  
-                            if(testFrame2 === 1200){
-                                yggAttack = "petal barrage";
-                                testFrame2 = 0;
-                            }
-                        }
-                        if(yggAttack === "petal barrage"){
-                            var petTime = 100;
-                            if(yggSummon){
-                                petTime = 50;   
-                            }
-                            if(testFrame2 % petTime === petTime-1 && testFrame2 <= 500) {
-                                var numMissiles = 20;
-                                var altarM = 10;
+                        }*/
+                        if(yggAttack === "petal burst"){
+                            if(e.shootingTime >= 60 && testFrame2 <= 600){
+                                var numMissiles = 5;
+                                var altarM = 5;
                                 var angleOffset = random() * 360 / numMissiles;
                                 for (var j = 0 ; j < numMissiles ; j++) {
                                     var angle = j * 360 / numMissiles + angleOffset;
-                                    var m = {
-                                      x: e.x+30,
-                                      y: e.y+80,
-                                      vx: 5 * cos(angle),
-                                      vy: 5 * sin(angle),
-                                      size: 20,
-                                      damage: altarM,
-                                      red: 168,
-                                      green: 15,
-                                      blue: 15,
-                                      bounce: 1,
-                                      burst: -1,
-                                      spin: true,
-                                      angle: angle,
-                                      angleInc: 10,
-                                      angleDecay: 0.1,
-                                    };
                                     if(yggSummon){
-                                        m.angleInc = 10;
-                                        m.angleDecay = 0.2;
+                                        var m = {
+                                          x: e.x+30,
+                                          y: e.y+76,
+                                          vx: 5 * cos(angle),
+                                          vy: 5 * sin(angle),
+                                          size: 20,
+                                          damage: altarM,
+                                          red: 79,
+                                          green: 0,
+                                          blue: 158,
+                                          bounce: 1,
+                                          poison: true,
+                                        };
+                                        ms.push(m);
+                                    }else{
+                                        var m = {
+                                          x: e.x+30,
+                                          y: e.y+76,
+                                          vx: 5 * cos(angle),
+                                          vy: 5 * sin(angle),
+                                          size: 20,
+                                          damage: altarM,
+                                          red: 168,
+                                          green: 15,
+                                          blue: 15,
+                                          bounce: 1,
+                                        };
+                                        ms.push(m);
                                     }
-                                    ms.push(m);
+                                }
+                                e.shootingTime = 0;
+                            }
+                            if(testFrame2 >= 700){
+                                testFrame2 = 0;
+                                e.shootingTime = 0;
+                                yggAttack = "pollen rain";
+                            }
+                        }
+                        if(yggAttack === "pollen rain"){
+                            if(testFrame2 >= 60 && testFrame2 <= 600){
+                                if(frame%10 === 9) {
+                                    var m = addMissile(random(50,350),50, 0, 10, 5, 255, 200, 0);
+                                    m.pollen = true;
+                                    m.confuse = true;
+                                    m.inc = 0;
+                                    var randDir = floor(random(0,2));
+                                    if(randDir === 0){
+                                        m.way = "right";   
+                                    }else if(randDir === 1){
+                                        m.way = "left";
+                                    }
+                                    m.changeDir = floor(random(10,50));
+                                    if(yggSummon){
+                                        randDir = floor(random(0,4));
+                                        if(randDir === 3){
+                                            m.burst = floor(random(30,100)); 
+                                            m.red = 255;
+                                            m.green = 102;
+                                            m.blue = 0;
+                                        }
+                                    }
+                                }
+                            }
+                            if(testFrame2 >= 750){
+                                testFrame2 = 0;
+                                e.shootingTime = 0;
+                                yggAttack = "weed bomb";
+                            }
+                        }
+                        if(yggAttack === "weed bomb"){
+                            if(e.shootingTime >= 180 && testFrame2 <= 720){
+                                var m = addMissile(e.x+30,e.y+76, 5, 0, 0, 30, 30, 30);
+                                m.burst = floor(random(50,250));
+                                m.bounce = 9999;
+                                e.shootingTime = 0;
+                            }
+                            if(testFrame2 >= 900){
+                                testFrame2 = 0;
+                                e.shootingTime = 0;
+                                yggAttack = "thorns";
+                            }
+                        }
+                        if(yggAttack === "thorns"){
+                            if(testFrame2 >= 120 && testFrame2 <= 240){
+                                if(frame%10 === 9) {
+                                    var m = addMissile(e.x+30,e.y+random(120,300), 7, 20, 5, 97, 81, 52, false, 4000); 
+                                    m.bounce = 9999999;
+                                    m.burst = floor(random(300,500));
                                 }
                             }
                             if(testFrame2 >= 800){
-                                yggAttack = "confuse";
                                 testFrame2 = 0;
+                                e.shootingTime = 0;
+                                yggAttack = "weed drag";
                             }
                         }
-                        if(yggAttack === "confuse"){
-                            if(testFrame2 >= 140 && testFrame2 < 200) {
-                                textSize(120);
-                                fill(255, 204, 0);
-                                text("!",e.x-30,e.y+e.mon.height/2+50); 
-                            }
-                            if(testFrame2 >= 200 && testFrame2 < 500) {
-                                if(testFrame2%15 === 14){
-                                    var m = addMissile(e.x+30,e.y+80,5,25,0,255, 204, 0);
-                                    m.explode = true;
-                                    m.vx=random(-4,0);
-                                    if(m.vx === 0){
-                                        m.vx = 1;   
-                                    }
-                                    m.vy=random(0,3);
-                                    if(m.vy === 0){
-                                        m.vy = 1;   
+                        if(yggAttack === "weed drag"){
+                            if(testFrame2 <= 800){
+                                if(e.shootingTime >= 120 && e.shootingTime < 160){
+                                    if(frame%5 === 4) {
+                                        var m = addMissile(e.x+30,e.y+60, 15, 0, 0, 20, 20, 20); 
+                                        m.bounce = 9999999;
+                                        if(yggSummon){
+                                            m.burst = 200;
+                                        }else{
+                                            m.burst = 100;
+                                        }
                                     }
                                 }
+                                if(e.shootingTime >= 160){
+                                    e.shootingTime = 0;
+                                }
                             }
-                            if(testFrame2 >= 700){
-                                yggAttack = "spores";
+                            if(testFrame2 >= 950){
                                 testFrame2 = 0;
-                            }
-                        }
-                        if(yggAttack === "spores"){
-                            if(testFrame2 >= 140 && testFrame2 < 200) {
-                                textSize(120);
-                                fill(158, 119, 0);
-                                text("!",e.x-30,e.y+e.mon.height/2+50); 
-                            }
-                            if(testFrame2 === 200) {
-                                var m = addMissile(e.x+30,e.y+80,5,25,0,0,1,0);
-                                m.explode = true;
-                                m.dist = 50;
-                                m.vx=-3;
-                                m.vy=1.5;
-                            }
-                            if(testFrame2 >= 700){
-                                yggAttack = "poison stream";
-                                testFrame2 = 0;
+                                e.shootingTime = 0;
+                                yggAttack = "petal burst";
                             }
                         }
                     }else{
@@ -17404,7 +17654,7 @@ if (level === -800){
                             }
                         }
                         if(testFrame3 >= 150){
-                            rotation+=1.5;
+                            rotation+=1.4;
                             if(frame%5 === 4){
                                 var m = addMissile(e.x,e.y,10,15,30,255, 0, 0);
                                 m.vx = cos(rotation+90)*3;
@@ -18745,8 +18995,9 @@ if (level === -800){
         }
     }
     
-    if(level === "B8" && altarDead && numinFlowers <= 0){
+    if(level === "B8" && numinFlowers <= 0 && !yggDead){
         showYggdrasil = true;   
+        mechanize = 0;
     }else{
         showYggdrasil = false;   
     }
@@ -19051,7 +19302,7 @@ if (level === -800){
             beginShape();
             vertex(e.x+40,e.y);
             vertex(e.x+50,e.y-25);
-            vertex(e.x+55,e.y+5);
+x();            vertex(e.x+55,e.y+5);
             endShape();
             beginShape();
             vertex(e.x+55,e.y+10);
@@ -19170,7 +19421,7 @@ if (level === -800){
             line(380,230,380,210);
             line(300,220,330,220);
        }
-       if (e.mon.name === "ruinedAltar") {
+       if (e.mon.name === "ruinedAltar" && !showYggdrasil) {
             fill(125, 125, 125);
             ellipse(x+e.mon.width/2,y+e.mon.height/2,e.mon.width,e.mon.height);
             line(x+15,y+e.mon.height-50,x+50,y+50);
@@ -19260,6 +19511,66 @@ if (level === -800){
             fill(183, 255, 181);
             }
             ellipse(e.x+33,e.y+76,80,80);
+            fill(125, 125, 125);
+            
+            var sharpx = 0;
+            var sharpy = 0;
+            
+            if(!altarDead){
+                pushMatrix();
+                translate(e.x-25,e.y-60);
+                if(e.hurt > 0){
+                    translate(random(-2,2),random(-2,2));
+                }
+                beginShape();
+                vertex(sharpx+50,sharpy+65);
+                vertex(sharpx+22,sharpy+70);
+                vertex(sharpx-33,sharpy+112);
+                vertex(sharpx-48,sharpy+88);
+                vertex(sharpx-8,sharpy+64);
+                vertex(sharpx+50,sharpy+65);
+                endShape();
+                popMatrix();
+                
+                pushMatrix();
+                translate(e.x-60,e.y-15);
+                if(e.hurt > 0){
+                    translate(random(-2,2),random(-2,2));
+                }
+                rotate(-25);
+                beginShape();
+                vertex(sharpx-48,sharpy+88);
+                vertex(sharpx-33,sharpy+112);
+                vertex(sharpx-68,sharpy+212);
+                vertex(sharpx-78,sharpy+152);
+                vertex(sharpx-68,sharpy+118);
+                vertex(sharpx-48,sharpy+88);
+                endShape();
+                popMatrix();
+                
+                pushMatrix();
+                translate(e.x+150,e.y+125);
+                if(e.hurt > 0){
+                    translate(random(-2,2),random(-2,2));
+                }
+                rotate(45);
+                beginShape();
+                vertex(sharpx-68,sharpy+212);
+                vertex(sharpx-25,sharpy+252);
+                vertex(sharpx+25,sharpy+252);
+                vertex(sharpx+35,sharpy+232);
+                vertex(sharpx-68,sharpy+212);
+                endShape();
+                popMatrix();
+            }
+            
+            e.hurt--;
+            
+            if(e.shootingTime >= 90 && e.shootingTime < 120 && testFrame2 <= 800 && yggAttack === "weed drag"){
+                textSize(120);
+                fill(183, 255, 181);
+                text("!",e.x-80,e.y+125);
+            }
        }
        if (e.mon.name === "rottenStalk") {
             e.hurt-=1;
@@ -19290,30 +19601,30 @@ if (level === -800){
                 }
                 ellipse(x,y,e.mon.width,e.mon.height);
                 if(altarAttack !== "suck"){
-                    e.stalkShootingTime++;
+                    e.shootingTime++;
                     if(e.stalkAttack === "weed head"){
-                        if(e.stalkShootingTime >= 160){
+                        if(e.shootingTime >= 160){
                             textSize(120);
                             fill(107, 107, 107);
                             text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
                         }
-                        if(e.stalkShootingTime >= 200){
+                        if(e.shootingTime >= 200){
                             var m = addMissile(e.x,e.y, 7, 0, 2, 25, 25, 25); 
                             if(yggSummon){
                                 m.bounce = 3;
                             }else{
                                 m.bounce = 2;
                             }
-                            e.stalkShootingTime = 0;
+                            e.shootingTime = 0;
                         }
                     }
                     if(e.stalkAttack === "petal burst"){
-                        if(e.stalkShootingTime >= 260){
+                        if(e.shootingTime >= 260){
                             textSize(120);
                             fill(168, 15, 15);
                             text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
                         }
-                        if(e.stalkShootingTime >= 300){
+                        if(e.shootingTime >= 300){
                             var numMissiles = 5;
                             var altarM = 5;
                             var angleOffset = random() * 360 / numMissiles;
@@ -19350,59 +19661,59 @@ if (level === -800){
                                     ms.push(m);
                                 }
                             }
-                            e.stalkShootingTime = 0;
+                            e.shootingTime = 0;
                         }
                     }
                     if(e.stalkAttack === "acid"){
                         if(yggSummon){
-                            if(e.stalkShootingTime >= 210){
+                            if(e.shootingTime >= 210){
                                 textSize(120);
                                 fill(140, 255, 0);
                                 text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
                             }
-                            if(e.stalkShootingTime >= 250){
+                            if(e.shootingTime >= 250){
                                 var m = addMissile(e.x,e.y, 10, 30, 0, 140, 255, 0);
                                 m.splat = true;
-                                e.stalkShootingTime = 0;
+                                e.shootingTime = 0;
                             }
                         }else{
-                            if(e.stalkShootingTime >= 360){
+                            if(e.shootingTime >= 360){
                                 textSize(120);
                                 fill(140, 255, 0);
                                 text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
                             }
-                            if(e.stalkShootingTime >= 400){
+                            if(e.shootingTime >= 400){
                                 var m = addMissile(e.x,e.y, 10, 30, 0, 140, 255, 0);
                                 m.splat = true;
-                                e.stalkShootingTime = 0;
+                                e.shootingTime = 0;
                             }
                         }
                     }
                     if(e.stalkAttack === "healing sap"){
-                        if(e.stalkShootingTime === 100){
+                        if(e.shootingTime === 100){
                             e.sap = 500;
                         }
                     }
                     if(e.stalkAttack === "thorns"){
-                        if(e.stalkShootingTime >= 60){
+                        if(e.shootingTime >= 60){
                             textSize(120);
                             fill(97, 81, 52);
                             text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
                         }
-                        if(e.stalkShootingTime >= 100){
-                            var m = addMissile(e.x,e.y, 7, 20, 2, 97, 81, 52, false, 400); 
+                        if(e.shootingTime >= 100){
+                            var m = addMissile(e.x,e.y, 7, 20, 5, 97, 81, 52, false, 400); 
                             m.bounce = 9999999;
                             m.burst = 399;
-                            e.stalkShootingTime = 0;
+                            e.shootingTime = 0;
                         }
                     }
                     if(e.stalkAttack === "pollen"){
-                        if(e.stalkShootingTime >= 260){
+                        if(e.shootingTime >= 260){
                             textSize(120);
                             fill(255, 204, 0);
                             text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
                         }
-                        if(e.stalkShootingTime >= 300 && e.stalkShootingTime <= 450){
+                        if(e.shootingTime >= 300 && e.shootingTime <= 450){
                             if(frame%5 === 4){
                                 var m = addMissile(e.x,e.y, 7, 20, 0, 255, 203, 0, false, 400);
                                 m.burst = 120;
@@ -19411,7 +19722,7 @@ if (level === -800){
                     }
                 }
                 if(e.bloomTime >= e.bloom+600){
-                    e.stalkShootingTime = 0;
+                    e.shootingTime = 0;
                     e.bloom = floor(random(400,800));
                     e.bloomTime = 0;
                     var newAttack;
@@ -20285,6 +20596,14 @@ if (level === -800){
         fill(255, 255, 255);
         text("Poisoned!", 330,40+statsy);
     }
+    if (doom > 0){
+        var barD = 100;
+        var doomW = barD*(1-(doom/3600));
+        fill(0, 0, 0);
+        rect(300,40, doomW, 10);
+        textSize(15);
+        text("💀",280,48);
+    }
     if ((level >= 41 && level <= 50)||flooded) {
         //Air
         var barW = 100;
@@ -20694,11 +21013,15 @@ if (level === -800){
         }else if(e.mon.name === "rottenStalk"){
             testFrame2 = 0;
             es.splice(i,1);   
+        }else if(e.mon.name === "rottenYggdrasil"){
+            testFrame2 = 0;
+            yggDead = true;
+            es.splice(i,1);   
         }else if(e.mon.name === "ruinedAltar"){
             es.splice(i,1);
             testFrame2 = 0;
             altarAttack = "";
-            //change this
+            doom = 0;
             altarDead = true;
             mechanize = 0;
         }else if(e.mon.name === "bodySnatcher" && e.hasBody){
