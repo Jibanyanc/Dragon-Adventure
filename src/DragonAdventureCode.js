@@ -15268,30 +15268,30 @@ if (level === -800){
             ms.splice(i,1);
             i--;
           }
-          if(m.explode && m.dist<0){
-            fill(255, 102, 0);
-            if(m.red === 255 && m.green === 102 && m.blue === 0){
-                ellipse(m.x,m.y,200,200);
-                if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
-                    HP -= 200; 
-                    Phurt = true;
-                }
-            }else if(m.red === 255 && m.green === 204 && m.blue === 0){
-                fill(255,204, 0);
-                ellipse(m.x,m.y,200,200);
-                if(yggSummon){
-                    fill(255, 102, 0);
-                    ellipse(m.x,m.y,100,100);
-                }
-                if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
-                    confuse = 1500;
-                    Phurt = true;
-                }
-                if(yggSummon){
-                    if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 100) && !Pinvincible) {
-                    HP-=100;
-                    Phurt = true;
-                }   
+            if(m.explode && m.dist<0){
+                fill(255, 102, 0);
+                if(m.red === 255 && m.green === 102 && m.blue === 0){
+                    ellipse(m.x,m.y,150,150);
+                    if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 150) && !Pinvincible) {
+                        HP -= 200; 
+                        Phurt = true;
+                    }
+                }else if(m.red === 255 && m.green === 204 && m.blue === 0){
+                    fill(255,204, 0);
+                    ellipse(m.x,m.y,200,200);
+                    if(yggSummon){
+                        fill(255, 102, 0);
+                        ellipse(m.x,m.y,100,100);
+                    }
+                    if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
+                        confuse = 1500;
+                        Phurt = true;
+                    }
+                    if(yggSummon){
+                        if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 100) && !Pinvincible) {
+                        HP-=100;
+                        Phurt = true;
+                    }   
                 }
             }else if(m.red === 0 && m.green === 1 && m.blue === 0){
                 fill(158, 119, 0);
@@ -15307,8 +15307,8 @@ if (level === -800){
                     }  
                 }
             }else{
-                ellipse(m.x,m.y,100,100);
-                if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 100) && !Pinvincible) {
+                ellipse(m.x,m.y,80,80);
+                if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 80) && !Pinvincible) {
                     HP -= 100; 
                     Phurt = true;
                 }
