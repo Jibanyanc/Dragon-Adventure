@@ -15059,7 +15059,7 @@ if (level === -800){
                 m.charge = 1;
                 
                 if (overlap(px, py, pw, ph, m.x-size/2, m.y-size/2, size, size)) {
-                    HP -= 5;
+                    HP -= 3;
                     Phurt = true;
                 }
                 var dx = px - m.x;
@@ -15303,7 +15303,7 @@ if (level === -800){
                 if(m.red === 255 && m.green === 102 && m.blue === 0){
                     ellipse(m.x,m.y,150,150);
                     if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 150) && !Pinvincible) {
-                        HP -= 200; 
+                        HP -= 100; 
                         Phurt = true;
                     }
                 }else if(m.red === 255 && m.green === 204 && m.blue === 0){
@@ -15319,7 +15319,7 @@ if (level === -800){
                     }
                     if(yggSummon){
                         if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 100) && !Pinvincible) {
-                        HP-=100;
+                        HP-=50;
                         Phurt = true;
                     }   
                 }
@@ -16721,7 +16721,7 @@ if (level === -800){
                                 if(halfHealth){
                                     if(testFrame % 50 === 49) {
                                         var numMissiles = 18;
-                                        var altarM = 12;
+                                        var altarM = 6;
                                         var angleOffset = random() * 360 / numMissiles;
                                         for (var i = 0 ; i < numMissiles ; i++) {
                                             var angle = i * 360 / numMissiles + angleOffset;
@@ -16750,7 +16750,7 @@ if (level === -800){
                                 }else{
                                     if(testFrame % 100 === 99) {
                                         var numMissiles = 18;
-                                        var altarM = 12;
+                                        var altarM = 6;
                                         var angleOffset = random() * 360 / numMissiles;
                                         for (var i = 0 ; i < numMissiles ; i++) {
                                             var angle = i * 360 / numMissiles + angleOffset;
@@ -16791,7 +16791,7 @@ if (level === -800){
                             if(testFrame <= 500){
                                 if(testFrame % 10 === 9) {
                                     var numMissiles = 4;
-                                    var altarM = 12;
+                                    var altarM = 6;
                                     var angleOffset = random() * 360 / numMissiles;
                                     for (var i = 0 ; i < numMissiles ; i++) {
                                         var angle = i * 360 / numMissiles + angleOffset;
