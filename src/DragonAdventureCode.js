@@ -5264,7 +5264,7 @@ var doDamage = function(e, type, damage) {
         scale = 0;
     }
     if (e.mon.name === "rottenYggdrasil" && !altarDead) {
-        scale *= 0.4;
+        scale *= 0.6;
     }
     if (e.mon.name === "rottenStalk" && type === "blob cannon") {
         scale = 0.5;
