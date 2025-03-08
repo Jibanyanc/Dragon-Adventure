@@ -1838,7 +1838,7 @@ var addPoison = function(x,y,w,h) {
         y: y,
         w: w,
         h: h,
-        life: 0
+        life: -9999999999999,
     };
     poison.push(p);
     return p;
@@ -5371,14 +5371,11 @@ var doDamage = function(e, type, damage) {
     if (e.mon.name === "sirBlobsalotII" && type === "charge") {
         scale /= 4;
     }
-    if (e.mon.name === "archBlobolich" && type === "charge") {
-        scale = 0;
-    }
     if (e.mon.name === "archBlobolich" && type === "poison") {
         scale = 0;
     }
     if (e.mon.name === "archBlobolich") {
-        scale = 0.75;
+        scale *= 0.75;
     }
     if (e.mon.name === "castle" && type === "fire") {
         return;
@@ -6337,7 +6334,7 @@ draw = function() {
         fill(255, 255, 255);
         text("Dragon Adventure", 37, 80);
         textSize(15);
-        text("Version 2.9.0",10,30);
+        text("Version 2.9.1",10,30);
         if(darkMode === "ON"){
             tint(55, 55, 55, 255);
             image(player,260,100);
@@ -6595,6 +6592,9 @@ draw = function() {
     }
     //update log
     var updates = [
+    "- Nerfed Rotten Yggrasil 3/7/2025",
+    "- Fixed some bugs on the dark lord's first phase 3/7/2025",
+    "- Fixed some bugs on B10 3/7/2025",
     "- Rotten Yggrasil got a complete rework! 3/1/2025",
     "- Fixed various bugs on level 40 2/23/2025",
     "- Nerfed B10 2/23/2025",
@@ -8905,7 +8905,7 @@ if (level === -800){
         return;
     }
     if ((keyDown !== -1 && key.toString() === "k" || keyDown !== -1 && key.toString() === "K")&&level === "the end"){
-        frameRate(180);   
+        frame+=4; 
     }else{
         frameRate(60);   
     }
@@ -9690,19 +9690,46 @@ if (level === -800){
         }
         if(p.life>0){
             p.life-=1;
-            if(p.life < 100){
-                p.x+=1;
-                p.y+=1;
-                p.w-=2;
-                p.h-=2;
-                if(p.w<=0){
-                    if(level!==102&&level!=="B6"&&level!=="B7"&&level!=="B8"&&level!=="B10"){
-                        addMonster(p.x,p.y,monsters.poisonMiniBlob);
+            if(level === "B8"){
+                if(yggSummon){
+                    if(poison.length >= 3){
+                        poison[0].life -= 50;   
                     }
-                    poison.splice(i,1);
-                    i--;
-                    continue;
+                }else{
+                    if(poison.length >= 2){
+                        poison[0].life -= 50; 
+                    }
                 }
+            }
+        }
+        if(p.life < 100 && p.life > -99999999){
+            p.x+=1;
+            p.y+=1;
+            p.w-=2;
+            p.h-=2;
+            if(yggSummon){
+                if(poison.length >= 3){
+                    p.x+=2;
+                    p.y+=2;
+                    p.w-=4;
+                    p.h-=4; 
+                }
+            }else{
+                if(poison.length >= 2){
+                    poison[0].life -= 5; 
+                    p.x+=2;
+                    p.y+=2;
+                    p.w-=4;
+                    p.h-=4;
+                }
+            }
+            if(p.w<=0){
+                if(level!==102&&level!=="B6"&&level!=="B7"&&level!=="B8"&&level!=="B10"){
+                    addMonster(p.x,p.y,monsters.poisonMiniBlob);
+                }
+                poison.splice(i,1);
+                i--;
+                continue;
             }
         }
         rect(p.x,p.y,p.w,p.h);
@@ -11669,7 +11696,7 @@ if (level === -800){
                             }   
                        }
                     }
-                    if(e.x>=px+pw/2-dfire&&e.x<=px+pw/2+dfire&&e.y>=py+ph/2-dfire&e.y<=py+ph/2 + dfire&&darkCharge <= 0) {
+                    if(overlapCircle(px+pw/2, py+ph/2, e.x+pw/2, e.y+ph/2, pw, dfire*3)&&darkCharge <= 0) {
                         darkCharge = 60;
                         dtargx = px;
                         dtargy = py;
@@ -11761,8 +11788,14 @@ if (level === -800){
                             fill(82, 235, 255);
                             ellipse(e.x+e.mon.width/2,e.y+e.mon.height/2,dpound*2,dpound*2);
                             if(overlapCircle(px+pw/2, py+ph/2, e.x+e.mon.width/2, e.y+e.mon.height/2, pw, dpound*2)) {
-                                HP -= 30;
-                                stun = 50;
+                                HP -= 60;
+                                var ra = floor(random(0,2));
+                                if(ra === 1){
+                                    stun = 25;
+                                }else{
+                                    playerPoundedFrame = frame;
+                                    playerPoundedEnemy = e;
+                                }
                             }
                         }else{
                             fill(255, 255, 255);
@@ -14252,7 +14285,7 @@ if (level === -800){
                     if(frame > lastThrowFrame + 200 && es.length > 2) {
                       lastThrowFrame = frame;
                       addHPMissile(200,100, 8, 50, -2, 255, 168, 242);   
-                   }
+                    }
                     if(queenAttack === "hailstorm"){
                         if(testFrame === 60){
                             var m = addMissile(0,0,5,15,2, 82, 235, 254);
@@ -14939,7 +14972,7 @@ if (level === -800){
                 if(m.red === 97 && m.green === 81 && m.blue === 52){
                     var numMissiles = 6;
                     if(yggSummon){
-                        numMissiles = 10;   
+                        numMissiles = 8;   
                     }
                     var altarM = 5;
                     var angleOffset = random() * 360 / numMissiles;
@@ -16894,7 +16927,7 @@ if (level === -800){
                         }
                         if(yggAttack === "pollen rain"){
                             if(testFrame2 >= 60 && testFrame2 <= 600){
-                                if(frame%10 === 9) {
+                                if(frame%15 === 14) {
                                     var m = addMissile(random(50,350),50, 0, 10, 5, 255, 200, 0);
                                     m.pollen = true;
                                     m.confuse = true;
@@ -16941,7 +16974,7 @@ if (level === -800){
                                 if(frame%10 === 9) {
                                     var m = addMissile(e.x+30,e.y+random(120,300), 7, 20, 5, 97, 81, 52, false, 4000); 
                                     m.bounce = 9999999;
-                                    m.burst = floor(random(300,500));
+                                    m.burst = floor(random(200,500));
                                 }
                             }
                             if(testFrame2 >= 800){
@@ -16957,7 +16990,7 @@ if (level === -800){
                                         var m = addMissile(e.x+30,e.y+60, 15, 0, 0, 20, 20, 20); 
                                         m.bounce = 9999999;
                                         if(yggSummon){
-                                            m.burst = 200;
+                                            m.burst = 150;
                                         }else{
                                             m.burst = 100;
                                         }
@@ -18415,7 +18448,7 @@ if (level === -800){
                             if(es.length <= 2){
                                 if(blobolich === "dead"){
                                     addText(frame,"You pesky dragon! I'm out of troops!                 ", 5, 200, 150, 100, 0, 255, 0);
-                                    addText(frame+400,"I guess I'll have to fight by myself!                 ", 5, 200, 150, 100, 0, 255, 0);
+                                    addText(frame+400,"I guess I'll have to fight by myself!        ", 5, 200, 150, 100, 0, 255, 0);
                                     addText(frame+750,"Here I come!                 ",5, 200, 150, 100, 0, 255, 0);
                                 }else{
                                     addText(frame,"Hmmmm we're out of troops...                 ", 5, 200, 150, 100, 0, 255, 0);
@@ -18440,7 +18473,9 @@ if (level === -800){
                                     MP=maxMP*2;   
                                 }
                                 es.push(blobsalot);
-                                es.push(blobolich);
+                                if(blobolich !== "dead"){
+                                    es.push(blobolich);
+                                }
                             }
                         }
                     if(castleDed === false && !dying){ 
@@ -18500,7 +18535,7 @@ if (level === -800){
                 }
             }
             if(dif === 1){
-                if(testFrame2 === 3420){
+                if(frame >= 3420){
                     level = 0;
                 }
             }
@@ -18517,7 +18552,7 @@ if (level === -800){
                 }
             }
             if(dif === 0){
-                if(testFrame2 === 3420){
+                if(frame >= 3420){
                     level = 0;
                 }
             }
@@ -18534,7 +18569,7 @@ if (level === -800){
                 }
             }
             if(dif === 4){
-                if(testFrame2 === 3475){
+                if(frame >= 3475){
                     level = 0;
                 }
             }
@@ -18550,12 +18585,11 @@ if (level === -800){
                 }
             }
             if(dif === 2){
-                if(testFrame2 === 2870){
+                if(frame >= 2870){
                     level = 0;
                 }
             }
         }
-      
        //draw texts
     for (var i = 0; i < texts.length; i++){
         var t = texts[i];
@@ -19299,7 +19333,7 @@ if (level === -800){
             beginShape();
             vertex(e.x+40,e.y);
             vertex(e.x+50,e.y-25);
-x();            vertex(e.x+55,e.y+5);
+            vertex(e.x+55,e.y+5);
             endShape();
             beginShape();
             vertex(e.x+55,e.y+10);
@@ -19705,13 +19739,13 @@ x();            vertex(e.x+55,e.y+5);
                         }
                     }
                     if(e.stalkAttack === "pollen"){
-                        if(e.shootingTime >= 260){
+                        if(e.shootingTime >= 160){
                             textSize(120);
                             fill(255, 204, 0);
                             text("!",e.x+e.mon.width/3-10,e.y+e.mon.height);  
                         }
-                        if(e.shootingTime >= 300 && e.shootingTime <= 450){
-                            if(frame%5 === 4){
+                        if(e.shootingTime >= 200 && e.shootingTime <= 450){
+                            if(frame%50 === 49){
                                 var m = addMissile(e.x,e.y, 7, 20, 0, 255, 203, 0, false, 400);
                                 m.burst = 120;
                             }
@@ -20806,7 +20840,11 @@ x();            vertex(e.x+55,e.y+5);
         fill(255, 255, 255, whiteAlpha);
         rect(-10,-10,999,999); 
     }
-    
+    if(level === "the end"){
+        textSize(12);
+        fill(0, 0, 0);
+        text("hold k to speed up dialogue",10,15);   
+    }
     //check if all monsters are dead 
     
   for (var i=0 ; i < es.length; i++) {
@@ -21031,6 +21069,12 @@ x();            vertex(e.x+55,e.y+5);
             necromancers--;
         }else if (e.mon.name === "sirBlobsalotII"){
             blobsalotOut = false;
+            if(HP <= maxHP){
+                HP = maxHP;   
+            }
+            if(MP <= maxMP){
+                MP = maxMP;   
+            }
             underText = "Press k to skip the cutscene";
             underTextTime = 400;
             testFrame = -123123123;
@@ -21045,11 +21089,18 @@ x();            vertex(e.x+55,e.y+5);
             }
         }else if (e.mon.name === "archBlobolich"){
             blobolichOut = false;
+            if(HP <= 1000){
+                HP = 1000;   
+            }
+            if(MP <= 1000){
+                MP = 1000;   
+            }
             underText = "Press k to skip the cutscene";
             underTextTime = 400;
             testFrame = -123123123;
             addMonster(240, 203,monsters.dedlich);
             blobolich = "dead";
+            lichAttack = "";
             for(var j = 0; j < es.length; j++){
                 var e2 = es[j];       
                 if(e2.mon.name === "clone"){
@@ -21128,6 +21179,6 @@ x();            vertex(e.x+55,e.y+5);
 };
 `
 
-//WOAH! 20,000+ lines!?!?!?! YEEAAAAAAAAAAAAAAAAAAAAAAA LES GOOOOOOOOOOO!!!!
+//WOAH! 21,000+ lines!?!?!?! YEEAAAAAAAAAAAAAAAAAAAAAAA LES GOOOOOOOOOOO!!!!
 
 // obsta was here
