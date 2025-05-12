@@ -53,11 +53,15 @@ var backg;
 var backb;
 var firer = 60;     
 var stun = 0;
+var burn = 0;
+var frostBurn = 0;
 var decay = 0;
 var slow = 0;
 var confuse = 0;
 var doom = 0;
 var poisonFrame = 0;
+var rottenFrame = 0;
+var bittenFrame = 0;
 var superSlow = 0;
 var grab = false;
 var Phurt = false;
@@ -104,7 +108,10 @@ var tud = false;
 var tud2 = false;
 var freezeDelay = 180;
 var numinFlowers = 0;
+var showFakeLevel = false;
+var fakeLevel = floor(random(1,11));
 var poisonFlowerSummon = false;
+var countDarkAttacks = 0;
 var text1 = false;
 var text2 = false;
 var text3 = false;
@@ -147,6 +154,36 @@ var boss10 = false;
 var boss11 = false;
 var boss12 = false;
 var blobsalotText = false;
+var disable1 = 0;
+var disable2 = 0;
+var disable3 = 0;
+var disable4 = 0;
+var disable5 = 0;
+var disable6 = 0;
+var disable7 = 0;
+var disable8 = 0;
+var disable9 = 0;
+var disable10 = 0;
+var disable11 = 0;
+var disable12 = 0;
+var disable13 = 0;
+var disable14 = 0;
+var disable15 = 0;
+var code1 = "";
+var code2 = "";
+var code3 = "";
+var code4 = "";
+var code5 = "";
+var code6 = "";
+var code7 = "";
+var code8 = "";
+var code9 = "";
+var code10 = "";
+var code11 = "";
+var code12 = "";
+var code13 = "";
+var code14 = "";
+var code15 = "";
 var lichText = false;
 var skipB10 = false;
 var tR = 0;
@@ -174,11 +211,13 @@ var cycle2 = "shoot";
 var pcharge = 0;
 var pcharging = 0;
 var prep = false;
+var noMove = false;
 var teleporting = false;
 var bigSize = 0;
 var testFrame2 = 0;
 var testFrame3 = 0;
 var darkAttack = "fire";
+var lastDarkAttack = "reality tear";
 var darkCharge = 0;
 var transform = false;
 var inBonus = false;
@@ -189,6 +228,7 @@ var dfire = 100;
 var dslash = 65;
 var dpound = 80;
 var phase2 = false;
+var phase3 = false;
 var dtents = [];
 var darkLightning = false;
 var state;
@@ -203,12 +243,14 @@ var Rhandx = 999999999;
 var Rhandy = 999999999;
 var texty = 0;
 var corrupted = 0;
+var corruption = false;
 var darkMode = "OFF";
 var checkMode = false;
 var showHealth = false;
 var theOkLol = false;
 var handDamageCoolDown1;
 var handDamageCoolDown2;
+var darkLordDead = false;//change this
 var pew1x = 0;
 var pew2x = 400;
 var pewSwap = false;
@@ -296,6 +338,9 @@ var yggAttack = "poison stream";
 var yggSummon = false;
 var yggDead = false;
 var noBody = false;
+var noBodyTime = 0;
+var halfway = false;
+var quarterway = false;
 var deadPool = [];
 var necromancers = 0;
 var necroDied = false;
@@ -323,6 +368,7 @@ var rotation = 0;
 var soulAttack = 100;
 var bestx = 0;
 var besty = 10;
+var homingSaw = false;
 
 frameRate(60);
 
@@ -447,6 +493,15 @@ var monsters = {
         width: 50,
         height: 50,
         speed: 0.8,
+    },
+    Trobot : {
+        name: "Trobot",
+        image: "avatars/robot_male_1",
+        maxHp: 500,
+        damage: 1,
+        width: 50,
+        height: 50,
+        speed: 0,
     },
     crusher2000 : {
         name: "crusher2000",
@@ -880,6 +935,42 @@ var monsters = {
         height: 150,
         speed: 0,
     },
+    IT : {
+        name: "HIM",
+        image: "avatars/spunky-sam-green",
+        maxHp: 10000,
+        damage: 5,
+        width: 60,
+        height: 60,
+        speed: 1,
+    },
+    glassPillar : {
+        name: "glassPillar",
+        image: "",
+        maxHp: 1500,
+        damage: 0,
+        width: 50,
+        height: 50,
+        speed: 0,
+    },
+    weedHead : {
+        name: "weedHead",
+        image: "",
+        maxHp: 999999999,
+        damage: 0,
+        width: 0,
+        height: 0,
+        speed: 0,
+    },
+    weedHeadc : {
+        name: "weedHeadc",
+        image: "",
+        maxHp: 999999999,
+        damage: 0,
+        width: 0,
+        height: 0,
+        speed: 0,
+    },
     damageCloudPleaseIgnore : {
         name: "damageCloudPleaseIgnore",
         image: "",
@@ -1059,6 +1150,24 @@ var monsters = {
         width: 90,
         height: 90,
         speed: 0,
+    },
+    miniSandWall : {
+        name: "miniSandWall",
+        image: "",
+        maxHp: 100,
+        damage: 0,
+        width: 90,
+        height: 90,
+        speed: 0,
+    },
+    miniSandWallc : {
+        name: "miniSandWallc",
+        image: "",
+        maxHp: 100,
+        damage: 0,
+        width: 90,
+        height: 90,
+        speed: 5,
     },
     tentacle : {
         name: "tentacle",
@@ -1276,6 +1385,15 @@ var monsters = {
         height: 55,
         speed: -2,
     },
+    darkClone : {
+        name: "darkClone",
+        image: "avatars/spunky-sam-green",
+        maxHp: 999999999999,
+        damage: 5,
+        width: 60,
+        height: 60,
+        speed: 2,
+    },
     ringClone : {
         name: "ringClone",
         image: "avatars/spunky-sam",
@@ -1316,6 +1434,8 @@ var vines = [];
 var poison = [];
 //lava
 var lava = [];
+//lasers
+var lasers = [];
 
 var lines = [];
 
@@ -1340,48 +1460,93 @@ keyPressed = function() {
     if(pcharge<=0 && pcharging <=0){
          if ( keyCode === 49){
             attack = "fire";
+            if(disable1 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 50){
             attack = "lightning";
+            if(disable2 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 51){
             attack = "groundPound";
+            if(disable3 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 52){
             attack = "slash";
+            if(disable4 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 53 && (level > 10 || level === "???"|| inBonus === true)){
             attack = "blob cannon";
+            if(disable5 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 54 && (level > 20 || level === "???"|| inBonus === true)){
             attack = "stun slash";
+            if(disable6 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 55 && (level > 30 || level === "???"|| inBonus === true)){
             attack = "heal";
+            if(disable7 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 56 && (level > 40 || level === "???"|| inBonus === true)){
             attack = "freezePound";
+            if(disable8 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 57 && (level > 50 || level === "???"|| inBonus === true)){
             attack = "tentacle";
+            if(disable9 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 48 && (level > 60 || level === "???"|| inBonus === true)){
             attack = "sand pit";
+            if(disable10 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 189 && (level > 70 || level === "???"|| inBonus === true)){
             attack = "slow dart";
+            if(disable11 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 187 && (level > 80 || level === "???"|| inBonus === true)){
             attack = "poison";
+            if(disable12 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 80 && (level > 90 || level === "???"|| inBonus === true)){
             attack = "eruption";
+            if(disable13 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 219 && (level > 95 || level === "???"|| inBonus === true)){
             attack = "charge";
+            if(disable14 > 0){
+                attack = "disabled";   
+            }
          }
          if ( keyCode === 221 && (level > 100 || level === "???"|| inBonus === true)){
             attack = "restore";
+            if(disable15 > 0){
+                attack = "disabled";   
+            }
          }
          
          //check for mechanized
@@ -1470,6 +1635,114 @@ keyPressed = function() {
     }
 };
 
+var pickMove = function(){
+    countDarkAttacks++;
+    if(countDarkAttacks >= 3){
+        if(lastDarkAttack === "reality tear"){
+            darkAttack = "black hole";
+            lastDarkAttack = "black hole";
+        }else if(lastDarkAttack === "black hole"){
+            darkAttack = "corruption overload";
+            lastDarkAttack = "corruption overload";
+        }else if(lastDarkAttack === "corruption overload"){
+            darkAttack = "reality tear";
+            lastDarkAttack = "reality tear";
+        }
+        countDarkAttacks = 0;
+    }else{
+        var choose = floor(random(0,30));
+        if(choose === 0){
+            darkAttack = "ruin";   
+        }
+        if(choose === 1){
+            darkAttack = "dash";   
+        }
+        if(choose === 2){
+            darkAttack = "ancient beam";   
+        }
+        if(choose === 3){
+            darkAttack = "laser barrage";   
+        }
+        if(choose === 4){
+            darkAttack = "rocket swarm";   
+        }
+        if(choose === 5){
+            darkAttack = "emp burst";   
+        }
+        if(choose === 6){
+            darkAttack = "lightning strike";   
+        }
+        if(choose === 7){
+            darkAttack = "cyclone";   
+        }
+        if(choose === 8){
+            darkAttack = "color spray";   
+        }
+        if(choose === 9){
+            darkAttack = "blizzard";   
+        }
+        if(choose === 10){
+            darkAttack = "ice beam";   
+        }
+        if(choose === 11){
+            darkAttack = "dry ice";   
+        }
+        if(choose === 12){
+            darkAttack = "steam surge";   
+        }
+        if(choose === 13){
+            darkAttack = "wave pound";   
+        }
+        if(choose === 14){
+            darkAttack = "jet punch";   
+        }
+        if(choose === 15){
+            darkAttack = "sandstorm barrage";   
+        }
+        if(choose === 16){
+            darkAttack = "sand pile";   
+        }
+        if(choose === 17){
+            darkAttack = "sand slash";   
+        }
+        if(choose === 18){
+            darkAttack = "vine lash";   
+        }
+        if(choose === 19){
+            darkAttack = "slow darts";   
+        }
+        if(choose === 20){
+            darkAttack = "thorn burst";   
+        }
+        if(choose === 21){
+            darkAttack = "toxic cloud";   
+        }
+        if(choose === 22){
+            darkAttack = "venom wave";   
+        }
+        if(choose === 23){
+            darkAttack = "rotten poison";   
+        }
+        if(choose === 24){
+            darkAttack = "magma burst";   
+        }
+        if(choose === 25){
+            darkAttack = "eruption";   
+        }
+        if(choose === 26){
+            darkAttack = "meteor impact";   
+        }
+        if(choose === 27){
+            darkAttack = "dark missile";   
+        }
+        if(choose === 28){
+            darkAttack = "dark clone";   
+        }
+        if(choose === 29){
+            darkAttack = "phantom laser";   
+        }
+    }
+};
 var sword = function(x,y){
     fill(192,192,192);
     rect(x+7.5,y+33,3,13);
@@ -1574,6 +1847,26 @@ var magic = function(x,y,outer,inner,start,end,sides) {
     ellipse(x,y,inner,inner);
 };
 
+var saw = function(x,y,outer,inner,start,end,sides,r,g,b) {
+    fill(r,g,b);
+    beginShape();
+    var deg;
+    for (var i = 0; i < sides; i++) {
+        deg = start + (end-start) * i / sides;
+        vertex(x+cos(deg)*outer,y-sin(deg)*outer);
+
+        deg = start + (end-start) * (i+0.5) / sides;
+        vertex(x+cos(deg)*outer,y-sin(deg)*outer);
+
+        deg = start + (end-start) * (i+0.5) / sides;
+        vertex(x+cos(deg)*inner,y-sin(deg)*inner);
+
+        deg = start + (end-start) * (i+1) / sides;
+        vertex(x+cos(deg)*inner,y-sin(deg)*inner);
+    }
+    endShape();
+};
+
 var addLightning = function(x,y,time){
     var l ={
         x:x,
@@ -1610,6 +1903,41 @@ var overlap = function(x1, y1, w1, h1, x2, y2, w2, h2) {
 
 keyReleased = function() {
     keyDown = -1;
+    if(level === "no_O-o"){
+        if(keyJustPressed){
+            if(code1 === ""){
+                code1 = key.toString();
+            }else if(code2 === ""){
+                code2 = key.toString();
+            }else if(code3 === ""){
+                code3 = key.toString();
+            }else if(code4 === ""){
+                code4 = key.toString();
+            }else if(code5 === ""){
+                code5 = key.toString();
+            }else if(code6 === ""){
+                code6 = key.toString();
+            }else if(code7 === ""){
+                code7 = key.toString();
+            }else if(code8 === ""){
+                code8 = key.toString();
+            }else if(code9 === ""){
+                code9 = key.toString();
+            }else if(code10 === ""){
+                code10 = key.toString();
+            }else if(code11 === ""){
+                code11 = key.toString();
+            }else if(code12 === ""){
+                code12 = key.toString();
+            }else if(code13 === ""){
+                code13 = key.toString();
+            }else if(code14 === ""){
+                code14 = key.toString();
+            }else if(code15 === ""){
+                code15 = key.toString();
+            }
+        }   
+    }
     if ( key.toString() === " " ){
         spacePressed = false;
         blackHoleHeld = false;
@@ -1667,6 +1995,7 @@ var addMonster = function(xx,yy,mons){
         soul: 0,
         state: "attack",
         burst: 0,
+        maxBurst: 999999999,
         xpit: 4000,
         ypit: 4000,
         rx: floor(random(0,3)),
@@ -1744,6 +2073,10 @@ var addMonster = function(xx,yy,mons){
 var addMissile = function(xx,yy, speed, size, damage, red, green, blue, dark, homingTime, targetx, targety){
   var vxx = px+pw/2 - xx;  
   var vyy = py+pw/2 - yy; 
+  if(red === 0 && green === 255 && blue === 242){
+    vxx = dtargx - xx;  
+    vyy = dtargy - yy; 
+  }
   var txx;
   var tyy;
   var tlen;
@@ -1775,6 +2108,7 @@ var addMissile = function(xx,yy, speed, size, damage, red, green, blue, dark, ho
       tcheck: txx,
       tx: txx/tlen*speed,
       ty: tyy/tlen*speed,
+      time: 0,
   };
     ms.push(m);
     return m;
@@ -1822,12 +2156,16 @@ var addCloud = function(x,y,w,h) {
     clouds.push(c);
 };
 
-var addIce = function(x,y,w,h) {
+var addIce = function(x,y,w,h,l) {
+    if(l === undefined){
+        l = -9999999999999;
+    }
     var c = {
         x: x,
         y: y,
         w: w,
-        h: h
+        h: h, 
+        life: l,
     };
     ice.push(c);
 };
@@ -1842,6 +2180,40 @@ var addPoison = function(x,y,w,h) {
     };
     poison.push(p);
     return p;
+};
+
+var addLaser = function(e, time, dmg, targetx, targety, r, g, b, special, sx, sy, rec) {
+    var targx = px+pw/2;
+    var targy = py+ph/2;
+    if(targety !== undefined){
+        targx = targetx;
+        targy = targety;
+    }
+    var recursive;
+    if(rec === undefined){
+        recursive = 1;
+    }else{
+        recursive = rec;   
+    }
+    var l = {
+        e: e,
+        x: targx,
+        y: targy,
+        xtarg: targx,
+        ytarg: targy,
+        shoot: time,
+        dmg: dmg,
+        r: r,
+        g: g,
+        b: b,
+        special: special,
+        sx: sx,
+        sy: sy,
+        rec: recursive,
+        calculated: false,
+    };
+    lasers.push(l);
+    return l;
 };
 
 var addLava = function(x,y,w,h) {
@@ -2076,6 +2448,12 @@ var runPlant = function( e ) {
         if(e.mon.name === "rottenYggdrasil"){
             e.charge += 15;
         }
+        if(e.mon.name === "weedHead"){
+            e.charge += 2;
+        }
+        if(e.mon.name === "weedHeadc"){
+            e.charge += 2;
+        }
         if(e.mon.name === "ironweedHydra1"){
             if (e.charge > 250) {
                 // start retracting
@@ -2103,12 +2481,19 @@ var runPlant = function( e ) {
             }
         }
     } else if (e.charge < 0) {
+        if(e.mon.name === "weedHeadc"){
+            addMonster(e.x + cos(e.mouthDir) * abs(e.charge), e.y + sin(e.mouthDir) * abs(e.charge),monsters.weedHead);
+            e.dead = true;  
+        }
         // Negative charge are slowly retracting
         e.charge += 2;
         if(e.mon.name === "rottenYggdrasil"){
             e.charge += 5;
         }
         if (e.charge > 0) {
+            if(e.mon.name === "weedHead"){
+                e.dead = true;  
+            }
             e.charge = 0;
         }
     }
@@ -2205,6 +2590,10 @@ var runPlant = function( e ) {
         fill(49, 6, 102);
     }else if (e.mon.name === "weed"){
         fill(6, 102, 16);
+    }else if (e.mon.name === "weedHead"){
+        fill(6, 102, 16);
+    }else if (e.mon.name === "weedHeadc"){
+        fill(0, 54, 5);
     }else if (e.mon.name === "nightshade"){
         fill(0, 0, 0);
     }else if (e.mon.name === "ironweedHydra1"){
@@ -2320,7 +2709,7 @@ StartLevel = function() {
     }else{
         inBonus = false;   
     }
-    if((level === 102 || level === "???") && (talked||phase2)){
+    if((level === 102 || level === "???" || level === 103) && (talked||phase2)){
         if(level !== "???"){
             talked = true;
             transform = true; 
@@ -2333,6 +2722,7 @@ StartLevel = function() {
         talked = false;
         transform = false;
     }
+    corruption = false;
     if(level === "???" && talked){
         darknessAlpha = 0;   
     }else if(level === "???" && !talked){
@@ -2357,6 +2747,7 @@ StartLevel = function() {
     lichAttack = "illusion ring";
     halfHealth = false;
     necromancers = 0;
+    phase3 = false;
     pew1x = 0;
     pew2x = 400;
     pewSwap = false;
@@ -2372,6 +2763,8 @@ StartLevel = function() {
     fire = 0;
     xfire = 0;
     yfire = 0;
+    halfway = false;
+    quarterway = false;
     deadPool = [];
     arrLight = [];
     arrSlash = [];
@@ -2387,6 +2780,7 @@ StartLevel = function() {
     blobsalotDmg = 0;
     blobolichDmg = 0;
     shoot = 0;
+    homingSaw = false;
     targx = px;
     targy = py;
     catax = px;
@@ -2395,6 +2789,7 @@ StartLevel = function() {
     swiped = 0;
     dfire = 100;
     noBody = false;
+    noBodyTime = 0;
     dpound = 80;
     ontop = false;
     soulLink = 0;
@@ -2456,6 +2851,7 @@ StartLevel = function() {
     prey = 0;
     pcharge = 0;
     pcharging = 0;
+    noMove = false;
     prep = false;
     hurt = 0;
     tintr = 300;
@@ -2464,6 +2860,23 @@ StartLevel = function() {
     ginc = false;
     tintb = 100;
     binc = false;
+    disable1 = 0;
+    disable2 = 0;
+    disable3 = 0;
+    disable4 = 0;
+    disable5 = 0;
+    disable6 = 0;
+    disable7 = 0;
+    disable8 = 0;
+    disable9 = 0;
+    disable10 = 0;
+    disable11 = 0;
+    disable12 = 0;
+    disable13 = 0;
+    disable14 = 0;
+    disable15 = 0;
+    countDarkAttacks = 0;
+    lastDarkAttack = "reality tear";
     darkSummon = "world1";
     charge = false;
     statsyInc = 0;
@@ -2485,6 +2898,11 @@ StartLevel = function() {
     }
     if(level === "???"){
         darkAttack = "blob cannon";
+    }else if(level === 103){
+        darkAttack = "laser";
+        if(phase2){
+            darkAttack = "ruin";
+        }
     }else{
         if(!phase2){
             darkAttack = "fire";
@@ -2591,6 +3009,7 @@ StartLevel = function() {
     vines = [];
     poison = [];
     lava = [];
+    lasers = [];
     texts = [];
     if(level === "???" || level === "angel" || level === "the end"){
         lines= [
@@ -2780,6 +3199,13 @@ StartLevel = function() {
         lines = lines.concat([
         ]);
     }
+    else if (level === 103) {
+        backr = 102;
+        backg = 97;
+        backb = 97;
+        lines = lines.concat([
+        ]);
+    }
     else if (level === "???") {
         backr = 102;
         backg = 97;
@@ -2872,12 +3298,16 @@ StartLevel = function() {
     ms = [];
     blocks = [];
     stun = -240;
+    frostBurn = 0;
+    burn = 0;
     bitten = false;
     slow = 0;
     confuse = 0;
     doom = 0;
     superSlow = 0;
     poisonFrame = 0;
+    rottenFrame = 0;
+    bittenFrame = 0;
     grab = false;
     crusherswap = false;
     if(level === "???"){
@@ -4157,6 +4587,13 @@ StartLevel = function() {
         maxMP = 600;
         addMonster( 308, 190, monsters.darkLord);
      }
+     if(level === 103){
+        px = 20;
+        py = 195;
+        maxHP = 1000;
+        maxMP = 1000;
+        addMonster( 308, 190, monsters.IT); 
+     }
      if(level === "???"){
         px = 175;
         py = 195;
@@ -4419,7 +4856,7 @@ var DrawLines = function() {
 var HitEnemies = function(tryX, tryY, eNum) {
     for ( var i = 0 ; i < es.length ; i++ ) {
         var e = es[i];
-        if(e.mon.name === "kingBlob"||e.mon.name === "confuseClone"||e.mon.name === "necromancer"||e.mon.name === "nightshade"||e.mon.name === "ironweedHydra1"||e.mon.name === "ironweedHydra2"||e.mon.name === "ironweedHydra3"||e.mon.name === "spore"||e.mon.name === "apocalypseKraken" || e.mon.name === "poisonFlower" || e.mon.name === "miniPoisonFlower"||e.mon.name === "dedalot"||e.mon.name === "dedmancer"||e.mon.name === "dedalotII"||e.mon.name === "dedlich"||e.undead) {
+        if(e.mon.name === "kingBlob"||e.mon.name === "confuseClone"||e.mon.name==="Trobot"||e.mon.name === "necromancer"||e.mon.name === "nightshade"||e.mon.name === "ironweedHydra1"||e.mon.name === "ironweedHydra2"||e.mon.name === "ironweedHydra3"||e.mon.name === "spore"||e.mon.name === "apocalypseKraken" || e.mon.name === "poisonFlower" || e.mon.name === "miniPoisonFlower"||e.mon.name === "dedalot"||e.mon.name === "dedmancer"||e.mon.name === "dedalotII"||e.mon.name === "dedlich"||e.undead) {
          continue;   
         }
         if (i !== eNum) {
@@ -4460,7 +4897,7 @@ var doDamage = function(e, type, damage) {
             e.sap-=damage/2;
         }
     }
-    if (type === "stun slash" && e.mon.name !== "rainbowBlob"&& e.mon.name!=="livingTornado"&& e.mon.name!=="livingBlizzard" && e.mon.name !== "thrym" && e.mon.name !== "frozenWarrior" && e.mon.name !== "frozenDefender" && e.mon.name !== "sandWall" && e.mon.name !== "tentacle" && e.mon.name !== "tent" && e.mon.name !== "vampireMosquito") {
+    if (type === "stun slash" && e.mon.name !== "rainbowBlob"&& e.mon.name!=="livingTornado"&& e.mon.name!=="livingBlizzard" && e.mon.name !== "thrym" && e.mon.name !== "frozenWarrior" && e.mon.name !== "frozenDefender" && e.mon.name !== "sandWall" && e.mon.name !== "miniSandWall" && e.mon.name !== "miniSandWallc" && e.mon.name !== "tentacle" && e.mon.name !== "tent" && e.mon.name !== "vampireMosquito"&& e.mon.name !== "HIM") {
         if(e.mon.name === "darkLord" || e.mon.name === "ULTRAMech"){
             e.stun = frame+8;  
         }else{
@@ -4474,7 +4911,7 @@ var doDamage = function(e, type, damage) {
     if (type === "slow dart" && e.mon.name !== "ghostBlob"&& e.mon.name !== "livingTornado" && e.mon.name !== "rainbowBlob"&& e.mon.name!=="livingBlizzard") {
         e.slow = frame+450;   
     }
-    if (type === "freezePound" && e.mon.name !== "rainbowBlob"&& e.mon.name!=="livingTornado"&& e.mon.name!=="livingBlizzard" && e.mon.name !== "thrym"&& e.mon.name !== "sandWall"&& e.mon.name !== "tentacle" && e.mon.name !== "tent") {
+    if (type === "freezePound" && e.mon.name !== "rainbowBlob"&& e.mon.name!=="livingTornado"&& e.mon.name!=="livingBlizzard" && e.mon.name !== "thrym"&& e.mon.name !== "sandWall"&& e.mon.name !== "miniSandWall" && e.mon.name !== "miniSandWallc" && e.mon.name !== "tentacle" && e.mon.name !== "tent" && e.mon.name !== "HIM") {
         if(e.mon.name === "darkLord" || e.mon.name === "ULTRAMech"&& e.mon.name !== "frozenWarrior" && e.mon.name !== "frozenDefender"){
             e.freeze = frame+16;  
         }else{
@@ -4498,6 +4935,12 @@ var doDamage = function(e, type, damage) {
         return;
     }
     if (e.mon.name === "Trobot" && type === "lightning") {
+        scale = 2;
+    }
+    if (e.mon.name === "Trobot" && type === "poison") {
+        return;
+    }
+    if (e.mon.name === "Trobot" && type === "stun slash") {
         scale = 2;
     }
     if (e.mon.name === "fireBlob" && type === "fire") {
@@ -4544,6 +4987,12 @@ var doDamage = function(e, type, damage) {
     }
     if (e.mon.name === "glassBlob" && (type === "groundPound" || type === "freezePound")) {
         damage = 500;
+    }
+    if (e.mon.name === "glassPillar" && (type === "groundPound" || type === "freezePound")) {
+        damage += 500;
+    }
+    if (e.mon.name === "glassPillar" && type === "eruption") {
+        damage *= 5;
     }
     if (e.mon.name === "sandKing" && type === "groundPound") {
         return;
@@ -4828,6 +5277,21 @@ var doDamage = function(e, type, damage) {
     }
     if (e.mon.name === "darkLord" && !talked) {
         scale /= 4;
+    }
+    if (e.mon.name === "HIM" && type === "charge") {
+        scale /= 4;
+    }
+    if (e.mon.name === "HIM" && type === "poison") {
+        scale = 0;
+    }
+    if (e.mon.name === "HIM" && type === "sand pit") {
+        return;
+    }
+    if (e.mon.name === "HIM" && phase2) {
+        scale /= 2;
+    }
+    if (e.mon.name === "HIM" && !talked) {
+        scale /= 10;
     }
     if (e.mon.name === "ULTRAMech" && type === "fire") {
         return;
@@ -5583,13 +6047,19 @@ var doDamage = function(e, type, damage) {
     if(e.mon.name === "ruinedAltar"){
         mechanize -= damage;   
     }
+    if(e.mon.name === "HIM"){
+        mechanize -= damage;   
+    }
     if(e.mon.name === "tentacle" && tentDamaged !== 0){
         e.hp+=damage;
     }
     if (e.hp >= e.mon.maxHp && e.mon.name !== "bigMosquito" && e.mon.name !== "vampireMosquito"){
         e.hp = e.mon.maxHp;   
     }
-    if (e.hp < 0 && e.mon.name !== "sirBlobsalotII" && e.mon.name !== "archBlobolich") {
+    if (e.hp < 0 && e.mon.name !== "sirBlobsalotII" && e.mon.name !== "archBlobolich" && e.mon.name !== "HIM") {
+        e.hp = 0;   
+    }
+    if (e.hp < 0 && e.mon.name === "HIM" && !phase2) {
         e.hp = 0;   
     }
     
@@ -5678,7 +6148,7 @@ var doAttackBox = function(x,y,w,h,type,damage) {
 };
 
 var EnemyMoveOk = function(tryx, tryy, i, e) {
-    if(e.mon.name === "frostBeast"||e.mon.name === "sandKing"){
+    if(e.mon.name === "frostBeast"||e.mon.name === "sandKing"||e.mon.name === "HIM"||e.mon.name === "miniSandWallc"||e.mon.name === "darkClone"){
         return !HitLines(tryx,tryy,e.mon.width,e.mon.height) && !hitBlocks(tryx,tryy,e.mon.width,e.mon.height);
     }else{
         return !HitLines(tryx,tryy,e.mon.width,e.mon.height) && !HitEnemies(tryx, tryy, i) && !hitBlocks(tryx,tryy,e.mon.width,e.mon.height);
@@ -5725,6 +6195,90 @@ var MoveMonster = function(i) {
       if(e.mon.name === "thrym" && (thrymAttack === "freezePound"||thrymAttack === "absolute 0"||thrymAttack === "rest")){
             speed = 0;
         }
+        if(e.mon.name === "HIM"){
+            if(e.dash){
+                speed *= 2.5;   
+            }
+            if(!talked || noMove){
+                speed = 0;   
+            }
+            if(darkAttack === "saw"){
+                for(var j = 0; j < ms.length; j++){
+                    var m = ms[j];
+                    if(m.red === 8 && m.green === 8 && m.blue === 8){
+                        if(e.slow > frame){
+                            if(tryx<px-stop) {
+                                m.x+=speed/3;   
+                            }
+                            if(tryx>px+stop) {
+                                m.x-=speed/3;   
+                            }
+                            if(tryy<py-stop) {
+                                m.y+=speed/3;   
+                            }
+                            if(tryy>py + stop) {
+                                m.y-=speed/3;   
+                            }
+                        }else{
+                            if(tryx<px-stop) {
+                                m.x+=speed;   
+                            }
+                            if(tryx>px+stop) {
+                                m.x-=speed;   
+                            }
+                            if(tryy<py-stop) {
+                                m.y+=speed;   
+                            }
+                            if(tryy>py + stop) {
+                                m.y-=speed;   
+                            }
+                        }
+                        if( ((e.hitType === "groundPound" && e.hitFrame > frame - 30) || (e.hitType === "slash" && e.hitFrame > frame - 5) || (e.hitType === "tentacle" && e.hitFrame > frame - 10)||(e.hitType === "eruption" && e.hitFrame > frame - 50))) {
+                            if(e.x<px) {
+                                tryx=e.x - speed * 6;
+                            }
+                            if(e.x>px) {
+                                tryx=e.x + speed * 6;
+                            }
+                            if(e.y<py) {
+                                tryy=e.y - speed * 6;   
+                            }
+                            if(e.y>py) {
+                                tryy=e.y + speed * 6;   
+                            }
+                            if(EnemyMoveOk( tryx, tryy, i, e)) {
+                                if(e.x<px) {
+                                    m.x=m.x - speed * 6;
+                                }
+                                if(e.x>px) {
+                                    m.x=m.x + speed * 6;
+                                }
+                                if(e.y<py) {
+                                    m.y=m.y - speed * 6;   
+                                }
+                                if(e.y>py) {
+                                    m.y=m.y + speed * 6;   
+                                }
+                            }else if(EnemyMoveOk( e.x, tryy, i, e)){
+                                if(e.y<py) {
+                                    m.y=m.y - speed * 6;   
+                                }
+                                if(e.y>py) {
+                                    m.y=m.y + speed * 6;   
+                                }
+                            }else if(tryx!==e.x && EnemyMoveOk( tryx, e.y, i, e)) {
+                                if(e.x<px) {
+                                    m.x=m.x - speed * 6;
+                                }
+                                if(e.x>px) {
+                                    m.x=m.x + speed * 6;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
       if(e.mon.name === "ULTRAMech"){
             if(e.state === "defense"){
                 speed/=2;   
@@ -5769,7 +6323,7 @@ var MoveMonster = function(i) {
       if((darkAttack === "blob cannon"||darkAttack === "tentacle"||darkAttack === "lightning") && e.mon.name === "darkLord"){
             speed = speed*-2;   
         }
-      if(e.slow > frame){
+      if(e.slow > frame && !e.dash){
         if(e.mon.name === "mosquito" || e.mon.name === "infestedMosquito"|| e.mon.name === "scarab"){
             if(tryx<px+pw/2-stop) {
                 tryx+=speed/3;   
@@ -6012,6 +6566,17 @@ var MoveMonster = function(i) {
             }else if(e.ry === 2){
                 tryy-=speed;   
             }
+        }else if(e.mon.name === "miniSandWallc"||e.mon.name === "darkClone"){
+            if(e.rx === 1){
+                tryx+=speed;
+            }else if(e.rx === 2){
+                tryx-=speed;   
+            }
+            if(e.ry === 1){
+                tryy+=speed;
+            }else if(e.ry === 2){
+                tryy-=speed;   
+            }
         }else if(e.mon.name === "bodySnatcher" && noBody && !e.hasBody){
             for(var j = 0; j < es.length; j++){
                 var e2 = es[j];
@@ -6038,21 +6603,63 @@ var MoveMonster = function(i) {
             }
         }else{
             if(tryx<px-stop) {
-                tryx+=speed;   
+                tryx+=speed;
+                //right
+                e.dir = "right";
             }
             if(tryx>px+stop) {
                 tryx-=speed;   
+                //left
+                e.dir = "left";
             }
             if(tryy<py-stop) {
                 tryy+=speed;   
+                //down
+                if(e.dir === "right"){
+                    e.dir = "down right";
+                }else if(e.dir === "left"){
+                    e.dir = "down left";
+                }else{
+                    e.dir = "down";
+                }
             }
             if(tryy>py + stop) {
-                tryy-=speed;   
+                tryy-=speed; 
+                //up
+                if(e.dir === "right"){
+                    e.dir = "up right";
+                }else if(e.dir === "left"){
+                    e.dir = "up left";
+                }else{
+                    e.dir = "up";
+                }
             }
+            if(e.pastDir !== e.dir && e.dash && corruption && darkAttack === "dash" && e.mon.name === "HIM"){
+                if(e.dir === "right" || e.dir === "left"){
+                    addLaser(e, 45,75, e.x+e.mon.width/2+50, e.y+e.mon.height/2, 230, 0, 255, "stationary");
+                    addLaser(e, 45,75, e.x+e.mon.width/2-50, e.y+e.mon.height/2, 230, 0, 255, "stationary");
+                }else if(e.dir === "up" || e.dir === "down"){
+                    addLaser(e, 45,75, e.x+e.mon.width/2, e.y+e.mon.height/2-50, 230, 0, 255, "stationary");
+                    addLaser(e, 45,75, e.x+e.mon.width/2, e.y+e.mon.height/2+50, 230, 0, 255, "stationary");
+                }else if(e.dir === "up right" || e.dir === "down left"){
+                    addLaser(e, 45,75, e.x+e.mon.width/2+50, e.y+e.mon.height/2-50, 230, 0, 255, "stationary");
+                    addLaser(e, 45,75, e.x+e.mon.width/2-50, e.y+e.mon.height/2+50, 230, 0, 255, "stationary");
+                }else if(e.dir === "up left" || e.dir === "down right"){
+                    addLaser(e, 45,75, e.x+e.mon.width/2-50, e.y+e.mon.height/2-50, 230, 0, 255, "stationary");
+                    addLaser(e, 45,75, e.x+e.mon.width/2+50, e.y+e.mon.height/2+50, 230, 0, 255, "stationary");
+                }
+            }
+            e.pastDir = e.dir;
         }
       }
       if(e.mon.name === "livingTornado"){
         e.hitFrame -= 5;  
+      }
+      if(e.mon.name === "HIM"){
+        e.hitFrame -= 5; 
+      }
+      if(e.mon.name === "HIM" && e.dash){
+        e.hitFrame -= 25; 
       }
       if(e.mon.name === "livingBlizzard"){
         e.hitFrame -= 2;  
@@ -6108,7 +6715,7 @@ var MoveMonster = function(i) {
           }
         
       }
-      if(EnemyMoveOk( tryx, tryy, i, e)||e.mon.name === "ghostBlob"||e.mon.name === "demon" || e.mon.name==="inkBlob") {
+      if(EnemyMoveOk( tryx, tryy, i, e)||e.mon.name === "ghostBlob"||e.mon.name === "demon" || e.mon.name==="inkBlob"||e.ghost) {
           if(e.mon.name === "sirBlobsalot"){
             if(talked && (!charge || charging > 180)&&spin!==0){
                 e.x = tryx;
@@ -6287,6 +6894,7 @@ draw = function() {
     }
     mouseWasPressed = mouseIsPressed;
     Phurt = false;
+    noMove = false;
     tR--;
     if(tR < 0){
         tR = 0;   
@@ -6329,12 +6937,13 @@ draw = function() {
     }
     //main menu
     if (level === 0) {
+        showFakeLevel = false;
         background(102, 97, 97);
         textSize(40);
         fill(255, 255, 255);
         text("Dragon Adventure", 37, 80);
         textSize(15);
-        text("Version 2.9.1",10,30);
+        text("Version 3.0.0",10,30);
         if(darkMode === "ON"){
             tint(55, 55, 55, 255);
             image(player,260,100);
@@ -6539,7 +7148,149 @@ draw = function() {
         if (addButton("Menu", 5, 5, 0, 30)) {
             level = 0;
         }
+        textSize(5);
+        if (addButton("🔒", 382, 335, 15, 15)) {
+            level = "no_O-o";
+        }
         return;
+    }
+    if(level === "no_O-o"){
+        underTextTime--;
+        background(102, 97, 97);
+        textSize(16);
+        fill(255, 255, 255, underTextTime);
+        text("ErrOROrr", 155,150);
+        fill(255, 255, 255);
+        textSize(20);
+        text("THE CODE:", 135,120);
+        if(code1 === ""){
+            text("_",60,220);
+        }else{
+            text("*",60,220);   
+        }
+        if(code2 === ""){
+            text("_",75,220);
+        }else{
+            text("*",75,220);   
+        }
+        if(code3 === ""){
+            text("_",90,220);
+        }else{
+            text("*",90,220);   
+        }
+        if(code4 === ""){
+            text("_",105,220);
+        }else{
+            text("*",105,220);   
+        }
+        if(code5 === ""){
+            text("_",120,220);
+        }else{
+            text("*",120,220);   
+        }
+        if(code6 === ""){
+            text("_",135,220);
+        }else{
+            text("*",135,220);   
+        }
+        if(code7 === ""){
+            text("_",210,220);
+        }else{
+            text("*",210,220);   
+        }
+        if(code8 === ""){
+            text("_",225,220);
+        }else{
+            text("*",225,220);   
+        }
+        if(code9 === ""){
+            text("_",240,220);
+        }else{
+            text("*",240,220);   
+        }
+        if(code10 === ""){
+            text("_",255,220);
+        }else{
+            text("*",255,220);   
+        }
+        if(code11 === ""){
+            text("_",270,220);
+        }else{
+            text("*",270,220);   
+        }
+        if(code12 === ""){
+            text("_",285,220);
+        }else{
+            text("*",285,220);   
+        }
+        if(code13 === ""){
+            text("_",300,220);
+        }else{
+            text("*",300,220);   
+        }
+        if(code14 === ""){
+            text("_",315,220);
+        }else{
+            text("*",315,220);   
+        }
+        if(code15 === ""){
+            text("_",330,220);
+        }else{
+            text("*",330,220);   
+        }
+        if(darkLordDead){
+            textSize(15);
+            fill(174, 92, 255);
+            pushMatrix();
+            var r = random(-1,1);
+            translate(120+r,340+r);
+            rotate(-20);
+            text("MODERN MACHINERY",0,0);
+            popMatrix();
+        }
+        if(code15 !== ""){
+            if((code1 === "m" || code1 === "M")&&(code2 === "o" || code2 === "O")&&(code3 === "d" || code3 === "D")&&(code4 === "e" || code4 === "E")&&(code5 === "r" || code5 === "R")&&(code6 === "n" || code6 === "N")&&(code7 === "m" || code7 === "M")&&(code8 === "a" || code8 === "A")&&(code9 === "c" || code9 === "C")&&(code10 === "h" || code10 === "H")&&(code11 === "i" || code11 === "I")&&(code12 === "n" || code12 === "N")&&(code13 === "e" || code13 === "E")&&(code14 === "r" || code14 === "R")&&(code15 === "y" || code15 === "Y")){
+                level = 103;
+                StartLevel();
+            }else{
+                underTextTime = 400;
+                code1 = "";
+                code2 = "";
+                code3 = "";
+                code4 = "";
+                code5 = "";
+                code6 = "";
+                code7 = "";
+                code8 = "";
+                code9 = "";
+                code10 = "";
+                code11 = "";
+                code12 = "";
+                code13 = "";
+                code14 = "";
+                code15 = "";   
+            }
+        }
+        if (addButton("Back", 5, 355, 0, 30)) {
+            level = -3;
+        }
+        return;
+    }else{
+        code1 = "";
+        code2 = "";
+        code3 = "";
+        code4 = "";
+        code5 = "";
+        code6 = "";
+        code7 = "";
+        code8 = "";
+        code9 = "";
+        code10 = "";
+        code11 = "";
+        code12 = "";
+        code13 = "";
+        code14 = "";
+        code15 = "";   
     }
     if (level === -4) {
         background(102, 97, 97);
@@ -6592,6 +7343,8 @@ draw = function() {
     }
     //update log
     var updates = [
+    "- Version 3.0 is out! Dragon Adventure is done! 3/7/2025",
+    "- He has come... 5/12/2025",
     "- Nerfed Rotten Yggrasil 3/7/2025",
     "- Fixed some bugs on the dark lord's first phase 3/7/2025",
     "- Fixed some bugs on B10 3/7/2025",
@@ -9130,6 +9883,112 @@ if (level === -800){
      ropound += 1;
      kingBlobBurst -= 1;
      chargeText -= 1;
+     noBodyTime -= 1;
+     disable1--;
+     if(disable1 > 1000){
+        disable1 = 1000;   
+     }
+     disable2--;
+     if(disable2 > 1000){
+        disable2 = 1000;   
+     }
+     disable3--;
+     if(disable3 > 1000){
+        disable3 = 1000;   
+     }
+     disable4--;
+     if(disable4 > 1000){
+        disable4 = 1000;   
+     }
+     disable5--;
+     if(disable5 > 1000){
+        disable5 = 1000;   
+     }
+     disable6--;
+     if(disable6 > 1000){
+        disable6 = 1000;   
+     }
+     disable7--;
+     if(disable7 > 1000){
+        disable7 = 1000;   
+     }
+     disable8--;
+     if(disable8 > 1000){
+        disable8 = 1000;   
+     }
+     disable9--;
+     if(disable9 > 1000){
+        disable9 = 1000;   
+     }
+     disable10--;
+     if(disable10 > 1000){
+        disable10 = 1000;   
+     }
+     disable11--;
+     if(disable11 > 1000){
+        disable11 = 1000;   
+     }
+     disable12--;
+     if(disable12 > 1000){
+        disable12 = 1000;   
+     }
+     disable13--;
+     if(disable13 > 1000){
+        disable13 = 1000;   
+     }
+     disable14--;
+     if(disable14 > 1000){
+        disable14 = 1000;   
+     }
+     disable15--;
+     if(disable15 > 1000){
+        disable15 = 1000;   
+     }
+     if(disable1 < 0){
+        disable1 = 0;   
+     }
+     if(disable2 < 0){
+        disable2 = 0;   
+     }
+     if(disable3 < 0){
+        disable3 = 0;   
+     }
+     if(disable4 < 0){
+        disable4 = 0;   
+     }
+     if(disable5 < 0){
+        disable5 = 0;   
+     }
+     if(disable6 < 0){
+        disable6 = 0;   
+     }
+     if(disable7 < 0){
+        disable7 = 0;   
+     }
+     if(disable8 < 0){
+        disable8 = 0;   
+     }
+     if(disable9 < 0){
+        disable9 = 0;   
+     }
+     if(disable10 < 0){
+        disable10 = 0;   
+     }
+     if(disable11 < 0){
+        disable11 = 0;   
+     }
+     if(disable12 < 0){
+        disable12 = 0;   
+     }
+     if(disable13 < 0){
+        disable13 = 0;   
+     }
+     if(disable14 < 0){
+        disable14 = 0;   
+     }
+     if(disable15 < 0){
+        disable15 = 0;   
+     }
      if(kingBlobBurst < 0){
         kingBlobBurst = 0;   
      }
@@ -9210,6 +10069,8 @@ if (level === -800){
             }
         }   
     }
+    burn -= 1;
+    frostBurn -= 1;
     stun -= 1;
     slow -= 1;
     confuse -= 1;
@@ -9221,7 +10082,164 @@ if (level === -800){
     if(doom >= 9000){
         HP = 0;   
     }
+    
     background(backr, backg, backb);
+    //fake level background
+    if(showFakeLevel){
+        if(fakeLevel === "NaN"){
+            backr = 0;
+            backg = 0;
+            backb = 0;
+            corruption = true;
+        }
+        if(fakeLevel >= 1 && fakeLevel < 11){
+            if(corruption){
+                background(72, 67, 67);
+            }else{
+                background(102, 97, 97);
+            }
+            line(100,50,100,200);
+            line(100,200,200,200);
+            line(200,200,200,50);
+            line(220,400,220,320);
+            line(220,320,300,320);
+            line(300,320,300,400);
+        }
+        if(fakeLevel >= 11 && fakeLevel < 21){
+            if(corruption){
+                background(42, 17, 0);
+            }else{
+                background(82, 49, 0);
+            }
+            line(0,275,150,275);
+            line(150,275,150,400);
+            line(250,50,250,175);
+            line(250,175,400,175);
+            if(corruption){
+                fill(36, 6, 0);
+            }else{
+                fill(66, 36, 3);
+            }
+            rect(150,50,100,175);
+            rect(150,225,100,175);
+        }
+        if(fakeLevel >= 21 && fakeLevel < 31){
+            if(corruption){
+                background(36,164,215);
+            }else{
+                background(66,194,245);
+            }
+            if(corruption){
+                fill(122, 45, 128);
+            }else{
+                fill(255, 255, 255);
+            }
+            ellipse(70,350,120,70);
+            ellipse(70,100,120,70);
+            ellipse(330,100,120,70);
+            ellipse(330,350,120,70);
+            ellipse(205,225,240,140);
+        }
+        if(fakeLevel >= 31 && fakeLevel < 41){
+            if(corruption){
+                background(101,152,222);
+            }else{
+                background(131,182,252);
+            }
+            fill(138, 216, 255);
+            rect(0,319,200,80);
+            rect(314,150,85,249);
+            rect(0,50,85,85);
+            rect(154,150,160,85);   
+        }
+        if(fakeLevel >= 41 && fakeLevel < 51){
+            if(corruption){
+                background(0, 0, 107);
+                fill(71, 71, 71);
+                rect(100,250,200,150);
+                fill(138, 138, 138);
+                rect(0,10,200,150);
+                fill(194, 194, 194);
+                rect(300,50,100,110);
+            }else{
+                background(0,13,255);
+                fill(255, 0, 0);
+                rect(100,250,200,150);
+                fill(0,255,106);
+                rect(0,10,200,150);
+                fill(0, 208, 255);
+                rect(300,50,100,110);
+            }
+        }
+        if(fakeLevel >= 51 && fakeLevel < 61){
+            if(corruption){
+                background(151, 115, 0);
+            }else{
+                background(181,145,0);
+            }
+            line(125,300,125,150);
+            line(125,300,275,300);
+            line(125,150,275,150);
+            line(275,150,275,300);
+        }
+        if(fakeLevel >= 61 && fakeLevel < 71){
+            if(corruption){
+                background(2, 128, 0);
+            }else{
+                background(32,158,0);
+            }
+            fill(44, 94, 0);
+            rect(0, 200, 400, 20);
+            rect(200, 0, 20, 200);
+            rect(300, 200, 20, 200);
+            rect(100, 200, 20, 200);
+        }
+        if(fakeLevel >= 71 && fakeLevel < 81){
+            if(corruption){
+                background(78,0,136);
+            }else{
+                background(108,0,166);
+            }
+            fill(79, 0, 158);
+            rect(0,50,100,100);
+            rect(100,50,100,170);
+            rect(200,220,80,80);
+            rect(320,50,80,80);
+            rect(0,320,80,80);
+        }
+        if(fakeLevel >= 81 && fakeLevel < 91){
+            if(corruption){
+                background(78,33,6);
+            }else{
+                background(108,63,36);
+            }
+            fill(181, 0, 0);
+            rect(0,170,200,100);
+            rect(300,50,100,100);
+            rect(320,320,80,80);
+            rect(0,50,80,80);
+            rect(0,320,80,80);
+        }
+        if(fakeLevel >= 91 && fakeLevel < 104){
+            if(corruption){
+                background(72, 67, 67);
+                var R = 200;
+                stroke(0, 0, 0);
+                noFill();
+                strokeWeight(1200);
+                ellipse(px + pw/2, py + ph/2, R + 1200 + soul, R + 1200+soul);
+                
+                fill(255, 255, 255);
+                strokeWeight(1);
+            }else{
+                background(102, 97, 97);
+            }
+            line(125,300,125,150);
+            line(125,300,275,300);
+            line(125,150,275,150);
+            line(275,150,275,300);
+        }
+    }
     //draw pit
     if (level === 60) {
         var pitStart = 1200;
@@ -9685,6 +10703,9 @@ if (level === -800){
             fill(79, 0, 158);
         }
         var p = poison[i];
+        if(p.rottenPoison){
+            fill(46, 0, 92);
+        }
         if(p.life >9999999){
             fill(43, 255, 0);   
         }
@@ -9700,6 +10721,21 @@ if (level === -800){
                         poison[0].life -= 50; 
                     }
                 }
+            }
+        }
+        if(p.shoot && p.life <= 1000){
+            if(p.life%100===99){
+                p.x+=25;
+                p.y+=25;
+                p.w-=50;
+                p.h-=50;
+                var m = addMissile(p.x+p.w/2,p.y+p.h/2,10,15,0,46, 0, 92);
+                m.rottenPoison = true;
+            }
+            if(p.w<=0){
+                poison.splice(i,1);
+                i--;
+                continue;
             }
         }
         if(p.life < 100 && p.life > -99999999){
@@ -9724,7 +10760,7 @@ if (level === -800){
                 }
             }
             if(p.w<=0){
-                if(level!==102&&level!=="B6"&&level!=="B7"&&level!=="B8"&&level!=="B10"){
+                if(level!==102&&level!==103&&level!=="B6"&&level!=="B7"&&level!=="B8"&&level!=="B10"){
                     addMonster(p.x,p.y,monsters.poisonMiniBlob);
                 }
                 poison.splice(i,1);
@@ -9740,7 +10776,11 @@ if (level === -800){
                 poisonFrame = frame + 150;
                 HP--;
             }else{
-                poisonFrame = frame + 150;
+                if(p.rottenPoison){
+                    rottenFrame = frame + 150;
+                }else{
+                    poisonFrame = frame + 150;
+                }
             }
         }
     }
@@ -9847,6 +10887,20 @@ if (level === -800){
         if (overlap(px,py,pw,ph,I.x,I.y,I.w,I.h)) {
             touchIce = true;
         }
+        if(I.life>0){
+            I.life-=1;
+        }
+        if(I.life < 100 && I.life > -99999999){
+            I.x+=1;
+            I.y+=1;
+            I.w-=2;
+            I.h-=2;
+            if(I.w<=0){
+                ice.splice(i,1);
+                i--;
+                continue;
+            }
+        }
     }
     DrawLines();
     
@@ -9869,6 +10923,9 @@ if (level === -800){
         }
         if (slow > 0) {
             speed /= 2;
+        }
+        if (frostBurn > 0) {
+            speed /= 1 + (frostBurn/100);
         }
         if (superSlow > 0) {
             speed /= 5;
@@ -9934,7 +10991,7 @@ if (level === -800){
     if(frame%240===239){
         windir = floor(random(1,5));   
     }
-    if((level >= 51 && level < 61)||(queenAttack === "wind"&&level === "B4"&&testFrame >= 60)||level === "B5"||level === "B6"){
+    if((level >= 51 && level < 61)||(fakeLevel >= 51 && fakeLevel < 61)||(darkAttack === "blizzard" && corruption)||(queenAttack === "wind"&&level === "B4"&&testFrame >= 60)||level === "B5"||level === "B6"){
     if(windir === 1){
         if(!grab){
             tryy-=windsped;
@@ -10217,7 +11274,7 @@ if (level === -800){
                   }
                   if ( attack=== "eruption"&&keyJustPressed&&MP>300) {
                     fill(186, 0, 0);
-                    MP -= 300;
+                    MP -= 300;//change this 300
                     useEruption = true;
                     var poundx = px+pw/2;
                     var poundy= py+ph/2;  
@@ -12729,6 +13786,3038 @@ if (level === -800){
     }
     }
     }
+    
+    for (var i = 0 ; i < es.length ; i++) {
+        var e = es[i];
+        e.cold = false;
+        if(e.mon.name === "HIM"){
+            if(bittenFrame > frame){
+                if(e.hp<-100){
+                    e.hp+=1;   
+                }
+            }
+            if(!phase2){
+                if(!talked && !text1){
+                    texts = [];
+                    testFrame2 = 0;
+                    addText(frame+60,"Initi4lizin8...                 ",5,e.x-120,e.y,100,0, 255, 0);
+                    addText(frame+400,"T4r83t 5p0tt3d                 ",5,e.x-120,e.y,100,0, 255, 0);
+                    addText(frame+700,"Runn1ng k1ll c0d3...                 ",5,e.x-120,e.y,100,0, 255, 0);
+                    addText(frame+1000,"3x3cut3!                 ",5,e.x-120,e.y,100,0, 255, 0);
+                    text1 = true;
+                }
+                if(!talked && frame>=1000){
+                    talked = true;
+                }
+            }else{
+                if(!phase3){
+                    if(!talked && !text1){
+                        texts = [];
+                        testFrame2 = 0;
+                        addText(frame,"BbZbZZZzztztt...                 ",5,e.x-120,e.y,100,0, 255, 0);
+                        addText(frame+400,"SsssS-s--tATrrtiinng EEmgmerrgienncyyyyy Pro0Ot0COl.a..                 ",5,e.x-120,e.y,100,0, 255, 0);
+                        addText(frame+900,"1t Isnnt'T OvooerRr yeeTTTTtt...                 ",5,e.x-120,e.y,100,0, 255, 0);
+                        text1 = true;
+                    }
+                    if(!talked){
+                        if(testFrame >= 930){
+                            var rdar = floor(random(0,10));
+                            if(rdar === 0){
+                                if(corruption){
+                                    corruption = false;
+                                }else{
+                                    corruption = true;   
+                                }
+                            }
+                        }
+                    }
+                    if(!talked && testFrame>=1500){
+                        talked = true;
+                        corruption = false;
+                        noMove = false;
+                        darkAttack = "ruin";
+                        testFrame = 0;
+                    }
+                }else{
+                    if(!talked && !text1){
+                        texts = [];
+                        testFrame2 = 0;
+                        addText(frame,"VzZcHhsthS_ -E- Q-das -.                 ",5,e.x-120,e.y,100,93, 0, 150);
+                        addText(frame+600,"sHAUtU_TITN_G_W DOWO__NNWF__W_BN                 ",5,e.x-120,e.y,100,93, 0, 150);
+                        text1 = true;
+                    }
+                    if(!talked && testFrame>=1000){
+                        e.x = 999999;
+                    }
+                    if(!talked && testFrame>=1500){
+                        level = 0;
+                        corruption = false;
+                        noMove = false;
+                        testFrame = 0;
+                    }   
+                }
+            }
+            if(talked && phase2){
+                showFakeLevel = true;
+                if(e.hp <= -10000 && !phase3){
+                    fakeLevel = "NaN";
+                    phase3 = true;  
+                    darkAttack = "reality tear";
+                    testFrame = 0;
+                    noMove = false;
+                }else if(e.hp <= -9000 && !boss10){
+                    fakeLevel = floor(random(91,103));
+                    boss10 = true;  
+                    darkAttack = "dark missiles";
+                    testFrame = 0;
+                    noMove = false;
+                }else if(e.hp <= -8000 && !boss9){
+                    fakeLevel = floor(random(81,91));
+                    boss9 = true;
+                    darkAttack = "magma burst";
+                    testFrame = 0;
+                    noMove = false;
+                }else if(e.hp <= -7000 && !boss8){
+                    fakeLevel = floor(random(71,81));
+                    boss8 = true;
+                    darkAttack = "toxic cloud";
+                    testFrame = 0;
+                    noMove = false;
+                }else if(e.hp <= -6000 && !boss7){
+                    fakeLevel = floor(random(61,71));
+                    boss7 = true;
+                    darkAttack = "vine lash";
+                    testFrame = 0;
+                    noMove = false;
+                    swipe = 0;
+                    swiped = 0;
+                }else if(e.hp <= -5000 && !boss6){
+                    fakeLevel = floor(random(51,61));
+                    windsped = 0;
+                    boss6 = true;
+                    darkAttack = "sandstorm barrage";
+                    testFrame = 0;
+                    noMove = false;
+                    if(e.ghost){
+                        e.x = 180;
+                        e.y = 200;
+                    }
+                    e.dash = false;
+                    e.ghost = false;
+                    for(var i = 0; i < bubbles.length; i++) {
+                        var b = bubbles[i];
+                        fill(161, 161, 161);
+                        ellipse(b.x,b.y,150,150);
+                        if(overlapCircle(px+pw/2, py+ph/2, b.x+b.w/2, b.y+b.h/2, pw, 150)) {
+                            HP -= 100; 
+                            Phurt = true;
+                        }
+                    }
+                    geyser = false;
+                    bubbles = [];
+                }else if(e.hp <= -4000 && !boss5){
+                    fakeLevel = floor(random(41,51));
+                    boss5 = true;
+                    darkAttack = "steam surge";
+                    testFrame = 0;
+                    noMove = false;
+                }else if(e.hp <= -3000 && !boss4){
+                    fakeLevel = floor(random(31,41));
+                    boss4 = true;
+                    darkAttack = "blizzard";
+                    testFrame = 0;
+                    noMove = false;
+                    halfway = false;
+                    quarterway = false;
+                }else if(e.hp <= -2000 && !boss3){
+                    fakeLevel = floor(random(21,31));
+                    boss3 = true;
+                    darkAttack = "lightning strike";
+                    testFrame = 0;
+                    chargeUp = 0;  
+                    noMove = false;
+                }else if(e.hp <= -1000 && !boss2){
+                    fakeLevel = floor(random(11,21));
+                    boss2 = true;
+                    darkAttack = "laser barrage";
+                    testFrame = 0;
+                    e.dash = false;
+                    noMove = false;
+                }
+                if(e.hp > 0 && !boss1){
+                    e.hp = 0; 
+                    fakeLevel = floor(random(1,11));
+                    boss1 = true;
+                }
+                if(darkAttack === "ruin"){
+                    if(corruption){
+                        if(testFrame >= 90 && testFrame <= 180){
+                            if(testFrame%20 === 19) {
+                                addLaser(e, 45,100, random(0,400), 50, 230, 0, 255, "ruin corruption");
+                            }
+                        }
+                    }else{
+                        if(testFrame >= 90 && testFrame <= 180){
+                            if(testFrame%20 === 19) {
+                                addLaser(e, 45,75, random(0,400), 50, 255, 0, 0, "ruin");
+                            }
+                        }
+                    }
+                    if(testFrame >= 300){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "dash";
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "dash"){
+                    if(corruption){
+                        if(testFrame >= 90 && testFrame <= 180){
+                            noMove = true;
+                        }else if(testFrame > 180){
+                            noMove = false;
+                            e.dash = true;
+                        }else{
+                            noMove = false;   
+                        }
+                        if(testFrame >= 150 && testFrame <= 180){
+                            textSize(120);
+                            fill(186, 186, 186);
+                            text("!",e.x+12,e.y+70);   
+                        }
+                    }else{
+                        if(testFrame >= 90 && testFrame <= 180){
+                            noMove = true;
+                        }else if(testFrame > 180){
+                            noMove = false;
+                            e.dash = true;
+                        }else{
+                            noMove = false;   
+                        }
+                        if(testFrame >= 150 && testFrame <= 180){
+                            textSize(120);
+                            fill(186, 186, 186);
+                            text("!",e.x+12,e.y+70);   
+                        }
+                    }
+                    if(testFrame >= 400){
+                        testFrame = 0;
+                        e.dash = false;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "ancient beam";
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "ancient beam"){
+                    if(corruption){
+                        if(testFrame >= 90 && testFrame <= 140){
+                            noMove = true;
+                        }else if(testFrame > 140 && testFrame < 280){
+                            noMove = true;
+                            if(testFrame%50 === 49) {
+                                addLaser(e, 45,150, px+pw/2, py+ph/2, 230, 0, 255, "branch"); 
+                            }
+                        }else{
+                            noMove = false;   
+                        }
+                    }else{
+                        if(testFrame >= 90 && testFrame <= 180){
+                            noMove = true;
+                        }else if(testFrame > 180){
+                            noMove = true;
+                            if(testFrame%4 === 3) {
+                                addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 15, 50, 15, 0, 255, 242);   
+                            }
+                        }else{
+                            noMove = false;   
+                        }
+                        if(testFrame === 170){
+                            dtargx = px+pw/2;
+                            dtargy = py+ph/2;   
+                        }
+                        if(testFrame >= 150 && testFrame <= 180){
+                            textSize(120);
+                            fill(0, 255, 242);
+                            text("!",e.x+12,e.y+70);   
+                        }
+                    }
+                    if(testFrame >= 300){
+                        testFrame = 0;
+                        e.dash = false;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "ruin";
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "laser barrage"){
+                    if(corruption){
+                        if(testFrame >= 90 && testFrame <= 220){
+                            noMove = true;
+                            if(testFrame%6 === 5) {
+                                addLaser(e, 45,150, px+pw/2, py+ph/2, 230, 0, 255, "mini branch");
+                            }
+                        }
+                    }else{
+                        noMove = false;
+                        if(testFrame >= 90 && testFrame <= 220){
+                            noMove = true;
+                            if(testFrame%3 === 2) {
+                                addLaser(e, 45,100, px+pw/2, py+ph/2, 255, 0, 0);
+                            }
+                        }
+                    }
+                    if(testFrame >= 300){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "rocket swarm";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "rocket swarm"){
+                    if(corruption){
+                        if(testFrame >= 90 && testFrame <= 400){
+                            if(testFrame%25 === 24) {
+                                var m;
+                                var r = floor(random(0,4));
+                                if(r===0){
+                                    r = random(50,400);
+                                    m =addMissile(0,r,1,20,0,142,142,142);
+                                }else if(r===1){
+                                    r = random(50,400);
+                                    m =addMissile(400,r,1,20,0,142,142,142);
+                                }else if(r===2){
+                                    r = random(0,400);
+                                    m =addMissile(r,50,1,20,0,142,142,142);
+                                }else if(r===3){
+                                    r = random(0,400);
+                                    m =addMissile(r,400,1,20,0,142,142,142);
+                                }
+                                var vxx = e.x+e.mon.width/2 - m.x;  
+                                var vyy = e.y+e.mon.height/2 - m.y;
+                                var len = sqrt(vxx*vxx + vyy*vyy);
+                                m.vx = vxx/len;
+                                m.vy = vyy/len;
+                                m.ux = m.x;
+                                m.uy = m.y;
+                                m.uvx = m.vx;
+                                m.uvy = m.vy;
+                            }
+                        }
+                    }else{
+                        noMove = false;
+                        if(testFrame >= 90 && testFrame <= 400){
+                            if(testFrame%15 === 14) {
+                                var m =addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,1,20,15,141,141,141);
+                                m.vx += random(-0.5,0.5);
+                                m.vy += random(-0.5,0.5);
+                            }
+                        }
+                    }
+                    if(testFrame >= 500){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "emp burst";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "emp burst"){
+                    if(corruption){
+                        if(testFrame >= 90 && testFrame < 450){
+                            chargeUp += 3;  
+                            fill(196, 0, 255, 100);
+                            ellipse(e.x+e.mon.width/2,e.y+e.mon.height/2,chargeUp,chargeUp);
+                            if(testFrame%90 === 89){
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "emp fracture");
+                                if(overlapCircle(px+pw/2, py+ph/2, e.x+e.mon.width/2,e.y+e.mon.height/2, pw, chargeUp)) {
+                                    stun = 60;
+                                    HP -= 50;
+                                    Phurt = true;
+                                    for(var j = 0; j < 8; j++){
+                                        var r = floor(random(0,15));
+                                        if(r === 0){
+                                            disable1 += 400;
+                                            if(attack === "fire"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 1){
+                                            disable2 += 400;
+                                            if(attack === "lightning"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 2){
+                                            disable3 += 400;
+                                            if(attack === "groundPound"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 3){
+                                            disable4 += 400;
+                                            if(attack === "slash"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 4){
+                                            disable5 += 400;
+                                            if(attack === "blob cannon"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 5){
+                                            disable6 += 400;
+                                            if(attack === "stun slash"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 6){
+                                            disable7 += 400;
+                                            if(attack === "heal"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 7){
+                                            disable8 += 400;
+                                            if(attack === "freezePound"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 8){
+                                            disable9 += 400;
+                                            if(attack === "tentacle"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 9){
+                                            disable10 += 400;
+                                            if(attack === "sand pit"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 10){
+                                            disable11 += 400;
+                                            if(attack === "slow dart"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 11){
+                                            disable12 += 400;
+                                            if(attack === "poison"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 12){
+                                            disable13 += 400;
+                                            if(attack === "eruption"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 13){
+                                            disable14 += 400;
+                                            if(attack === "charge"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 14){
+                                            disable15 += 400;
+                                            if(attack === "restore"){
+                                                attack = "disabled";   
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                                chargeUp = 0;
+                            }
+                        }else{
+                            chargeUp = 0;   
+                        }
+                    }else{
+                        if(testFrame >= 90 && testFrame < 450){
+                            chargeUp += 3;  
+                            fill(82, 235, 255, 100);
+                            ellipse(e.x+e.mon.width/2,e.y+e.mon.height/2,chargeUp,chargeUp);
+                            if(testFrame%90 === 89){
+                                if(overlapCircle(px+pw/2, py+ph/2, e.x+e.mon.width/2,e.y+e.mon.height/2, pw, chargeUp)) {
+                                    stun = 60;
+                                    HP -= 50;
+                                    Phurt = true;
+                                    for(var j = 0; j < 4; j++){
+                                        var r = floor(random(0,15));
+                                        if(r === 0){
+                                            disable1 += 400;
+                                            if(attack === "fire"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 1){
+                                            disable2 += 400;
+                                            if(attack === "lightning"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 2){
+                                            disable3 += 400;
+                                            if(attack === "groundPound"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 3){
+                                            disable4 += 400;
+                                            if(attack === "slash"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 4){
+                                            disable5 += 400;
+                                            if(attack === "blob cannon"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 5){
+                                            disable6 += 400;
+                                            if(attack === "stun slash"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 6){
+                                            disable7 += 400;
+                                            if(attack === "heal"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 7){
+                                            disable8 += 400;
+                                            if(attack === "freezePound"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 8){
+                                            disable9 += 400;
+                                            if(attack === "tentacle"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 9){
+                                            disable10 += 400;
+                                            if(attack === "sand pit"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 10){
+                                            disable11 += 400;
+                                            if(attack === "slow dart"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 11){
+                                            disable12 += 400;
+                                            if(attack === "poison"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 12){
+                                            disable13 += 400;
+                                            if(attack === "eruption"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 13){
+                                            disable14 += 400;
+                                            if(attack === "charge"){
+                                                attack = "disabled";   
+                                            }
+                                        }else if(r === 14){
+                                            disable15 += 400;
+                                            if(attack === "restore"){
+                                                attack = "disabled";   
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                                chargeUp = 0;
+                            }
+                        }else{
+                            chargeUp = 0;   
+                        }
+                    }
+                    if(testFrame >= 550){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "laser barrage";
+                        noMove = false;
+                        chargeUp = 0;  
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "lightning strike"){
+                    if(corruption){
+                        if(testFrame === 60 || testFrame === 121 || testFrame === 182 || testFrame === 243 || testFrame === 304) {
+                            randPlace = px + random(-50,50);
+                            if(randPlace < 0){
+                                randPlace = 0;   
+                            }
+                            if(randPlace > 310){
+                                randPlace = 310;
+                            }
+                        }
+                        if((testFrame >= 60 && testFrame < 120)||(testFrame >= 121 && testFrame < 181)||(testFrame >= 182 && testFrame < 242)||(testFrame >= 243 && testFrame < 303)||(testFrame >= 304 && testFrame < 364)) {
+                            textSize(100);
+                            fill(166, 0, 0);
+                            text("!",randPlace+30,150);
+                            text("!",randPlace+30,250);
+                            text("!",randPlace+30,350);
+                            textSize(12);
+                        }
+                        if(testFrame === 120 || testFrame === 181 || testFrame === 242 || testFrame === 303 || testFrame === 364){
+                            fill(173, 156, 0);
+                            rect(randPlace,0,90,400);
+                            if(overlap(randPlace,0,90,400,px,py,pw,ph)){
+                                HP-=100;   
+                            }
+                        }
+                        
+                        if(testFrame === 60+30 || testFrame === 121+30 || testFrame === 182+30 || testFrame === 243+30 || testFrame === 304+30) {
+                            randPlace2 = px + random(-50,50);
+                            if(randPlace2 < 0){
+                                randPlace2 = 0;   
+                            }
+                            if(randPlace2 > 310){
+                                randPlace2 = 310;
+                            }
+                        }
+                        if((testFrame >= 60+30 && testFrame < 120+30)||(testFrame >= 121+30 && testFrame < 181+30)||(testFrame >= 182+30 && testFrame < 242+30)||(testFrame >= 243+30 && testFrame < 303+30)||(testFrame >= 304+30 && testFrame < 364+30)) {
+                            textSize(100);
+                            fill(166, 0, 0);
+                            text("!",randPlace2+30,150);
+                            text("!",randPlace2+30,250);
+                            text("!",randPlace2+30,350);
+                            textSize(12);
+                        }
+                        if(testFrame === 120+30 || testFrame === 181+30 || testFrame === 242+30 || testFrame === 303+30 || testFrame === 364+30){
+                            fill(173, 156, 0);
+                            rect(randPlace2,0,90,400);
+                            if(overlap(randPlace2,0,90,400,px,py,pw,ph)){
+                                HP-=100;   
+                            }
+                        }
+                    }else{
+                        if(testFrame === 60 || testFrame === 121 || testFrame === 182 || testFrame === 243 || testFrame === 304) {
+                            randPlace = floor(random(0,3));
+                        }
+                        if((testFrame >= 60 && testFrame < 120)||(testFrame >= 121 && testFrame < 181)||(testFrame >= 182 && testFrame < 242)||(testFrame >= 243 && testFrame < 303)||(testFrame >= 304 && testFrame < 364)) {
+                            if(randPlace === 0){
+                                textSize(100);
+                                fill(166, 0, 0);
+                                text("!",60,150);
+                                text("!",60,250);
+                                text("!",60,350);
+                                textSize(12);
+                            }
+                            if(randPlace === 1){
+                                textSize(100);
+                                fill(166, 0, 0);
+                                text("!",190,150);
+                                text("!",190,250);
+                                text("!",190,350);
+                                textSize(12);
+                            }
+                            if(randPlace === 2){
+                                textSize(100);
+                                fill(166, 0, 0);
+                                text("!",310,150);
+                                text("!",310,250);
+                                text("!",310,350);
+                                textSize(12);   
+                            }
+                        }
+                        if(testFrame === 120 || testFrame === 181 || testFrame === 242 || testFrame === 303 || testFrame === 364){
+                           if(randPlace === 0){
+                                fill(255, 230, 0);
+                                rect(30,0,90,400);
+                                if(overlap(30,0,90,400,px,py,pw,ph)){
+                                    HP-=200;   
+                                }
+                            }
+                            if(randPlace === 1){
+                                fill(255, 230, 0);
+                                rect(160,0,90,400);
+                                if(overlap(160,0,90,400,px,py,pw,ph)){
+                                    HP-=200;   
+                                }
+                            }
+                            if(randPlace === 2){
+                                fill(255, 230, 0);
+                                rect(280,0,90,400); 
+                                if(overlap(280,0,90,400,px,py,pw,ph)){
+                                    HP-=200;   
+                                }
+                            }
+                        }
+                    }
+                    if(testFrame >= 500){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "cyclone";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "cyclone"){
+                    if(corruption){
+                        if(testFrame === 150 || testFrame === 300 ||testFrame === 450) {
+                            var numMissiles = 4;
+                            var altarM = 5;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var i = 0 ; i < numMissiles ; i++) {
+                                var angle = i * 360 / numMissiles + angleOffset;
+                                  var m = {
+                                      x: e.x + e.mon.width/2,
+                                      y: e.y + e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 0,
+                                      damage: altarM,
+                                      red: 80,
+                                      green: 235,
+                                      blue: 253,
+                                      pulse: false,
+                                      pulseTimeIn: 30,
+                                      pulseTimeOut: 32,
+                                      pulseTime: 0,
+                                      spin: true,
+                                      angle: angle,
+                                      angleInc: 5,
+                                      angleDecay: 0.1,
+                                  };
+                                ms.push(m);
+                            }
+                        }
+                        if((testFrame >= 120 && testFrame <= 150)||(testFrame >= 270 && testFrame <= 300)||(testFrame >= 420 && testFrame <= 450)){
+                            textSize(120);
+                            fill(217, 217, 217);
+                            text("!",e.x+12,e.y+70);
+                        }
+                        if(testFrame === 150+75 || testFrame === 300+75 ||testFrame === 450+75) {
+                            var numMissiles = 4;
+                            var altarM = 5;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var i = 0 ; i < numMissiles ; i++) {
+                                var angle = i * 360 / numMissiles + angleOffset;
+                                  var m = {
+                                      x: e.x + e.mon.width/2,
+                                      y: e.y + e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 0,
+                                      damage: altarM,
+                                      red: 82,
+                                      green: 234,
+                                      blue: 253,
+                                      pulse: false,
+                                      pulseTimeIn: 30,
+                                      pulseTimeOut: 32,
+                                      pulseTime: 0,
+                                      spin: true,
+                                      angle: angle,
+                                      angleInc: 5,
+                                      angleDecay: 0.1,
+                                  };
+                                ms.push(m);
+                            }
+                        }
+                        if((testFrame >= 120+75 && testFrame <= 150+75)||(testFrame >= 270+75 && testFrame <= 300+75)||(testFrame >= 420+75 && testFrame <= 450+75)){
+                            textSize(120);
+                            fill(84, 81, 84);
+                            text("!",e.x+12,e.y+70);
+                        }
+                    }else{
+                        if(testFrame === 150 || testFrame === 300 ||testFrame === 450) {
+                            var numMissiles = 4;
+                            var altarM = 5;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var i = 0 ; i < numMissiles ; i++) {
+                                var angle = i * 360 / numMissiles + angleOffset;
+                                  var m = {
+                                      x: e.x + e.mon.width/2,
+                                      y: e.y + e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 0,
+                                      damage: altarM,
+                                      red: 80,
+                                      green: 235,
+                                      blue: 253,
+                                      pulse: false,
+                                      pulseTimeIn: 30,
+                                      pulseTimeOut: 32,
+                                      pulseTime: 0,
+                                      spin: true,
+                                      angle: angle,
+                                      angleInc: 5,
+                                      angleDecay: 0.1,
+                                  };
+                                ms.push(m);
+                            }
+                        }
+                        if((testFrame >= 120 && testFrame <= 150)||(testFrame >= 270 && testFrame <= 300)||(testFrame >= 420 && testFrame <= 450)){
+                            textSize(120);
+                            fill(217, 217, 217);
+                            text("!",e.x+12,e.y+70);
+                        }
+                    }
+                    if(testFrame >= 600){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "color spray";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "color spray"){
+                    if(corruption){
+                        if(testFrame === 90){
+                            randPlace = random(100,200);
+                            randPlace2 = random(100,200);
+                            addLaser(e, 45,1, e.x+e.mon.width/2+randPlace, e.y-50+randPlace2, 36, 36, 36, "color decay");
+                            addLaser(e, 45,1, e.x-50+randPlace, e.y+randPlace2, 140, 140, 140, "color disable");
+                            addLaser(e, 45,30, e.x-50+randPlace, e.y+100+randPlace2, 0,0,0,  "color death");
+                            addLaser(e, 45,1, e.x+e.mon.width+50+randPlace, e.y+randPlace2, 58,58,58, "color drain");
+                            addLaser(e, 45,1, e.x+e.mon.width+50+randPlace, e.y+100+randPlace2, 87,87,87, "color digitize");
+                        }
+                        if(testFrame >= 135 && testFrame <= 550){
+                            if(randPlace >= 200 && randPlace2 < 200){
+                                randPlace2+=10;
+                                quarterway = false;
+                            }else if(randPlace <= -200 && (randPlace2 >= 200||!halfway)){
+                                halfway = false;
+                                randPlace2-=10;
+                                if(randPlace2 <= -200){
+                                    quarterway = true;  
+                                    halfway = true;
+                                }
+                            }else if((randPlace < 200 && randPlace2 < 200 && !halfway)||quarterway){
+                                randPlace+=10;
+                            }else if((randPlace >= 200 && randPlace2 >= 200) || halfway){
+                                randPlace-=10;   
+                                halfway = true;
+                            }
+                            addLaser(e, 0,1, e.x+e.mon.width/2+randPlace, e.y-50+randPlace2, 36, 36, 36, "color decay");
+                            addLaser(e, 0,1, e.x-50+randPlace, e.y+randPlace2, 140, 140, 140, "color disable");
+                            addLaser(e, 0,30, e.x-50+randPlace, e.y+100+randPlace2, 0,0,0,  "color death");
+                            addLaser(e, 0,1, e.x+e.mon.width+50+randPlace, e.y+randPlace2, 58,58,58, "color drain");
+                            addLaser(e, 0,1, e.x+e.mon.width+50+randPlace, e.y+100+randPlace2, 87,87,87, "color digitize");
+                        }
+                    }else{
+                        if(testFrame === 90){
+                            randPlace = random(100,200);
+                            randPlace2 = random(100,200);
+                            addLaser(e, 45,1, e.x+e.mon.width/2+randPlace, e.y-50+randPlace2, 255, 0, 0, "color burn");
+                            addLaser(e, 45,1, e.x-50+randPlace, e.y+randPlace2, 82, 235, 255, "color freeze");
+                            addLaser(e, 45,1, e.x-50+randPlace, e.y+100+randPlace2, 232,139,9,  "color slow");
+                            addLaser(e, 45,1, e.x+e.mon.width+50+randPlace, e.y+randPlace2, 255,204,0, "color confuse");
+                            addLaser(e, 45,1, e.x+e.mon.width+50+randPlace, e.y+100+randPlace2, 79, 0, 158, "color poison");
+                        }
+                        if(testFrame >= 135 && testFrame <= 550){
+                            if(randPlace >= 200 && randPlace2 < 200){
+                                randPlace2+=10;
+                                quarterway = false;
+                            }else if(randPlace <= -200 && (randPlace2 >= 200||!halfway)){
+                                halfway = false;
+                                randPlace2-=10;
+                                if(randPlace2 <= -200){
+                                    quarterway = true;  
+                                    halfway = true;
+                                }
+                            }else if((randPlace < 200 && randPlace2 < 200 && !halfway)||quarterway){
+                                randPlace+=10;
+                            }else if((randPlace >= 200 && randPlace2 >= 200) || halfway){
+                                randPlace-=10;   
+                                halfway = true;
+                            }
+                            addLaser(e, 0,1, e.x+e.mon.width/2+randPlace, e.y-50+randPlace2, 255, 0, 0, "color burn");
+                            addLaser(e, 0,1, e.x-50+randPlace, e.y+randPlace2, 82, 235, 255, "color freeze");
+                            addLaser(e, 0,1, e.x-50+randPlace, e.y+100+randPlace2, 232,139,9,  "color slow");
+                            addLaser(e, 0,1, e.x+e.mon.width+50+randPlace, e.y+randPlace2, 255,204,0, "color confuse");
+                            addLaser(e, 0,1, e.x+e.mon.width+50+randPlace, e.y+100+randPlace2, 79, 0, 158, "color poison");
+                        }
+                    }
+                    if(testFrame >= 700){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "lightning strike";
+                        noMove = false;
+                        halfway = false;
+                        quarterway = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "blizzard"){
+                    windsped = 2;
+                    e.cold = true;
+                    if(corruption){
+                        if(testFrame > 90 && testFrame < 450){
+                            if(testFrame % 15 === 14) {
+                                var numMissiles = floor(random(1,3));
+                                var altarM = 3;
+                                var angleOffset = random() * 360 / numMissiles;
+                                for (var i = 0 ; i < numMissiles ; i++) {
+                                    var angle = i * 360 / numMissiles + angleOffset;
+                                      var m = {
+                                          x: e.x + e.mon.width/2,
+                                          y: e.y + e.mon.height/2,
+                                          vx: 5 * cos(angle),
+                                          vy: 5 * sin(angle),
+                                          size: 20,
+                                          damage: altarM,
+                                          red: 80,
+                                          green: 235,
+                                          blue: 250,
+                                          pulse: false,
+                                          pulseTimeIn: 30,
+                                          pulseTimeOut: 32,
+                                          pulseTime: 0,
+                                          spin: true,
+                                          angle: angle,
+                                          angleInc: 5,
+                                          angleDecay: 0.1,
+                                      };
+                                    ms.push(m);
+                                }
+                            }
+                        }
+                    }else{
+                        if(testFrame > 90 && testFrame < 450){
+                            if(testFrame % 15 === 14) {
+                                var numMissiles = floor(random(1,3));
+                                var altarM = 3;
+                                var angleOffset = random() * 360 / numMissiles;
+                                for (var i = 0 ; i < numMissiles ; i++) {
+                                    var angle = i * 360 / numMissiles + angleOffset;
+                                      var m = {
+                                          x: e.x + e.mon.width/2,
+                                          y: e.y + e.mon.height/2,
+                                          vx: 5 * cos(angle),
+                                          vy: 5 * sin(angle),
+                                          size: 20,
+                                          damage: altarM,
+                                          red: 80,
+                                          green: 235,
+                                          blue: 250,
+                                          pulse: false,
+                                          pulseTimeIn: 30,
+                                          pulseTimeOut: 32,
+                                          pulseTime: 0,
+                                          spin: true,
+                                          angle: angle,
+                                          angleInc: 5,
+                                          angleDecay: 0.1,
+                                      };
+                                    ms.push(m);
+                                }
+                            }
+                        }
+                    }
+                    if(testFrame >= 550){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "ice beam";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "ice beam"){
+                    e.cold = true;
+                    if(corruption){
+                        if(testFrame > 90 && testFrame < 450){
+                            if((testFrame >= 150 && testFrame < 180) || (testFrame >= 330 && testFrame < 360)){
+                            textSize(120);
+                            fill(138, 216, 255);
+                            text("!",e.x+12,e.y+70);
+                        }
+                        if(testFrame === 180 || testFrame === 360){
+                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 5, 108, 185, 225);
+                            m.ice = true;
+                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 20, 108, 186, 225);
+                            m.vy-=4;
+                            m.ice = true;
+                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 5, 108, 186, 225);
+                            m.vy+=4;
+                            m.ice = true;
+                        }
+                        }
+                    }else{
+                        if((testFrame >= 150 && testFrame < 180) || (testFrame >= 330 && testFrame < 360)){
+                            textSize(120);
+                            fill(138, 216, 255);
+                            text("!",e.x+12,e.y+70);
+                        }
+                        if(testFrame === 180 || testFrame === 360){
+                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 5, 138, 216, 255);
+                            m.ice = true;
+                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 20, 138, 216, 255);
+                            m.vy-=4;
+                            m.ice = true;
+                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 5, 138, 216, 255);
+                            m.vy+=4;
+                            m.ice = true;
+                        }
+                    }
+                    if(testFrame >= 550){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "dry ice";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "dry ice"){
+                    e.cold = true;
+                    if(corruption){
+                        if(testFrame > 90 && testFrame < 450){
+                            if(testFrame % 140 === 139) {
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 0, 237, 248, 255);
+                                m.burst = random(30,60);
+                                m.frostBurn = true;
+                            }
+                        }
+                    }else{
+                        if(testFrame > 90 && testFrame < 450){
+                            if(testFrame % 60 === 59) {
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 20, 0, 237, 249, 255);
+                                m.burst = random(30,60);
+                                m.frostBurn = true;
+                            }
+                        }
+                    }
+                    if(testFrame >= 550){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "blizzard";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "steam surge"){
+                    if(corruption){
+                        if(testFrame > 90 && testFrame < 450){
+                            geyser = true;
+                            if(testFrame % 60 === 59) {
+                                for(var i = 0; i < bubbles.length; i++) {
+                                    var b = bubbles[i];
+                                    var m = addMissile(b.x,b.y, 5, 5, 1, 255, 255, 255);
+                                    if(px<=m.x && Math.abs(m.x-px) > Math.abs(m.y-py)){
+                                        m.vx = -5;
+                                        m.vy = 0;
+                                    }else if(px>m.x && Math.abs(m.x-px) > Math.abs(m.y-py)){
+                                        m.vx = 5;
+                                        m.vy = 0;
+                                    }else if(py <= m.y){
+                                        m.vx = 0;
+                                        m.vy = -5;
+                                    }else if(py > m.y){
+                                        m.vx = 0;
+                                        m.vy = 5;
+                                    }
+                                    m.miniBurn = true;
+                                }
+                            }
+                            if(testFrame>=390 && testFrame < 450){
+                                for(var i = 0; i < bubbles.length; i++) {
+                                    var b = bubbles[i];
+                                    textSize(50);
+                                    fill(166, 0, 0);
+                                    text("!",b.x-5,b.y); 
+                                }
+                            }
+                        }
+                        if(testFrame === 450){
+                            for(var i = 0; i < bubbles.length; i++) {
+                                var b = bubbles[i];
+                                fill(161, 161, 161);
+                                ellipse(b.x,b.y,150,150);
+                                if(overlapCircle(px+pw/2, py+ph/2, b.x+b.w/2, b.y+b.h/2, pw, 150)) {
+                                    HP -= 100; 
+                                    Phurt = true;
+                                }
+                            }
+                            geyser = false;
+                            bubbles = [];
+                        }
+                    }else{
+                        if(testFrame > 90 && testFrame < 450){
+                            geyser = true;
+                            if(testFrame>=390 && testFrame < 450){
+                                for(var i = 0; i < bubbles.length; i++) {
+                                    var b = bubbles[i];
+                                    textSize(50);
+                                    fill(166, 0, 0);
+                                    text("!",b.x-5,b.y); 
+                                }
+                            }
+                        }
+                        if(testFrame === 450){
+                            for(var i = 0; i < bubbles.length; i++) {
+                                var b = bubbles[i];
+                                fill(161, 161, 161);
+                                ellipse(b.x,b.y,150,150);
+                                if(overlapCircle(px+pw/2, py+ph/2, b.x+b.w/2, b.y+b.h/2, pw, 150)) {
+                                    HP -= 100; 
+                                    Phurt = true;
+                                }
+                            }
+                            geyser = false;
+                            bubbles = [];
+                        }
+                    }
+                    if(testFrame >= 550){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "wave pound";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "wave pound"){
+                    if(corruption){
+                        if((testFrame >= 60 && testFrame < 90) || (testFrame >= 195 && testFrame < 225) || (testFrame >= 330 && testFrame < 360) || (testFrame >= 465 && testFrame < 495)){
+                            textSize(60);
+                            fill(2, 13, 171);
+                            text("!",e.x-5,e.y+85);
+                            text("!",e.x-5,e.y+10);
+                            text("!",e.x+45,e.y+85);
+                            text("!",e.x+45,e.y+10);
+                        }
+                        if(testFrame === 90 || testFrame === 225 || testFrame === 360 || testFrame === 495){
+                            var numMissiles = 20;
+                            var altarM = 5;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var i = 0 ; i < numMissiles ; i++) {
+                                var angle = i * 360 / numMissiles + angleOffset;
+                                  var m = {
+                                      x: (e.x + e.mon.width/2)+(5 * cos(angle)*75),
+                                      y: (e.y + e.mon.height/2)+(5 * sin(angle)*75),
+                                      vx: -5 * cos(angle),
+                                      vy: -5 * sin(angle),
+                                      size: 20,
+                                      damage: altarM,
+                                      red: 0,
+                                      green: 13,
+                                      blue: 255,
+                                  };
+                                ms.push(m);
+                            }
+                        }
+                    }else{
+                        if((testFrame >= 60 && testFrame < 90) || (testFrame >= 195 && testFrame < 225) || (testFrame >= 330 && testFrame < 360) || (testFrame >= 465 && testFrame < 495)){
+                            textSize(60);
+                            fill(2, 13, 171);
+                            text("!",e.x-5,e.y+85);
+                            text("!",e.x-5,e.y+10);
+                            text("!",e.x+45,e.y+85);
+                            text("!",e.x+45,e.y+10);
+                        }
+                        if(testFrame === 90 || testFrame === 225 || testFrame === 360 || testFrame === 495){
+                            var numMissiles = 20;
+                            var altarM = 5;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var i = 0 ; i < numMissiles ; i++) {
+                                var angle = i * 360 / numMissiles + angleOffset;
+                                  var m = {
+                                      x: e.x + e.mon.width/2,
+                                      y: e.y + e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 20,
+                                      damage: altarM,
+                                      red: 0,
+                                      green: 13,
+                                      blue: 255,
+                                  };
+                                ms.push(m);
+                            }
+                        }
+                    }
+                    if(testFrame >= 650){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "jet punch";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "jet punch"){
+                    if(corruption){
+                        if((testFrame >= 30 && testFrame < 60)){
+                            textSize(120);
+                            fill(0, 12, 186);
+                            text("!",e.x+12,e.y+70);  
+                        }
+                        if((testFrame >= 60 && testFrame < 495)){
+                            e.ghost = true;
+                            e.dash = true;
+                        }else{
+                            e.ghost = false;
+                            e.dash = false;   
+                        }
+                        if(testFrame >= 90 && testFrame < 495){
+                            if(testFrame%30 === 29){
+                                addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 10, 30, 5, 0, 13, 255);
+                                if(e.tpDir !== 0 && e.tpDir !== 1 && e.tpDir !== 2 && e.tpDir !== 3){
+                                    e.tpDir = 0;   
+                                }
+                                var r = e.tpDir;
+                                if(r === 0){
+                                    e.x = px+pw/2+200;
+                                    e.y = py+ph/2+random(-50,50);   
+                                }
+                                if(r === 2){
+                                    e.x = px+pw/2-200;
+                                    e.y = py+ph/2+random(-50,50);   
+                                }
+                                if(r === 1){
+                                    e.x = px+pw/2+random(-50,50);
+                                    e.y = py+ph/2+200;   
+                                }
+                                if(r === 3){
+                                    e.x = px+pw/2+random(-50,50);
+                                    e.y = py+ph/2-200;   
+                                }
+                                e.tpDir++;
+                                if(e.tpDir >= 4){
+                                    e.tpDir = 0;   
+                                }
+                            }
+                        }
+                        if(testFrame === 500){
+                            e.x = 180;
+                            e.y = 200;   
+                        }
+                    }else{
+                        if((testFrame >= 30 && testFrame < 60) || (testFrame >= 165 && testFrame < 195) || (testFrame >= 300 && testFrame < 330) || (testFrame >= 435 && testFrame < 465)){
+                            textSize(120);
+                            fill(0, 12, 186);
+                            text("!",e.x+12,e.y+70);  
+                        }
+                        if((testFrame >= 60 && testFrame < 90) || (testFrame >= 195 && testFrame < 225) || (testFrame >= 330 && testFrame < 360) || (testFrame >= 465 && testFrame < 495)){
+                            e.dash = true;
+                        }else{
+                            e.dash = false;   
+                        }
+                        if(testFrame === 90 || testFrame === 225 || testFrame === 360 || testFrame === 495){
+                            addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 10, 30, 10, 0, 13, 255);
+                        }
+                    }
+                    if(testFrame >= 650){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "steam surge";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "sandstorm barrage"){
+                    if(corruption){
+                        if((testFrame >= 60 && testFrame < 90)){
+                            textSize(120);
+                            fill(214, 153, 0);
+                            text("!",180,260);
+                            
+                        }
+                        if((testFrame >= 90 && testFrame < 540)){
+                            if(testFrame%5 === 4){
+                                randPlace = floor(random(0,4));
+                                if(randPlace === 0){
+                                    var m = addMissile(0,random(50,400), 0, 3, 1, 214, 153, 0);
+                                    m.vx = 5;
+                                    m.vy = 0;
+                                }
+                                if(randPlace === 1){
+                                    var m = addMissile(400,random(50,400), 0, 3, 1, 214, 153, 0);
+                                    m.vx = -5;
+                                    m.vy = 0;
+                                }
+                                if(randPlace === 2){
+                                    var m = addMissile(random(0,400),50, 0, 3, 1, 214, 153, 0);
+                                    m.vx = 0;
+                                    m.vy = 5;
+                                }
+                                if(randPlace === 3){
+                                    var m = addMissile(random(0,400),400, 0, 3, 1, 214, 153, 0);
+                                    m.vx = 0;
+                                    m.vy = -5;
+                                }
+                            }
+                        }
+                    }else{
+                        if(testFrame === 60 || testFrame === 180 || testFrame === 360){
+                            randPlace = floor(random(0,4));   
+                        }
+                        if((testFrame >= 60 && testFrame < 90)||(testFrame >= 240 && testFrame < 270)||(testFrame >= 420 && testFrame < 450)){
+                            textSize(120);
+                            fill(214, 153, 0);
+                            if(randPlace === 0){
+                                text("!",20,260);
+                            }
+                            if(randPlace === 1){
+                                text("!",340,260);
+                            }
+                            if(randPlace === 2){
+                                text("!",180,160);
+                            }
+                            if(randPlace === 3){
+                                text("!",180,380);
+                            }
+                            
+                        }
+                        if((testFrame >= 90 && testFrame < 145)||(testFrame >= 270 && testFrame < 325)||(testFrame >= 450 && testFrame < 505)){
+                            if(randPlace === 0){
+                                var m = addMissile(0,random(50,400), 0, 3, 1, 214, 153, 0);
+                                m.vx = 5;
+                                m.vy = 0;
+                            }
+                            if(randPlace === 1){
+                                var m = addMissile(400,random(50,400), 0, 3, 1, 214, 153, 0);
+                                m.vx = -5;
+                                m.vy = 0;
+                            }
+                            if(randPlace === 2){
+                                var m = addMissile(random(0,400),50, 0, 3, 1, 214, 153, 0);
+                                m.vx = 0;
+                                m.vy = 5;
+                            }
+                            if(randPlace === 3){
+                                var m = addMissile(random(0,400),400, 0, 3, 1, 214, 153, 0);
+                                m.vx = 0;
+                                m.vy = -5;
+                            }
+                        }
+                    }
+                    if(testFrame >= 750){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "sand pile";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "sand pile"){
+                    if(corruption){
+                        if(testFrame === 60){
+                            pitx2 = random(0,300);
+                            pity2 = random(50,300);
+                            pitx3 = random(0,300);
+                            pity3 = random(50,300);
+                            pitx4 = random(0,300);
+                            pity4 = random(50,300);
+                            pitx5 = random(0,300);
+                            pity5 = random(50,300);
+                        }
+                        if(testFrame >= 60 && testFrame < 90){
+                            textSize(120);
+                            fill(255, 196, 0);
+                            text("!",pitx2+25,pity2+85);
+                            text("!",pitx3+25,pity3+85);
+                            text("!",pitx4+25,pity4+85);
+                            text("!",pitx5+25,pity5+85);
+                        }
+                        if(testFrame === 90){
+                            addMonster(pitx2,pity2,monsters.miniSandWallc);
+                            addMonster(pitx3,pity3,monsters.miniSandWallc);
+                            addMonster(pitx4,pity4,monsters.miniSandWallc);
+                            addMonster(pitx5,pity5,monsters.miniSandWallc);
+                        }
+                    }else{
+                        if(testFrame === 60){
+                            pitx2 = random(0,300);
+                            pity2 = random(50,300);
+                            pitx3 = random(0,300);
+                            pity3 = random(50,300);
+                            pitx4 = random(0,300);
+                            pity4 = random(50,300);
+                            pitx5 = random(0,300);
+                            pity5 = random(50,300);
+                        }
+                        if(testFrame >= 60 && testFrame < 90){
+                            textSize(120);
+                            fill(255, 196, 0);
+                            text("!",pitx2+25,pity2+85);
+                            text("!",pitx3+25,pity3+85);
+                            text("!",pitx4+25,pity4+85);
+                            text("!",pitx5+25,pity5+85);
+                        }
+                        if(testFrame === 90){
+                            addMonster(pitx2,pity2,monsters.miniSandWall);
+                            addMonster(pitx3,pity3,monsters.miniSandWall);
+                            addMonster(pitx4,pity4,monsters.miniSandWall);
+                            addMonster(pitx5,pity5,monsters.miniSandWall);
+                        }
+                    }
+                    if(testFrame >= 400){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "sand slash";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "sand slash"){
+                    if(corruption){
+                        if(testFrame >= 60){
+                            if(swipe>=15 && swipe<65){
+                                fill(157, 0, 255);
+                                if((py>=e.y-20&&py<=e.y+80)||(py+ph>=e.y-20&&py+ph<=e.y+80)){
+                                    if(px<e.x){
+                                        //rect(e.x-130,e.y-20,130,100);
+                                        arc(e.x,e.y+30,300,100,90,270);
+                                    }else{
+                                        //rect(e.x+60,e.y-20,130,100);
+                                        arc(e.x+60,e.y+30,300,100,-90,90);
+                                    }
+                                }else{
+                                    if(py<e.y){
+                                        //rect(e.x-60,e.y-90,180,70);
+                                        arc(e.x+30,e.y-20,200,200,-180,0);
+                                    }else{
+                                        //rect(e.x-60,e.y+80,180,70);
+                                        arc(e.x+30,e.y+80,200,200,0,180);
+                                    }
+                                }
+                            }
+                            if(swipe>=65){
+                                swipe=0;
+                                fill(201, 154, 0);
+                                if((py>=e.y-20&&py<=e.y+80)||(py+ph>=e.y-20&&py+ph<=e.y+80)){
+                                    if(px<e.x){
+                                        //rect(e.x-130,e.y-20,130,100);
+                                        arc(e.x,e.y+30,300,100,90,270);
+                                        if(overlap(px,py,pw,ph,e.x-130,e.y-20,130,100)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,25,5,201,153,0);
+                                            m.vx = -10;
+                                            m.vy = 0;
+                                            m.burst = 30;
+                                        }
+                                    }else{
+                                        //rect(e.x+60,e.y-20,130,100);
+                                        arc(e.x+60,e.y+30,300,100,-90,90);
+                                        if(overlap(px,py,pw,ph,e.x+60,e.y-20,130,100)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,25,5,201,153,0);
+                                            m.vx = 10;
+                                            m.vy = 0;
+                                            m.burst = 30;
+                                        }
+                                    }
+                                }else{
+                                    if(py<e.y){
+                                        //rect(e.x-60,e.y-90,180,70);
+                                        arc(e.x+30,e.y-20,200,200,-180,0);
+                                        if(overlap(px,py,pw,ph,e.x-60,e.y-90,180,70)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,25,5,201,153,0);
+                                            m.vx = 0;
+                                            m.vy = -10;
+                                            m.burst = 30;
+                                        }
+                                    }else{
+                                        //rect(e.x-60,e.y+80,180,70);
+                                        arc(e.x+30,e.y+80,200,200,0,180);
+                                        if(overlap(px,py,pw,ph,e.x-60,e.y+80,180,70)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,25,5,201,153,0);
+                                            m.vx = 0;
+                                            m.vy = 10;
+                                            m.burst = 30;
+                                        }
+                                    }
+                                }
+                                swiped++;   
+                            }
+                        }else{
+                            swipe = 0;   
+                        }
+                    }else{
+                        if(testFrame >= 60){
+                            if(swipe>=15 && swipe<65){
+                                fill(166, 0, 0);
+                                if((py>=e.y-20&&py<=e.y+80)||(py+ph>=e.y-20&&py+ph<=e.y+80)){
+                                    if(px<e.x){
+                                        //rect(e.x-130,e.y-20,130,100);
+                                        arc(e.x,e.y+30,300,100,90,270);
+                                    }else{
+                                        //rect(e.x+60,e.y-20,130,100);
+                                        arc(e.x+60,e.y+30,300,100,-90,90);
+                                    }
+                                }else{
+                                    if(py<e.y){
+                                        //rect(e.x-60,e.y-90,180,70);
+                                        arc(e.x+30,e.y-20,200,200,-180,0);
+                                    }else{
+                                        //rect(e.x-60,e.y+80,180,70);
+                                        arc(e.x+30,e.y+80,200,200,0,180);
+                                    }
+                                }
+                            }
+                            if(swipe>=65){
+                                swipe=0;
+                                fill(201, 154, 0);
+                                if((py>=e.y-20&&py<=e.y+80)||(py+ph>=e.y-20&&py+ph<=e.y+80)){
+                                    if(px<e.x){
+                                        //rect(e.x-130,e.y-20,130,100);
+                                        arc(e.x,e.y+30,300,100,90,270);
+                                        if(overlap(px,py,pw,ph,e.x-130,e.y-20,130,100)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201, 154, 0);
+                                            m.vx = -10;
+                                            m.vy = 0;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = -10;
+                                            m.vy = 5;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = -10;
+                                            m.vy = -5;
+                                        }
+                                    }else{
+                                        //rect(e.x+60,e.y-20,130,100);
+                                        arc(e.x+60,e.y+30,300,100,-90,90);
+                                        if(overlap(px,py,pw,ph,e.x+60,e.y-20,130,100)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = 10;
+                                            m.vy = 0;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = 10;
+                                            m.vy = 5;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = 10;
+                                            m.vy = -5;
+                                        }
+                                    }
+                                }else{
+                                    if(py<e.y){
+                                        //rect(e.x-60,e.y-90,180,70);
+                                        arc(e.x+30,e.y-20,200,200,-180,0);
+                                        if(overlap(px,py,pw,ph,e.x-60,e.y-90,180,70)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = 0;
+                                            m.vy = -10;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = 5;
+                                            m.vy = -10;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = -5;
+                                            m.vy = -10;
+                                        }
+                                    }else{
+                                        //rect(e.x-60,e.y+80,180,70);
+                                        arc(e.x+30,e.y+80,200,200,0,180);
+                                        if(overlap(px,py,pw,ph,e.x-60,e.y+80,180,70)){
+                                            HP-=50;   
+                                        }
+                                        if(e.hp<=e.mon.maxHp/2){
+                                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = 0;
+                                            m.vy = 10;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = 5;
+                                            m.vy = 10;
+                                            m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,3,201,154,0);
+                                            m.vx = -5;
+                                            m.vy = 10;
+                                        }
+                                    }
+                                }
+                                swiped++;   
+                            }
+                        }else{
+                            swipe = 0;   
+                        }
+                    }
+                    if(swiped >= 4){
+                        testFrame = -60;
+                        swiped = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "sandstorm barrage";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "vine lash"){
+                    if(corruption){
+                        if(testFrame === 30 || testFrame === 150 || testFrame === 270){
+                            randPlace = random(0,350);
+                            randPlace2 = random(80,350);
+                        }
+                        if((testFrame >= 30 && testFrame < 90)||(testFrame >= 150 && testFrame < 210)||(testFrame >= 270 && testFrame < 330)){
+                            textSize(120);
+                            fill(44, 87, 0);
+                            text("!",randPlace,randPlace2+35);
+                        }
+                        if(testFrame === 90 || testFrame === 210 || testFrame === 330 ){
+                            addMonster(randPlace,randPlace2,monsters.weedHeadc);
+                        }
+                    }else{
+                        if((testFrame > 30 && testFrame < 330)){
+                            textSize(120);
+                            fill(55, 110, 0);
+                            text("!",randPlace,randPlace2+35);
+                        }
+                        if(testFrame === 90 || testFrame === 150 || testFrame === 210 || testFrame === 270 || testFrame === 330 ){
+                            addMonster(randPlace,randPlace2,monsters.weedHead);
+                        }
+                        if(testFrame === 30 || testFrame === 90 || testFrame === 150 || testFrame === 210 || testFrame === 270){
+                            randPlace = random(0,350);
+                            randPlace2 = random(80,350);
+                        }
+                    }
+                    if(testFrame >= 500){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "slow darts";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "slow darts"){
+                    if(corruption){
+                        if((testFrame >= 60 && testFrame < 90)||(testFrame >= 180 && testFrame < 210)||(testFrame >= 300 && testFrame < 330)){
+                            textSize(120);
+                            fill(232,139,9);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame >= 90 && testFrame < 120)||(testFrame >= 210 && testFrame < 240)||(testFrame >= 330 && testFrame < 360)){
+                            if(testFrame%5 === 4){
+                                var m = addMissile(e.x+e.mon.width/2, e.y+e.mon.height/2, 10, 5, 2, 232,139,7, false);
+                                m.slow = true;
+                            }
+                        }
+                    }else{
+                        if((testFrame >= 60 && testFrame < 90)||(testFrame >= 180 && testFrame < 210)||(testFrame >= 300 && testFrame < 330)){
+                            textSize(120);
+                            fill(232,139,9);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame >= 90 && testFrame < 120)||(testFrame >= 210 && testFrame < 240)||(testFrame >= 330 && testFrame < 360)){
+                            if(testFrame%5 === 4){
+                                var m = addMissile(e.x+e.mon.width/2, e.y+e.mon.height/2, 10, 5, 2, 232,139,8, false);
+                                m.slow = true;
+                            }
+                        }
+                    }
+                    if(testFrame >= 500){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "thorn burst";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "thorn burst"){
+                    if(corruption){
+                        if((testFrame >= 60 && testFrame < 90)){
+                            textSize(120);
+                            fill(97, 81, 52);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame === 90)){
+                            var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 7, 30, 5, 97, 81, 51, false, 4000); 
+                            m.bounce = 9999999;
+                            m.burst = floor(random(200,500));
+                        }
+                    }else{
+                        if((testFrame >= 60 && testFrame < 90)||(testFrame >= 180 && testFrame < 210)||(testFrame >= 300 && testFrame < 330)){
+                            textSize(120);
+                            fill(97, 81, 52);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame >= 90 && testFrame < 120)||(testFrame >= 210 && testFrame < 240)||(testFrame >= 330 && testFrame < 360)){
+                            if(frame%15 === 14) {
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 7, 20, 5, 97, 81, 52, false, 4000); 
+                                m.bounce = 9999999;
+                                m.burst = floor(random(200,500));
+                            }
+                        }
+                    }
+                    if(testFrame >= 950){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "vine lash";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "toxic cloud"){
+                    if(corruption){
+                        if((testFrame >= 60 && testFrame < 90)){
+                            textSize(120);
+                            fill(98, 0, 150);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame >= 90 && testFrame < 260)){
+                            if(frame%30 === 29) {
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 1, 0, 5, 98, 0, 149);
+                            }
+                        }
+                    }else{
+                        if((testFrame >= 60 && testFrame < 90)){
+                            textSize(120);
+                            fill(98, 0, 150);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame >= 90 && testFrame < 360)){
+                            if(frame%30 === 29) {
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 1, 0, 5, 98, 0, 150);
+                            }
+                        }
+                    }
+                    if(testFrame >= 500){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "venom wave";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "venom wave"){
+                    if(corruption){
+                        if((testFrame >= 60 && testFrame < 90)){
+                            textSize(120);
+                            fill(144, 90, 173);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame === 90)){
+                            if(px<=e.x+e.mon.width/2 && Math.abs(e.x+e.mon.width/2-px) > Math.abs(e.y+e.mon.height/2-py)){
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy-=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy+=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy-=4;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy+=4;
+                                m.poison = true;
+                                m.splat = true;
+                            }else if(px>e.x+e.mon.width/2 && Math.abs(e.x+e.mon.width/2-px) > Math.abs(e.y+e.mon.height/2-py)){
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy-=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy+=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy-=4;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vy+=4;
+                                m.poison = true;
+                                m.splat = true;
+                            }else if(py <= e.y+e.mon.height/2){
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx-=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx+=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx-=4;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx+=4;
+                                m.poison = true;
+                                m.splat = true;
+                            }else if(py > e.y+e.mon.height/2){
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx-=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx+=2;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx-=4;
+                                m.poison = true;
+                                m.splat = true;
+                                m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                m.vx+=4;
+                                m.poison = true;
+                                m.splat = true;
+                            }
+                        }
+                    }else{
+                        if((testFrame >= 60 && testFrame < 90)){
+                            textSize(120);
+                            fill(144, 90, 173);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if((testFrame >= 90 && testFrame < 460)){
+                            if(testFrame%91 === 90) {
+                                if(px<=e.x+e.mon.width/2 && Math.abs(e.x+e.mon.width/2-px) > Math.abs(e.y+e.mon.height/2-py)){
+                                    var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy-=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy+=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy-=4;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy+=4;
+                                    m.miniPoison = true;
+                                }else if(px>e.x+e.mon.width/2 && Math.abs(e.x+e.mon.width/2-px) > Math.abs(e.y+e.mon.height/2-py)){
+                                    var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy-=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy+=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy-=4;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vy+=4;
+                                    m.miniPoison = true;
+                                }else if(py <= e.y+e.mon.height/2){
+                                    var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx-=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx+=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx-=4;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx+=4;
+                                    m.miniPoison = true;
+                                }else if(py > e.y+e.mon.height/2){
+                                    var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx-=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx+=2;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx-=4;
+                                    m.miniPoison = true;
+                                    m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 15, 2, 95, 0, 150);
+                                    m.vx+=4;
+                                    m.miniPoison = true;
+                                }
+                            }
+                        }
+                    }
+                    if(testFrame >= 600){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "rotten poison";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "rotten poison"){
+                    if(corruption){
+                        if(testFrame === 30 || testFrame === 270){
+                            pitx2 = random(0,300);
+                            pity2 = random(50,300);
+                            pitx3 = random(0,300);
+                            pity3 = random(50,300);
+                            pitx4 = random(0,300);
+                            pity4 = random(50,300);
+                            pitx5 = random(0,300);
+                            pity5 = random(50,300);
+                        }
+                        if((testFrame >= 30 && testFrame < 90)||(testFrame >= 270 && testFrame < 330)){
+                            textSize(120);
+                            fill(78, 0, 120);
+                            text("!",pitx2+25,pity2+85);
+                            text("!",pitx3+25,pity3+85);
+                            text("!",pitx4+25,pity4+85);
+                            text("!",pitx5+25,pity5+85);
+                        }
+                        if(testFrame === 90 || testFrame === 330 ){
+                            var p = addPoison(pitx2,pity2,75,75);
+                            p.life = 1060;
+                            p.shoot = true;
+                            p.rottenPoison = true;
+                            p = addPoison(pitx3,pity3,75,75);
+                            p.life = 1060;
+                            p.shoot = true;
+                            p.rottenPoison = true;
+                            p = addPoison(pitx4,pity4,75,75);
+                            p.life = 1060;
+                            p.shoot = true;
+                            p.rottenPoison = true;
+                            p = addPoison(pitx5,pity5,75,75);
+                            p.life = 1060;
+                            p.shoot = true;
+                            p.rottenPoison = true;
+                        }
+                    }else{
+                        if((testFrame > 30 && testFrame < 330)){
+                            textSize(120);
+                            fill(78, 0, 120);
+                            text("!",pitx2+25,pity2+85);
+                            text("!",pitx3+25,pity3+85);
+                            text("!",pitx4+25,pity4+85);
+                            text("!",pitx5+25,pity5+85);
+                        }
+                        if(testFrame === 90 || testFrame === 150 || testFrame === 210 || testFrame === 270 || testFrame === 330 ){
+                            var p = addPoison(pitx2,pity2,75,75);
+                            p.life = 100;
+                            p.rottenPoison = true;
+                            p = addPoison(pitx3,pity3,75,75);
+                            p.life = 100;
+                            p.rottenPoison = true;
+                            p = addPoison(pitx4,pity4,75,75);
+                            p.life = 100;
+                            p.rottenPoison = true;
+                            p = addPoison(pitx5,pity5,75,75);
+                            p.life = 100;
+                            p.rottenPoison = true;
+                        }
+                        if(testFrame === 30 || testFrame === 90 || testFrame === 150 || testFrame === 210 || testFrame === 270){
+                            pitx2 = random(0,300);
+                            pity2 = random(50,300);
+                            pitx3 = random(0,300);
+                            pity3 = random(50,300);
+                            pitx4 = random(0,300);
+                            pity4 = random(50,300);
+                            pitx5 = random(0,300);
+                            pity5 = random(50,300);
+                        }
+                    }
+                    if(testFrame >= 500){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "toxic cloud";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "magma burst"){
+                    if(corruption){
+                        if(testFrame > 90 && testFrame < 450){
+                            if(testFrame % 50 === 49) {
+                                var r = random(50,350);
+                                var r2 = random(100,350);
+                                var numMissiles = 6;
+                                var altarM = 0;
+                                var angleOffset = random() * 360 / numMissiles;
+                                for (var j = 0 ; j < numMissiles ; j++) {
+                                    var angle = j * 360 / numMissiles + angleOffset;
+                                    var m = {
+                                      x: (r)+(5 * cos(angle))*10,
+                                      y: (r2)+(5 * sin(angle))*10,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 20,
+                                      damage: altarM,
+                                      red: 108,
+                                      green: 60,
+                                      blue: 36,
+                                    };
+                                    ms.push(m);
+                                    m.ux = m.x;
+                                    m.uy = m.y;
+                                    m.uvx = m.vx;
+                                    m.uvy = m.vy;
+                                    m.vx = 0;
+                                    m.vy = 0;
+                                }
+                            }
+                        }
+                    }else{
+                        if((testFrame >= 60 && testFrame < 90)){
+                            textSize(120);
+                            fill(89, 48, 25);
+                            text("!",e.x+12,e.y+70); 
+                        }
+                        if(testFrame > 90 && testFrame < 450){
+                            if(testFrame % 80 === 79) {
+                                var m = addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2, 5, 25, 2, 108,63,36);
+                                m.burst = random(30,60);
+                                m.burn = true;
+                            }
+                        }
+                    }
+                    if(testFrame >= 600){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "eruption";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "eruption"){
+                    if(corruption){
+                        if(testFrame === 60){
+                            pitx2 = random(50,350);
+                            pity2 = random(50,350);
+                            pitx4 = random(-3,3);
+                            pity4 = random(-3,3);
+                        }
+                        if(testFrame >= 60 && testFrame < 480){
+                            pitx2 += pitx4;
+                            pity2 += pity4;
+                            pitx3 += pitx5;
+                            pity3 += pity5;
+                            if(pitx2<10){
+                                pitx2 = 10; 
+                            }
+                            if(pitx2>390){
+                                pitx2 = 390;   
+                            }
+                            if(pity2<60){
+                                pity2 = 60; 
+                            }
+                            if(pity2>390){
+                                pity2 = 390;   
+                            }
+                            line(pitx2-50,pity2-10,pitx2+40,pity2+80);
+                            line(pitx2-50,pity2+80,pitx2+40,pity2-10);
+                            line(pitx2-5,pity2-10,pitx2-5,pity2+80);
+                        }
+                        if(testFrame >= 90 && testFrame < 480){
+                            if(testFrame%20 === 19) {
+                                pitx4 = random(-3,3);
+                                pity4 = random(-3,3);
+                                var m = addMissile(pitx2,pity2,0,random(20,50),3,100,36,36);  
+                                m.burn = true;
+                                var mdir = floor(random(0,2));
+                                if(mdir === 0){
+                                    m.vx = 3;  
+                                }else if(mdir === 1){
+                                    m.vx = -3;
+                                }
+                                m.vy = -10;
+                            }
+                        }
+                    }else{
+                        if(testFrame === 60){
+                            pitx2 = random(50,350);
+                            pity2 = random(50,350);
+                            pitx3 = random(50,350);
+                            pity3 = random(50,350);
+                        }
+                        if(testFrame >= 60 && testFrame < 480){
+                            textSize(120);
+                            fill(186, 0, 0);
+                            line(pitx2-50,pity2-10,pitx2+40,pity2+80);
+                            line(pitx2-50,pity2+80,pitx2+40,pity2-10);
+                            line(pitx2-5,pity2-10,pitx2-5,pity2+80);
+                            line(pitx3-50,pity3-10,pitx3+40,pity3+80);
+                            line(pitx3-50,pity3+80,pitx3+40,pity3-10);
+                            line(pitx3-5,pity3-10,pitx3-5,pity3+80);
+                        }
+                        if(testFrame >= 90 && testFrame < 480){
+                            if(testFrame%20 === 19) {
+                                var m = addMissile(pitx2,pity2,0,random(20,50),3,100,36,36);  
+                                m.burn = true;
+                                var mdir = floor(random(0,2));
+                                if(mdir === 0){
+                                    m.vx = 3;  
+                                }else if(mdir === 1){
+                                    m.vx = -3;
+                                }
+                                m.vy = -10;
+                                m = addMissile(pitx3,pity3,0,random(20,50),3,100,36,36);  
+                                m.burn = true;
+                                var mdir = floor(random(0,2));
+                                if(mdir === 0){
+                                    m.vx = 3;  
+                                }else if(mdir === 1){
+                                    m.vx = -3;
+                                }
+                                m.vy = -10;
+                            }
+                        }
+                    }
+                    if(testFrame >= 650){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "meteor impact";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "meteor impact"){
+                    if(testFrame === 2){
+                        metShadow = 0;
+                        metShadow2 = 0;
+                    }
+                    if(corruption){
+                        if(testFrame === 1+60){
+                            metx = floor(random(10,320));
+                            mety = floor(random(80,320));
+                            metx2 = floor(random(10,320));
+                            mety2 = floor(random(80,320));
+                            metx3 = floor(random(10,320));
+                            mety3 = floor(random(80,320));
+                        }
+                        if(testFrame >= 30+60 && testFrame <105+60){
+                            metShadow+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx,mety,metShadow,metShadow);
+                        }
+                        if(testFrame === 105+60){
+                            fill(255, 0, 0);
+                            ellipse(metx,mety,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx, mety, pw, 250)){
+                                HP -= 200;
+                            }
+                            var m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 10;m.vy = 10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = -10;m.vy = -10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 10;m.vy = -10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = -10;m.vy = 10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 0;m.vy = 10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 0;m.vy = -10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 10;m.vy = 0;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = -10;m.vy = 0;m.burn = true;//horrendous code but it's more compact
+                            metShadow = 0;
+                            metx = floor(random(10,320));
+                            mety = floor(random(80,320));
+                        }
+                        if(testFrame >= 90+60 && testFrame <165+60){
+                            metShadow2+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx2,mety2,metShadow2,metShadow2);
+                        }
+                        if(testFrame === 165+60){
+                            fill(255, 0, 0);
+                            ellipse(metx2,mety2,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx2, mety2, pw, 250)){
+                                HP -= 200;
+                            }
+                            var m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 10;m.vy = 10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = -10;m.vy = -10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 10;m.vy = -10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = -10;m.vy = 10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 0;m.vy = 10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 0;m.vy = -10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 10;m.vy = 0;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = -10;m.vy = 0;m.burn = true;
+                            metShadow2 = 0;
+                            metx2 = floor(random(10,320));
+                            mety2 = floor(random(80,320));
+                        }
+                        if(testFrame >= 150+60 && testFrame <225+60){
+                            metShadow3+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx3,mety3,metShadow3,metShadow3);
+                        }
+                        if(testFrame === 225+60){
+                            fill(255, 0, 0);
+                            ellipse(metx3,mety3,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx3, mety3, pw, 250)){
+                                HP -= 200;
+                            }
+                            var m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = 10;m.vy = 10;m.burn = true;m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = -10;m.vy = -10;m.burn = true;m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = 10;m.vy = -10;m.burn = true;m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = -10;m.vy = 10;m.burn = true;m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = 0;m.vy = 10;m.burn = true;m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = 0;m.vy = -10;m.burn = true;m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = 10;m.vy = 0;m.burn = true;m = addMissile(metx3,mety3,10,15,0,99,54,0);m.vx = -10;m.vy = 0;m.burn = true;
+                            metShadow3 = 0;
+                            metx3 = floor(random(10,320));
+                            mety3 = floor(random(80,320));
+                        }
+                        if(testFrame >= 210+60 && testFrame <285+60){
+                            metShadow+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx,mety,metShadow,metShadow);
+                        }
+                        if(testFrame === 285+60){
+                            fill(255, 0, 0);
+                            ellipse(metx,mety,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx, mety, pw, 250)){
+                                HP -= 200;
+                            }
+                            var m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 10;m.vy = 10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = -10;m.vy = -10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 10;m.vy = -10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = -10;m.vy = 10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 0;m.vy = 10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 0;m.vy = -10;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = 10;m.vy = 0;m.burn = true;m = addMissile(metx,mety,10,15,0,99,54,0);m.vx = -10;m.vy = 0;m.burn = true;
+                            metShadow = 0;
+                            metx = floor(random(10,320));
+                            mety = floor(random(80,320));
+                        }
+                        if(testFrame >= 270+60 && testFrame < 345+60){
+                            metShadow2+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx2,mety2,metShadow2,metShadow2);
+                        }
+                        if(testFrame === 345+60){
+                            fill(255, 0, 0);
+                            ellipse(metx2,mety2,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx2, mety2, pw, 250)){
+                                HP -= 200;
+                            }
+                            var m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 10;m.vy = 10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = -10;m.vy = -10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 10;m.vy = -10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = -10;m.vy = 10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 0;m.vy = 10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 0;m.vy = -10;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = 10;m.vy = 0;m.burn = true;m = addMissile(metx2,mety2,10,15,0,99,54,0);m.vx = -10;m.vy = 0;m.burn = true;
+                            metShadow2 = 0;
+                            metx2 = floor(random(10,320));
+                            mety2 = floor(random(80,320));
+                        }
+                    }else{
+                        if(testFrame === 1+60){
+                            metx = floor(random(10,320));
+                            mety = floor(random(80,320));
+                            metx2 = floor(random(10,320));
+                            mety2 = floor(random(80,320));
+                            metx3 = floor(random(10,320));
+                            mety3 = floor(random(80,320));
+                        }
+                        if(testFrame >= 30+60 && testFrame <105+60){
+                            metShadow+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx,mety,metShadow,metShadow);
+                        }
+                        if(testFrame === 105+60){
+                            fill(255, 0, 0);
+                            ellipse(metx,mety,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx, mety, pw, 250)){
+                                HP -= 200;
+                            }
+                            metShadow = 0;
+                            metx = floor(random(10,320));
+                            mety = floor(random(80,320));
+                        }
+                        if(testFrame >= 90+60 && testFrame <165+60){
+                            metShadow2+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx2,mety2,metShadow2,metShadow2);
+                        }
+                        if(testFrame === 165+60){
+                            fill(255, 0, 0);
+                            ellipse(metx2,mety2,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx2, mety2, pw, 250)){
+                                HP -= 200;
+                            }
+                            metShadow2 = 0;
+                            metx2 = floor(random(10,320));
+                            mety2 = floor(random(80,320));
+                        }
+                        if(testFrame >= 150+60 && testFrame <225+60){
+                            metShadow3+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx3,mety3,metShadow3,metShadow3);
+                        }
+                        if(testFrame === 225+60){
+                            fill(255, 0, 0);
+                            ellipse(metx3,mety3,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx3, mety3, pw, 250)){
+                                HP -= 200;
+                            }
+                            metShadow3 = 0;
+                            metx3 = floor(random(10,320));
+                            mety3 = floor(random(80,320));
+                        }
+                        if(testFrame >= 210+60 && testFrame <285+60){
+                            metShadow+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx,mety,metShadow,metShadow);
+                        }
+                        if(testFrame === 285+60){
+                            fill(255, 0, 0);
+                            ellipse(metx,mety,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx, mety, pw, 250)){
+                                HP -= 200;
+                            }
+                            metShadow = 0;
+                            metx = floor(random(10,320));
+                            mety = floor(random(80,320));
+                        }
+                        if(testFrame >= 270+60 && testFrame < 345+60){
+                            metShadow2+=3.33;
+                            fill(0,0,0,150);
+                            ellipse(metx2,mety2,metShadow2,metShadow2);
+                        }
+                        if(testFrame === 345+60){
+                            fill(255, 0, 0);
+                            ellipse(metx2,mety2,250,250);
+                            if(overlapCircle(px+pw/2, py+ph/2, metx2, mety2, pw, 250)){
+                                HP -= 200;
+                            }
+                            metShadow2 = 0;
+                            metx2 = floor(random(10,320));
+                            mety2 = floor(random(80,320));
+                        }
+                    }
+                    if(testFrame >= 650){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "magma burst";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "dark missiles"){
+                    if((testFrame >= 60 && testFrame < 90)){
+                        textSize(120);
+                        fill(26, 26, 26);
+                        text("!",e.x+12,e.y+70); 
+                    }
+                    if(testFrame > 90 && testFrame < 350){
+                        if(testFrame % 10 === 9) {
+                            addMissile(e.x+e.mon.width/2,e.y+e.mon.height/2,10,15,25,0, 0, 0, true, 400);   
+                        }
+                    }
+                    if(testFrame >= 650){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "dark clone";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "dark clone"){
+                    if((testFrame >= 65 && testFrame < 95)){
+                        textSize(120);
+                        fill(99, 99, 99);
+                        text("!",e.x+12,e.y+70); 
+                    }
+                    if(testFrame >= 90 && testFrame < 450){
+                        if(testFrame%50 === 49) {
+                            addMonster(e.x-50,e.y-50,monsters.darkClone);
+                            addMonster(e.x-50,e.y+e.mon.height+50,monsters.darkClone);
+                            addMonster(e.x+e.mon.width+50,e.y-50,monsters.darkClone);
+                            addMonster(e.x+e.mon.width+50,e.y+e.mon.height+50,monsters.darkClone);
+                        }
+                    }
+                    if(testFrame >= 650){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "phantom laser";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "phantom laser"){
+                    if(testFrame >= 90 && testFrame < 140){
+                        textSize(120);
+                        fill(130, 0, 130);
+                        text("!",e.x+12,e.y+70); 
+                    }
+                    if(testFrame >= 140 && testFrame < 280){
+                        if(testFrame%50 === 49) {
+                            addLaser(e, 45,150, px+pw/2, py+ph/2, 230, 0, 255, "phantom"); 
+                        }
+                    }
+                    if(testFrame >= 650){
+                        testFrame = 0;
+                        var r = floor(random(0,2));
+                        if(r === 0){
+                            corruption = true;   
+                        }else{
+                            corruption = false;
+                        }
+                        darkAttack = "dark missiles";
+                        noMove = false;
+                        if(phase3){
+                            pickMove();
+                            corruption = true;
+                        }
+                    }
+                }
+                if(darkAttack === "reality tear"){
+                    if(testFrame === 30){
+                        pitx2 = random(0,300);
+                        pity2 = random(50,300);
+                    }
+                    if(testFrame >= 30 && testFrame < 90){
+                        textSize(120);
+                        fill(145, 0, 255);
+                        text("!",pitx2+25,pity2+85);
+                    }
+                    if(testFrame >= 90 && testFrame <= 450){
+                        if(testFrame%20 === 19) {
+                            var m = addMissile(pitx2,pity2,0,random(20,50),5,145,0,255); 
+                            m.vx = random(-5,5);
+                            if(m.vx >= 0 && m.vx < 1){
+                                m.vx = 1;
+                            }
+                            if(m.vx < 0 && m.vx > -1){
+                                m.vx = -1;
+                            }
+                            m.vy = random(-5,5);
+                            if(m.vy >= 0 && m.vy < 1){
+                                m.vy = 1;
+                            }
+                            if(m.vy < 0 && m.vy > -1){
+                                m.vy = -1;
+                            }
+                            m.poison = true;
+                            m.burn = true;
+                            m.slow = true;
+                            m.confuse = true;
+                            m.decay = true;
+                            m.disable = true;
+                        }
+                    }
+                    if(testFrame >= 750){
+                        testFrame = 0;
+                        noMove = false;
+                        pickMove();
+                    }
+                }
+                if(darkAttack === "black hole"){
+                    if(testFrame === 30){
+                        pitx2 = random(0,300);
+                        pity2 = random(50,300);
+                    }
+                    if(testFrame >= 30 && testFrame < 90){
+                        textSize(120);
+                        fill(41, 41, 41);
+                        text("!",pitx2,pity2+45);
+                    }
+                    if(testFrame >= 90 && testFrame <= 450){
+                        var xpit = pitx2;
+                        var ypit = pity2;
+                        pitFrame2 = frame;
+                        var pitSize2 = 120;
+                        if(pitSize2>0){
+                            var pullx = xpit-(px+pw/2);
+                            var pully = ypit-(py+ph/2); 
+                            var pullen = sqrt(pullx*pullx+pully*pully);
+                            if (pullen < (pitSize2+pw)/2) {
+                                if(pullen>0){
+                                    if(!HitLines(tryx,tryy,pw,ph)){
+                                        px+=pullx/pullen*5;
+                                        py+=pully/pullen*5;
+                                    }
+                                }
+                                if(!Pinvincible){
+                                    HP-=15;
+                                }
+                            }else{
+                                if(pullen>0){
+                                    if(!HitLines(tryx,tryy,pw,ph)){
+                                        px+=pullx/pullen*4;
+                                        py+=pully/pullen*4;
+                                    }
+                                }
+                            }
+                            stroke(255, 255, 255);
+                            fill(0, 0, 0);
+                            ellipse(xpit,ypit,pitSize2,pitSize2);
+                            stroke(0, 0, 0);
+                        }
+                    }
+                    if(testFrame >= 750){
+                        testFrame = 0;
+                        noMove = false;
+                        pickMove();
+                    }
+                }
+                if(darkAttack === "corruption overload"){
+                    if(testFrame === 30){
+                        chargeUp = 0;
+                    }
+                    if(testFrame >= 30 && testFrame < 160){
+                        e.x = 180;
+                        e.y = 200;
+                        chargeUp+=5;
+                        fill(94, 0, 94,200);
+                        ellipse(e.x+e.mon.width/2,e.y+e.mon.height/2,chargeUp,chargeUp);
+                    }
+                    if(testFrame === 160){
+                        poisonFrame = -999999;
+                        rottenFrame = -999999;
+                        burn = -99999;
+                        frostBurn = -9999;
+                        bittenFrame = -99999;
+                        HP = 1;
+                        MP = 1;
+                    }
+                    if(testFrame >= 750){
+                        testFrame = 0;
+                        noMove = false;
+                        pickMove();
+                    }
+                }
+            }
+            if(talked && !phase2){
+                if(darkAttack === "laser"){
+                    if(lasers.length > 0){
+                        noMove = true;   
+                    }
+                    if(e.hp>9000){
+                        if(testFrame >= 90 && testFrame <= 180){
+                            if(testFrame%20 === 19) {
+                                addLaser(e, 30,300);
+                            }
+                        }
+                        if(testFrame >= 260){
+                            testFrame = 0;
+                            darkAttack = "missiles";   
+                        }
+                    }else if(e.hp>4000){
+                        if(testFrame >= 90 && testFrame <= 105){
+                            if(testFrame%3 === 2) {
+                                addLaser(e, 30,150, random(-75,75)+px+pw/2, random(-75,75)+py+ph/2);
+                            }
+                        }
+                        if(testFrame >= 135 && testFrame <= 150){
+                            if(testFrame%3 === 2) {
+                                addLaser(e, 30,150, random(-75,75)+px+pw/2, random(-75,75)+py+ph/2);
+                            }
+                        }
+                        if(testFrame >= 180 && testFrame <= 195){
+                            if(testFrame%3 === 2) {
+                                addLaser(e, 30,150, random(-75,75)+px+pw/2, random(-75,75)+py+ph/2);
+                            }
+                        }
+                        if(testFrame >= 280){
+                            testFrame = 0;
+                            darkAttack = "missiles";   
+                        }
+                    }else{
+                        if(testFrame < 340){
+                            noMove = true;
+                            e.x = 180;
+                            e.y = 200;
+                        }
+                        if(testFrame === 1){
+                            addMonster(70,100,monsters.glassPillar);
+                            addMonster(290,100,monsters.glassPillar);
+                            addMonster(70,320,monsters.glassPillar);
+                            addMonster(290,320,monsters.glassPillar);
+                        }
+                        if(testFrame >= 90 && testFrame <= 105){
+                            if(testFrame%3 === 2) {
+                                addLaser(e, 30,150, random(-75,75)+px+pw/2, random(-75,75)+py+ph/2);
+                            }
+                        }
+                        if(testFrame >= 135 && testFrame <= 150){
+                            if(testFrame%3 === 2) {
+                                addLaser(e, 30,150, random(-75,75)+px+pw/2, random(-75,75)+py+ph/2);
+                            }
+                        }
+                        if(testFrame >= 180 && testFrame <= 195){
+                            if(testFrame%3 === 2) {
+                                addLaser(e, 30,150, random(-75,75)+px+pw/2, random(-75,75)+py+ph/2);
+                            }
+                        }
+                        if(testFrame >= 225 && testFrame <= 300){
+                            if(testFrame%20 === 19) {
+                                addLaser(e, 30, 150, 0, 50);
+                                addLaser(e, 30, 150, 400, 50);
+                                addLaser(e, 30, 150, 0, 400);
+                                addLaser(e, 30, 150, 400, 400);
+                            }
+                        }
+                        if(testFrame >= 380){
+                            testFrame = 0;
+                            darkAttack = "missiles";   
+                        }
+                    }
+                }else if(darkAttack === "missiles"){
+                    if(e.hp>8000){
+                        if(testFrame >= 75 && testFrame < 490){
+                            noMove = true;   
+                        }
+                        if(testFrame === 90 || testFrame === 180 || testFrame === 270 || testFrame === 360){
+                            var numMissiles = 3;
+                            var altarM = 10;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var j = 0 ; j < numMissiles ; j++) {
+                                var angle = j * 360 / numMissiles + angleOffset;
+                                var m = {
+                                  x: e.x+e.mon.width/2,
+                                  y: e.y+e.mon.height/2,
+                                  vx: 5 * cos(angle),
+                                  vy: 5 * sin(angle),
+                                  size: 20,
+                                  damage: altarM,
+                                  red: 140,
+                                  green: 140,
+                                  blue: 140,
+                                  launch: 75,
+                                  stop: 15,
+                                };
+                                ms.push(m);
+                            }
+                        }
+                        if(testFrame >= 530){
+                            testFrame = 0;
+                            if(e.hp <= 5000){
+                                darkAttack = "mech deploy";
+                            }else{
+                                darkAttack = "saw";  
+                            }  
+                        }
+                    }else if(e.hp>3000){
+                        if(testFrame >= 75){
+                            noMove = true;   
+                        }
+                        if(testFrame === 90 || testFrame === 225 || testFrame === 360){
+                            var numMissiles = 9;
+                            var altarM = 10;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var j = 0 ; j < numMissiles ; j++) {
+                                var angle = j * 360 / numMissiles + angleOffset;
+                                var m = {
+                                  x: e.x+e.mon.width/2,
+                                  y: e.y+e.mon.height/2,
+                                  vx: 5 * cos(angle),
+                                  vy: 5 * sin(angle),
+                                  size: 20,
+                                  damage: altarM,
+                                  red: 140,
+                                  green: 140,
+                                  blue: 140,
+                                  launch: 75+(j*5),
+                                  stop: 15,
+                                };
+                                ms.push(m);
+                            }
+                        }
+                        if(testFrame >= 530){
+                            testFrame = 0;
+                            if(e.hp <= 5000){
+                                darkAttack = "mech deploy";
+                            }else{
+                                darkAttack = "saw";  
+                            } 
+                        }
+                    }else{
+                        if(testFrame >= 75){
+                            noMove = true;   
+                        }
+                        if(testFrame === 90 || testFrame === 225 || testFrame === 360){
+                            var numMissiles = 18;
+                            var altarM = 10;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var j = 0 ; j < numMissiles ; j++) {
+                                var angle = j * 360 / numMissiles + angleOffset;
+                                var target = false;
+                                if(j % 2 === 0){
+                                    target = true;   
+                                }
+                                var m;
+                                if(target){
+                                    m = {
+                                      x: e.x+e.mon.width/2,
+                                      y: e.y+e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 20,
+                                      damage: altarM,
+                                      red: 140,
+                                      green: 140,
+                                      blue: 140,
+                                      launch: 75+(j*2.5),
+                                      stop: 15,
+                                    };
+                                }else{
+                                    m = {
+                                      x: e.x+e.mon.width/2,
+                                      y: e.y+e.mon.height/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 20,
+                                      damage: altarM,
+                                      red: 140,
+                                      green: 140,
+                                      blue: 140,
+                                    };
+                                }
+                                ms.push(m);
+                            }
+                        }
+                        if(testFrame >= 530){
+                            testFrame = 0;
+                            if(e.hp <= 5000){
+                                darkAttack = "mech deploy";
+                            }else{
+                                darkAttack = "saw";  
+                            }
+                        }
+                    }
+                }else if(darkAttack === "saw"){
+                    if(testFrame >= 10 && testFrame <= 360){
+                        if(testFrame%120 === 119) {
+                            var numMissiles = 0;
+                            if(e.hp > 7000){
+                                numMissiles = 3;
+                            }else if(e.hp > 2000){
+                                numMissiles = 4;
+                            }else{
+                                numMissiles = 4;
+                                homingSaw = true;
+                            }
+                            var altarM = 0;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var j = 0 ; j < numMissiles ; j++) {
+                                var angle = j * 360 / numMissiles;
+                                var m = {
+                                  x: e.x+e.mon.width/2,
+                                  y: e.y+e.mon.height/2,
+                                  vx: 5 * cos(angle),
+                                  vy: 5 * sin(angle),
+                                  size: 0,
+                                  damage: altarM,
+                                  red: 8,
+                                  green: 8,
+                                  blue: 8,
+                                  bounce: 1,
+                                  spin: true,
+                                  angle: angle,
+                                  initAngle: angle,
+                                  speed: 7,
+                                  angleInc: 3,
+                                  angleDecay: 0,
+                                  follow: true,
+                                };
+                                ms.push(m);
+                            }
+                        }
+                        /*
+                        if(testFrame%30 === 29) {
+                            var numMissiles = 12;
+                            var altarM = 10;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var j = 0 ; j < numMissiles ; j++) {
+                                var angle = j * 360 / numMissiles + angleOffset;
+                                var m = {
+                                  x: e.x+e.mon.width/2,
+                                  y: e.y+e.mon.height/2,
+                                  vx: 5 * cos(angle),
+                                  vy: 5 * sin(angle),
+                                  size: 20,
+                                  damage: altarM,
+                                  red: 168,
+                                  green: 15,
+                                  blue: 15,
+                                  bounce: 1,
+                                  spin: true,
+                                  angle: angle,
+                                  angleInc: 10,
+                                  angleDecay: 0.1,
+                                };
+                                ms.push(m);
+                            }
+                        }*/
+                    }
+                    if(testFrame >= 520){
+                        testFrame = 0;
+                        darkAttack = "flamethrower";   
+                    }
+                }else if(darkAttack === "flamethrower"){
+                    if(testFrame === 9){
+                        e.flameOffset = random();
+                        e.flameInc = floor(random(0,2));
+                    }
+                    if(testFrame >= 10 && testFrame <= 360){
+                        if(testFrame%5 === 4) {
+                            if(e.flameInc === 0){
+                                e.flameOffset-=0.05;
+                            }else if(e.flameInc === 1){
+                                e.flameOffset+=0.05;
+                            }
+                            var numMissiles = 2;
+                            var altarM = 0;
+                            var angleOffset = e.flameOffset * 360 / numMissiles;
+                            var angle = 360 / numMissiles + angleOffset;
+                            if(e.hp >= 6000){
+                                var m = addMissile(e.x+e.mon.width/2 + 50 * cos(angle),e.y+e.mon.height/2 + 50 * sin(angle), 3, 20, 2, 254, 145, 0, true);
+                                m.burn = true;
+                                m = addMissile(e.x+e.mon.width/2 - 50 * cos(angle),e.y+e.mon.height/2 - 50 * sin(angle), 3, 20, 2, 254, 145, 0, true);
+                                m.burn = true;
+                            }else if(e.hp >= 1000){
+                                var m = addMissile(e.x+e.mon.width/2 + 50 * cos(angle),e.y+e.mon.height/2 + 50 * sin(angle), 5, 20, 2, 254, 105, 0, true);
+                                m.burn = true;
+                                m = addMissile(e.x+e.mon.width/2 - 50 * cos(angle),e.y+e.mon.height/2 - 50 * sin(angle), 5, 20, 2, 254, 105, 0, true);
+                                m.burn = true;
+                            }else{
+                                var m = addMissile(e.x+e.mon.width/2 + 50 * cos(angle),e.y+e.mon.height/2 + 50 * sin(angle), 5, 20, 2, 82, 235, 255, true);
+                                m.frostBurn = true;
+                                m = addMissile(e.x+e.mon.width/2 - 50 * cos(angle),e.y+e.mon.height/2 - 50 * sin(angle), 5, 20, 2, 82, 235, 255, true);
+                                m.frostBurn = true;
+                            }
+                        }
+                    }
+                    if(testFrame >= 520){
+                        testFrame = 0;
+                        darkAttack = "laser";
+                    }
+                }else if(darkAttack === "mech deploy"){
+                    if(testFrame >= 60 && testFrame <= 120){
+                        noMove = true;   
+                    }
+                    if(testFrame === 60){
+                        e.x = 70;
+                        e.y = 100;
+                    }
+                    if(testFrame === 75){
+                        e.x = 290;
+                        e.y = 100;
+                        addMonster(70,100,monsters.Trobot);
+                    }
+                    if(testFrame === 90){
+                        e.x = 70;
+                        e.y = 320;
+                        addMonster(290,100,monsters.Trobot);
+                    }
+                    if(testFrame === 105){
+                        e.x = 290;
+                        e.y = 320;
+                        addMonster(70,320,monsters.Trobot);
+                    }
+                    if(testFrame === 120){
+                        e.x = 180;
+                        e.y = 200;
+                        addMonster(290,320,monsters.Trobot);
+                    }
+                    if(testFrame >= 520){
+                        testFrame = 0;
+                        darkAttack = "saw";
+                    }
+                }
+            }
+        }
+    }
         if(es[0].mon.name === "TRUE_DARKLORD") {
             if(!text1&&!talked){
                 addText(frame+2400,"INTIMIDATED NOW?                 ", 5, 150, 300, 350, 0, 0, 0);
@@ -13482,6 +17571,7 @@ if (level === -800){
                         whiteAlpha++;   
                     }
                     if(testFrame2 >= 2500){
+                        darkLordDead = true;
                         level = "angel";
                         StartLevel();
                     }
@@ -14903,6 +18993,9 @@ if (level === -800){
               }
           }else if(m.homingTime !== undefined && m.homingTime > 0){
               var errorInc = 0.03;
+              if(m.red === 8 && m.green === 8 && m.blue === 8){
+                errorInc += random(-0.05,0.05);  
+              }
               if(m.x < px-10){
                 m.homingErrorX += errorInc;  
               }
@@ -14943,8 +19036,19 @@ if (level === -800){
                         m.angle += m.angleInc;
                         m.angleInc-=m.angleDecay;
                     }
-                    m.vx = 5 * cos(m.angle);
-                    m.vy = 5 * sin(m.angle);
+                    if(m.speed !== undefined){
+                        m.vx = m.speed * cos(m.angle);
+                        m.vy = m.speed * sin(m.angle);
+                    }else{
+                        m.vx = 5 * cos(m.angle);
+                        m.vy = 5 * sin(m.angle);
+                    }
+                    if(m.angle >= m.initAngle+360 && m.red === 8 && m.green === 8 && m.blue === 8){
+                        if(homingSaw){
+                            addMissile(m.x,m.y, 0, 0, 20, 8, 8, 8, false, 400);
+                        }
+                        ms.splice(i,1);   
+                    }
                 }
                 if(m.pulse){
                     m.pulseTime++;
@@ -14968,7 +19072,122 @@ if (level === -800){
                     m.y += m.vy;
                 }
           }
-          if(m.burst === 0){
+          if(m.burst <= 0){
+                if(m.red === 201 && m.green === 153 && m.blue === 0){
+                    //sand slash burst
+                    var numMissiles = 6;
+                    var altarM = 3;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                          var m = {
+                              x: m.x,
+                              y: m.y,
+                              vx: 5 * cos(angle),
+                              vy: 5 * sin(angle),
+                              size: 15,
+                              damage: altarM,
+                              red: 201,
+                              green: 154,
+                              blue: 0,
+                          };
+                        ms.push(m);
+                    }
+                }
+                if(m.red === 108 && m.green === 63 && m.blue === 36){
+                    //magma burst   
+                    var numMissiles = 6;
+                    var altarM = 2;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                          var m = {
+                              x: m.x,
+                              y: m.y,
+                              vx: 5 * cos(angle),
+                              vy: 5 * sin(angle),
+                              size: 20,
+                              damage: altarM,
+                              red: 108,
+                              green: 63,
+                              blue: 36,
+                              pulse: false,
+                              burn: true,
+                          };
+                        ms.push(m);
+                    }
+                }
+                if(m.red === 237 && m.green === 249 && m.blue === 255){
+                    //dry ice burst 
+                    var numMissiles = 6;
+                    var altarM = 0;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                          var m = {
+                              x: m.x,
+                              y: m.y,
+                              vx: 5 * cos(angle),
+                              vy: 5 * sin(angle),
+                              size: 20,
+                              damage: altarM,
+                              red: 237,
+                              green: 249,
+                              blue: 254,
+                              pulse: false,
+                              miniFrostBurn: true,
+                          };
+                        ms.push(m);
+                    }
+                }
+                if(m.red === 237 && m.green === 248 && m.blue === 255){
+                    //corrupt dry ice burst 
+                    var numMissiles = 6;
+                    var altarM = 0;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                          var m = {
+                              x: m.x,
+                              y: m.y,
+                              vx: 5 * cos(angle),
+                              vy: 5 * sin(angle),
+                              size: 20,
+                              damage: altarM,
+                              red: 237,
+                              green: 248,
+                              blue: 254,
+                              pulse: false,
+                              miniFrostBurn: true,
+                          };
+                        ms.push(m);
+                    }
+                }
+                if(m.red === 97 && m.green === 81 && m.blue === 51){
+                    var numMissiles = 9;
+                    var altarM = 5;
+                    var angleOffset = random() * 360 / numMissiles;
+                    for (var j = 0 ; j < numMissiles ; j++) {
+                        var angle = j * 360 / numMissiles + angleOffset;
+                        var m2 = {
+                          x: (m.x + m.size/2)+(5 * cos(angle))*5,
+                          y: (m.y + m.size/2)+(5 * sin(angle))*5,
+                          vx: 5 * cos(angle),
+                          vy: 5 * sin(angle),
+                          size: 20,
+                          damage: altarM,
+                          red: 97,
+                          green: 81,
+                          blue: 52,
+                          homingTime: 9999999999,
+                          homingErrorX: 0,
+                          homingErrorY: 0,
+                        };
+                        m2.bounce = 9999999;
+                        m2.burst = floor(random(200,500));
+                        ms.push(m2);
+                    }
+                }
                 if(m.red === 97 && m.green === 81 && m.blue === 52){
                     var numMissiles = 6;
                     if(yggSummon){
@@ -15050,6 +19269,289 @@ if (level === -800){
                 }
             ms.splice(i,1);
           }
+            if(m.red === 100 && m.green === 36 && m.blue === 36){
+                //falling magma rocks
+                m.vy+=0.5;
+            }
+            if(m.red === 150 && m.green === 150 && m.blue === 150){
+                //falling rocks
+                m.vy+=0.5;
+            }
+            if(m.red === 149 && m.green === 149 && m.blue === 149){
+                //faa_a_A_lllllinG_g
+                m.vy+=0.5;
+                var r = floor(random(0,35));
+                if(r === 0){
+                    m.vy = 0;   
+                }
+            }
+            if(m.red === 0 && m.green === 255 && m.blue === 242){
+                //ancient beam
+                if (overlap(px, py, pw, ph, m.x-m.size/2, m.y-m.size/2, m.size, m.size)) {
+                    if(!HitLines(px+m.vx,py+m.vy,pw,ph)) {
+                        px += m.vx;
+                        py += m.vy;
+                    }
+                }
+            }
+            if(m.red === 142 && m.green === 142 && m.blue === 142){
+                //guide missile
+                m.vx*=1.04;
+                m.vy*=1.04;
+                if(m.time >= 60){
+                    var m2 = addMissile(m.ux,m.uy,1,20,15,141,141,141);
+                    m2.vx = m.uvx;
+                    m2.vy = m.uvy;
+                    ms.splice(i,1);
+                }
+            }
+            if(m.red === 108 && m.green === 60 && m.blue === 36){
+                //pre magma
+                if(m.time >= 60){
+                    var m2 = addMissile(m.ux,m.uy,1,20,2,108,63,36);
+                    m2.vx = m.uvx;
+                    m2.vy = m.uvy;
+                    m2.burn = true;
+                    ms.splice(i,1);
+                }
+            }
+            if(m.red === 232 && m.green === 139 && m.blue === 7){
+                //corrupted slow darts
+                if(!m.wallBounce){
+                    if(m.x<=0){
+                        m.x = 0;   
+                        if(m.vx !== 0 || m.vy !== 0){
+                            m.uvx = m.vx;
+                            m.uvy = m.vy;
+                        }
+                        m.vx = 0;
+                        m.vy = 0;
+                        m.wall = true;
+                    }
+                    if(m.x>=400){
+                        m.x = 400; 
+                        if(m.vx !== 0 || m.vy !== 0){
+                            m.uvx = m.vx;
+                            m.uvy = m.vy;
+                        }
+                        m.vx = 0;
+                        m.vy = 0;
+                        m.wall = true;
+                    }
+                    if(m.y<=50){
+                        m.y = 50;
+                        if(m.vx !== 0 || m.vy !== 0){
+                            m.uvx = m.vx;
+                            m.uvy = m.vy;
+                        }
+                        m.vx = 0;
+                        m.vy = 0;
+                        m.wall = true;
+                    }
+                    if(m.y>=400){
+                        m.y = 400;   
+                        if(m.vx !== 0 || m.vy !== 0){
+                            m.uvx = m.vx;
+                            m.uvy = m.vy;
+                        }
+                        m.vx = 0;
+                        m.vy = 0;
+                        m.wall = true;
+                    }
+                }
+                if(m.wall === true){
+                    if(m.wallTime === undefined){
+                        m.wallTime = 0;   
+                    }
+                    m.wallTime++;
+                }
+                if(m.wallTime >= 60){
+                    m.wallBounce = true;
+                    m.vx = -m.uvx;
+                    m.vy = -m.uvy;
+                }
+            }
+            if(m.red === 95 && m.green === 0 && m.blue === 150){
+                //venom wave
+                if (overlap(px, py, pw, ph, m.x-m.size/2, m.y-m.size/2, m.size, m.size)) {
+                    if(!HitLines(px+m.vx,py+m.vy,pw,ph)) {
+                        px += m.vx;
+                        py += m.vy;
+                    }
+                }
+            }
+            if(m.red === 98 && m.green === 0 && m.blue === 149){
+                //corrupted toxic cloud missile
+                if(m.cloudSize === undefined){
+                    m.cloudSize = 0;   
+                }
+                if(m.time>=180){
+                    if(m.time%30 === 29){
+                        m.cloudSize -= 50;
+                        if(m.cloudSize>0){
+                            var numMissiles = 6;
+                            var altarM = 0.5;
+                            var angleOffset = random() * 360 / numMissiles;
+                            for (var j = 0 ; j < numMissiles ; j++) {
+                                var angle = j * 360 / numMissiles + angleOffset;
+                                  var p = {
+                                      x: m.x+m.size/2,
+                                      y: m.y+m.size/2,
+                                      vx: 5 * cos(angle),
+                                      vy: 5 * sin(angle),
+                                      size: 15,
+                                      damage: altarM,
+                                      red: 98,
+                                      green: 0,
+                                      blue: 140,
+                                  };
+                                  p.poison = true;
+                                ms.push(p);
+                            }
+                        }
+                    }
+                }else{
+                    m.cloudSize++;   
+                }
+                fill(98, 0, 150, 100);
+                ellipse(m.x,m.y,m.cloudSize,m.cloudSize);
+                if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, m.cloudSize)) {
+                    poisonFrame = frame + 250;
+                    HP -= 0.5;
+                    Phurt = true;
+                }
+            }
+            if(m.red === 98 && m.green === 0 && m.blue === 150){
+                //toxic cloud missile
+                if(m.time >= 600){
+                    ms.splice(i,1);   
+                }
+                if(m.cloudSize === undefined){
+                    m.cloudSize = 0;   
+                }
+                m.cloudSize++;
+                fill(98, 0, 150, 100);
+                ellipse(m.x,m.y,m.cloudSize,m.cloudSize);
+                if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, m.cloudSize)) {
+                    poisonFrame = frame + 250;
+                    HP -= 0.5;
+                    Phurt = true;
+                }
+            }
+            if(m.red === 141 && m.green === 141 && m.blue === 141){
+                //missile but zoomie style (I'm great with comments aren't I)
+                m.vx*=1.04;
+                m.vy*=1.04;
+                if(m.x<=0||m.x>=400||m.y<=50||m.y>=400){
+                    fill(255, 102, 0);
+                    ellipse(m.x,m.y,200,200);
+                    if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
+                        HP -= 100;
+                        Phurt = true;
+                    }
+                    ms.splice(i,1);
+                }
+            }
+            if(m.red === 140 && m.green === 140 && m.blue === 140){
+                //missile missile ig
+                m.stop--;
+                m.launch--;
+                if(m.stop <= 0 && m.launch > 0){
+                    m.vx = 0;
+                    m.vy = 0;
+                }else if(m.launch === 0){
+                    m.vx = m.tvx;
+                    m.vy = m.tvy;
+                }
+                if(m.launch === 30){
+                    var speed = 15;
+                    var vxx = px+pw/2 - m.x;  
+                    var vyy = py+pw/2 - m.y;
+                    m.tx = px+pw/2;  
+                    m.ty = py+pw/2; 
+                    var len = sqrt(vxx*vxx + vyy*vyy);
+                    m.tvx = vxx/len*speed;
+                    m.tvy = vyy/len*speed;
+                    m.launchDist = len/speed;
+                }
+                if(m.launch <= 30 && m.launch > 0){
+                    line(m.x,m.y,m.tx,m.ty);
+                }
+                if(m.launch <= 0){
+                    m.launchDist -= 1;
+                }
+                if(m.launchDist <= 0){
+                    fill(255, 102, 0);
+                    ellipse(m.x,m.y,200,200);
+                    if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
+                        HP -= 100;
+                        Phurt = true;
+                    }
+                    ms.splice(i,1);
+                }
+            }
+            if(m.red === 201 && m.green === 153 && m.blue === 0){
+                //sand slash burst missile
+                if(m.x<0||m.x>400||m.y<50||m.y>400){
+                    m.burst = 0;
+                }
+            }
+            if(m.ice){
+                //ice creating missile
+                if(m.time%8 === 7){
+                    //addIce(m.x,m.y,50,50,60);
+                    addIce(m.x,m.y,50,50,1200);
+                }
+            }
+            if(m.red === 108 && m.green === 185 && m.blue === 225){
+                //liv ice missile
+                if(m.x<0||m.x>400||m.y<50||m.y>400){
+                    if(m.x<10){
+                        m.x+=10;
+                    }
+                    if(m.x>310){
+                        m.x-=90;
+                    }
+                    if(m.y<60){
+                        m.y+=10;
+                    }
+                    if(m.y>310){
+                        m.y-=90;
+                    }
+                    addMonster(m.x,m.y,monsters.livIce);
+                    ms.splice(i,1);
+                }
+            }
+            if(m.red === 237 && m.green === 249 && m.blue === 255){
+                //dry ice missile
+                if(m.x<0||m.x>400||m.y<50||m.y>400){
+                    m.burst = 0;
+                }
+            }
+            if(m.red === 237 && m.green === 248 && m.blue === 255){
+                //corrupt dry ice missile
+                if(m.x<0||m.x>400||m.y<50||m.y>400){
+                    m.burst = 0;
+                }
+            }
+            if(m.red === 237 && m.green === 248 && m.blue === 254){
+                //corrupt dry ice shrapnel
+                if(m.x<0||m.x>400||m.y<50||m.y>400){
+                    var m = addMissile(m.x+m.size/2,m.y+m.size/2, 5, 20, 5, 237, 248, 253, false, 400);
+                    m.frostBurn = true;
+                    ms.splice(i,1);
+                }
+            }
+          if(m.red === 8 && m.green === 8 && m.blue === 8){
+                //saw missile
+                var size = 20;
+                saw(m.x,m.y,size,size+5,-frame,360-frame,25,158,158,158);  
+                
+                if (overlap(px, py, pw, ph, m.x-size/2, m.y-size/2, size, size) && !Pinvincible) {
+                    HP -= 5;
+                    Phurt = true;
+                }
+            }
             if(m.red === 25 && m.green === 25 && m.blue === 25){
                 //head missile
                 var x = m.x + cos(m.mouthDir) * abs(m.charge);
@@ -15177,6 +19679,82 @@ if (level === -800){
                     stroke(0, 0, 0);
                 }
           }
+          if(m.red === 80 && m.green === 235 && m.blue === 253){
+              //small tornado missiles
+                m.xpit = m.x;
+                m.ypit = m.y;
+                pitFrame2 = frame;
+                var pitSize2 = 80;
+                if(pitSize2>0){
+                    var pullx = m.xpit-(px+pw/2);
+                    var pully = m.ypit-(py+ph/2); 
+                    var pullen = sqrt(pullx*pullx+pully*pully);
+                    if (pullen < (pitSize2+pw)/2) {
+                        if(pullen>0){
+                            if(!HitLines(tryx,tryy,pw,ph)){
+                                px+=pullx/pullen*5;
+                                py+=pully/pullen*5;
+                            }
+                        }
+                        if(!Pinvincible){
+                            HP-=3;
+                        }
+                    }
+                    stroke(204, 204, 204);
+                    var angle = frame*40;
+                    var x = sin(angle)*10;
+                    var y = cos(angle)*10;
+                    for (var j = 0; j < 80; j+=20){
+                        var k = 80-j;
+                        var fade2 = k/pitSize2;
+                        fill(255*fade2, 255*fade2, 255*fade2);
+                        ellipse(m.xpit+x*(1-fade2),m.ypit+y*(1-fade2),k,k);
+                        noStroke();
+                    }
+                    stroke(0, 0, 0);
+                }
+          }
+          if(m.red === 82 && m.green === 234 && m.blue === 253){
+              //weak tornado missiles
+                m.xpit = m.x;
+                m.ypit = m.y;
+                pitFrame2 = frame;
+                var pitSize2 = 80;
+                if(pitSize2>0){
+                    var pullx = m.xpit-(px+pw/2);
+                    var pully = m.ypit-(py+ph/2); 
+                    var pullen = sqrt(pullx*pullx+pully*pully);
+                    if (pullen < (pitSize2+pw)/2) {
+                        if(pullen>0){
+                            if(!HitLines(tryx,tryy,pw,ph)){
+                                px+=pullx/pullen*1;
+                                py+=pully/pullen*1;
+                            }
+                        }
+                        if(!Pinvincible){
+                            HP-=1;
+                            if(es[0].mon.name === "queenThunderCloud"){
+                                es[0].hp+=1;
+                                if(es[0].hp > es[0].mon.maxHp){
+                                    es[0].hp = es[0].mon.maxHp;   
+                                }
+                            }
+                        }
+                    }
+                    stroke(204, 204, 204);
+                    var angle = frame*40;
+                    var x = sin(angle)*10;
+                    var y = cos(angle)*10;
+                    for (var j = 0; j < 80; j+=20){
+                        var k = 80-j;
+                        var fade2 = k/pitSize2;
+                        fill(255*fade2, 255*fade2, 255*fade2, 100);
+                        ellipse(m.xpit+x*(1-fade2),m.ypit+y*(1-fade2),k,k);
+                        noStroke();
+                    }
+                    stroke(0, 0, 0);
+                }
+          }
             if(m.pollen){
                 //pollen rain
                 m.changeDir--;
@@ -15294,6 +19872,9 @@ if (level === -800){
             }
             if(level === "B8"){
                 p.life = 750;   
+            }
+            if(level === 103){
+                p.life = 1200;
             }
             ms.splice(i,1);
             i--;
@@ -15465,6 +20046,9 @@ if (level === -800){
                 if(m.red === 82 && m.green === 235 && m.blue === 250){
                     slow = 180;
                 }
+                if(m.red === 80 && m.green === 235 && m.blue === 250){
+                    slow = 45;
+                }
                 if(level === 101 && totalNum>1){
                     HP -= m.damage/6;
                 }else if(es[0].mon.name === "queenThunderCloud" && m.red === 82 && m.green === 235 && m.blue === 254){
@@ -15475,6 +20059,24 @@ if (level === -800){
                     }
                 }else{
                     HP -= m.damage;
+                    if(m.red === 141 && m.green === 141 && m.blue === 141){
+                        fill(255, 102, 0);
+                        ellipse(m.x,m.y,200,200);
+                        if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
+                            HP -= 100;
+                            Phurt = true;
+                        }
+                        ms.splice(i,1);
+                    }
+                    if(m.red === 140 && m.green === 140 && m.blue === 140){
+                        fill(255, 102, 0);
+                        ellipse(m.x,m.y,200,200);
+                        if(overlapCircle(px+pw/2, py+ph/2, m.x, m.y, pw, 200) && !Pinvincible) {
+                            HP -= 100;
+                            Phurt = true;
+                        }
+                        ms.splice(i,1);
+                    }
                 }
                 Phurt = true;
                 if(m.slow === true){
@@ -15483,8 +20085,121 @@ if (level === -800){
                 if(m.freeze === true){
                     stun = 60;  
                 }
+                if(m.disable){
+                    if(disable1 < 0){
+                        disable1 = 0;
+                        disable2 = 0;
+                        disable3 = 0;
+                        disable4 = 0;
+                        disable5 = 0;
+                        disable6 = 0;
+                        disable7 = 0;
+                        disable8 = 0;
+                        disable9 = 0;
+                        disable10 = 0;
+                        disable11 = 0;
+                        disable12 = 0;
+                        disable13 = 0;
+                        disable14 = 0;
+                        disable15 = 0;
+                    }
+                    disable1 += 24;
+                    disable2 += 24;
+                    disable3 += 24;
+                    disable4 += 24;
+                    disable5 += 24;
+                    disable6 += 24;
+                    disable7 += 24;
+                    disable8 += 24;
+                    disable9 += 24;
+                    disable10 += 24;
+                    disable11 += 24;
+                    disable12 += 24;
+                    disable13 += 24;
+                    disable14 += 24;
+                    disable15 += 24;
+                    if(attack === "fire"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "lightning"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "groundPound"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "slash"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "blob cannon"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "stun slash"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "heal"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "freezePound"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "tentacle"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "sand pit"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "slow dart"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "poison"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "eruption"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "charge"){
+                        attack = "disabled";   
+                    }
+                    if(attack === "restore"){
+                        attack = "disabled";   
+                    }   
+                }
+                if(m.burn === true){
+                    if(burn < 60){
+                        burn = 60;   
+                    }
+                    burn += 3;  
+                }
+                if(m.miniBurn === true){
+                    if(burn < 10){
+                        burn = 10;   
+                    }
+                    burn += 1;  
+                }
+                if(m.miniFrostBurn === true){
+                    if(frostBurn < 10){
+                        frostBurn = 10;   
+                    }
+                    frostBurn += 1;  
+                }
+                if(m.frostBurn === true){
+                    if(frostBurn < 60){
+                        frostBurn = 60;   
+                    }
+                    frostBurn += 3;  
+                }
                 if(m.poison === true){
                     poisonFrame = frame + 250;   
+                }
+                if(m.miniPoison === true){
+                    poisonFrame = frame + 50;   
+                }
+                if(m.rottenPoison === true){
+                    if(rottenFrame < frame + 50){
+                        rottenFrame = frame + 50;   
+                    }else{
+                        rottenFrame++;   
+                    }
                 }
                 if(m.decay === true){
                     decay = 60;  
@@ -17711,6 +22426,10 @@ if (level === -800){
                     }
                 }
                 if(e.mon.name === "adamantFortress") {
+                    e.hp+=10;
+                    if(e.hp > e.mon.maxHp){
+                        e.hp = e.mon.maxHp;   
+                    }
                     if(blobsalot === "dead" && blobolich === "dead" && es.length<=2){
                         if(!castleDed){
                             castleDed = 0;
@@ -17719,6 +22438,7 @@ if (level === -800){
                         whiteAlpha++;
                         castleDed++;
                         if(castleDed >= 255){
+                            darkLordDead = true;
                             level = "the end";
                             StartLevel();
                         }
@@ -18909,7 +23629,7 @@ if (level === -800){
         wi*=2;
         hei*=2;
        }
-       if((e.mon.damage !== 0||e.mon.name === "sandWall") && overlapCircle(px+pw/2, py+ph/2, e.x+e.mon.width/2, e.y+e.mon.height/2, pw, wi)) {
+       if((e.mon.damage !== 0||e.mon.name === "sandWall"||e.mon.name === "miniSandWall"||e.mon.name === "miniSandWallc") && overlapCircle(px+pw/2, py+ph/2, e.x+e.mon.width/2, e.y+e.mon.height/2, pw, wi)) {
         if(!Pinvincible || e.mon.name === "damageCloudPleaseIgnore"){
                 if((e.mon.name === "sirBlobsalot"|| e.mon.name === "sirBlobsalotII" || e.mon.name === "darkLord" || e.mon.name === "frozenWarrior") && charging >180){
                     if(e.mon.name!=="sirBlobsalotII" || weapon!=="spear"){
@@ -18976,6 +23696,9 @@ if (level === -800){
             }
             if (e.mon.name === "sandWall") {
               grab = true;  
+            }
+            if (e.mon.name === "miniSandWall" || e.mon.name === "miniSandWallc") {
+              superSlow = 2;
             }
             if (e.mon.name === "tentacle") {
               grab = true;
@@ -19216,9 +23939,16 @@ if (level === -800){
             line(x+15,y+10,x+25,y+20);
             line(x+65,y+10,x+55,y+20);
          }
-         if (e.mon.name === "sandWall") {
+         if (e.mon.name === "sandWall" || e.mon.name === "miniSandWall" || e.mon.name === "miniSandWallc") {
             fill(245, 240, 171);
             ellipse(x+e.mon.width/2,y+e.mon.height/2,e.mon.width,e.mon.height);
+         }
+         if (e.mon.name === "glassPillar") {
+            fill(0, 247, 255);
+            ellipse(x+e.mon.width/2,y+e.mon.height/2,e.mon.width,e.mon.height);
+            if(darkAttack!=="laser"){
+                es.splice(i,1);   
+            }
          }
          if (e.mon.name === "tentacle") {
             if(e.undead){
@@ -19392,6 +24122,12 @@ if (level === -800){
             line(180,80,150,65);
             line(220,80,250,65);
             stroke(0, 0, 0);
+       }
+       if(e.mon.name === "weedHead" || e.mon.name === "weedHeadc") {
+            runPlant(e);
+            if(e.dead){
+                es.splice(i,1);   
+            }
        }
        if(e.mon.name === "weed") {
             runPlant(e);
@@ -20102,6 +24838,42 @@ if (level === -800){
                 tint(255, 0, 0, 255);
                 image(darkBlob, x, y, e.mon.width, e.mon.height);
                 noTint();
+            }else if (e.mon.name === "darkClone"){
+                if(e.life === undefined){
+                    e.life = 180;   
+                }
+                e.life--;
+                if(e.life <= 60){
+                    jx = random()*4;  
+                    jy = random()*4; 
+                    x = e.x + jx;
+                    y = e.y + jy;
+                }
+                if(e.life <= 0){
+                    fill(0, 0, 0, 100);
+                    ellipse(e.x+e.mon.width/2,e.y+e.mon.height/2,250,250);
+                    if(overlapCircle(px+pw/2, py+ph/2, e.x+e.mon.width/2,e.y+e.mon.height/2, pw, 250) && !Pinvincible) {
+                        HP -= 100;
+                        decay = 60;
+                        Phurt = true;
+                    }
+                    es.splice(i,1);
+                }
+                tint(255, 0, 0, 100);
+                image(darkBlob, x, y, e.mon.width, e.mon.height);
+                noTint();
+                if(e.x<10){
+                    e.x = 10;   
+                }
+                if(e.x>330){
+                    e.x = 330;   
+                }
+                if(e.y<60){
+                    e.y = 60;   
+                }
+                if(e.y>330){
+                    e.y = 330;   
+                }
             }else if(e.mon.name === "darkKingBlob"){
                 if(spectral){
                     tint(122, 118, 157, 50);
@@ -20143,6 +24915,11 @@ if (level === -800){
                         playerPoundedFrame = frame;
                         playerPoundedEnemy = e;
                     }
+                }
+            }else if (e.mon.name === "Trobot") {
+                image(e.image,x,y,e.mon.width,e.mon.height);
+                if(darkAttack==="laser"){
+                    es.splice(i,1);   
                 }
             }else if(e.mon.name === "apocalypseKraken"){
                 image(e.image,x,y,e.mon.width,e.mon.height);
@@ -20203,7 +24980,45 @@ if (level === -800){
                     e.undead = true;   
                 }
                 if(!e.undead){
-                    image(e.image,x,y,e.mon.width,e.mon.height);
+                    if(e.mon.name === "HIM"){
+                        if(e.cold){
+                            fill(145, 244, 255, 100);
+                            ellipse(e.x+e.mon.width/2,e.y+e.mon.height/2,200,200);
+                            if(overlapCircle(px+pw/2, py+ph/2, e.x+e.mon.width/2,e.y+e.mon.height/2, pw, 200)) {
+                                if(slow<2){
+                                    slow = 2;
+                                }
+                            }
+                        }
+                        if(e.r === undefined){
+                            e.r = floor(random(10,100));   
+                        }
+                        if(e.tx === undefined){
+                            e.tx = 0;
+                            e.ty = 0;
+                        }
+                        e.r--;
+                        if(e.r <= 0){
+                            e.r = floor(random(10,100));  
+                            e.tx = random(-50,50);
+                            e.ty = random(-50,50);
+                        }
+                        if(corruption){
+                            x += e.tx;
+                            y += e.ty;
+                            tint(255, 0, 0, 255);
+                            image(darkBlob, x, y, e.mon.width, e.mon.height);
+                            noTint();   
+                        }else{
+                            image(e.image,x,y,e.mon.width,e.mon.height);   
+                        }
+                        fill(122, 122, 122);
+                        rect(x+28,y+34,10,5);
+                        fill(255, 0, 0);
+                        rect(x+30,y+35,6,3);
+                    }else{
+                        image(e.image,x,y,e.mon.width,e.mon.height);
+                    }
                 }
             }
             if(e.undead){
@@ -20425,6 +25240,455 @@ if (level === -800){
             }
         }
      }
+     
+     
+    //Draw lasers
+    for (var i = 0;i<lasers.length;i++) {
+        var l = lasers[i];
+        var e = lasers[i].e;
+        if(e.mon.name === "HIM"){
+            var ex = e.x+30;
+            var ey = e.y+35;
+            if(l.special === "stationary" || l.special === "emp fracture"){
+                if(l.statx === undefined){
+                    l.statx = e.x+e.mon.width/2;
+                    l.staty = e.y+e.mon.height/2;
+                }
+                ex = l.statx;
+                ey = l.staty;
+            }
+            if(l.sy !== undefined){
+                ex = l.sx;
+                ey = l.sy;
+            }
+            var slope = (l.y-ey)/(l.x-ex);
+            while((l.xtarg > 0 && l.xtarg < 400) && (l.ytarg > 0 && l.ytarg < 400) && !l.calculated){
+                if(l.xtarg<=ex){
+                    l.xtarg-=1;
+                    l.ytarg-=slope;
+                }else{
+                    l.xtarg+=1;
+                    l.ytarg+=slope;
+                }
+                if(l.special === "branch"){
+                    var r = floor(random(0,10*l.rec));
+                    if(r === 0){
+                        addLaser(e, 45,100, random(0,400), random(50,400), 230, 0, 255, "branch", l.xtarg, l.ytarg, l.rec*100);
+                    }
+                }
+                if(l.special === "mini branch"){
+                    var r = floor(random(0,100*l.rec));
+                    if(r === 0){
+                        addLaser(e, 45,50, random(0,400), random(50,400), 230, 0, 255, "branch", l.xtarg, l.ytarg, l.rec*100);
+                    }
+                }
+            }
+            if(!l.calculated){
+                for (var j = 0; j < es.length; j++) {
+                    var e2 = es[j];
+                    if(e2.mon.name === "glassPillar"){
+                        var glassHit = false;
+                        if(l.xtarg <= ex){
+                            if(e2.x+e2.mon.width/2<=ex){
+                                var liney = ((e2.x - ex)*slope)+ey; 
+                                var lineyw = (((e2.x+e2.mon.width) - ex)*slope)+ey;
+                                if(liney>=e2.y && liney<=e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }else if(lineyw>=e2.y && lineyw<=e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }else if(liney>e2.y && lineyw<e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }else if(liney<e2.y && lineyw>e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }
+                            }
+                        }else{
+                            if(e2.x+e2.mon.width/2>=ex){
+                                var liney = ((e2.x - ex)*slope)+ey; 
+                                var lineyw = (((e2.x+e2.mon.width) - ex)*slope)+ey;
+                                if(liney>=e2.y && liney<=e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }else if(lineyw>=e2.y && lineyw<=e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }else if(liney>e2.y && lineyw<e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }else if(liney<e2.y && lineyw>e2.y+e2.mon.height){
+                                    glassHit = true;
+                                }
+                            }   
+                        }
+                        if(glassHit){
+                            addLaser(e2,30,150);
+                        }
+                    }
+                }   
+            }
+            l.calculated = true;
+            l.shoot-=1;
+            if(l.shoot<=0){
+                if(l.b !== undefined){
+                    stroke(l.r, l.g, l.b);
+                }else{
+                    stroke(255, 0, 0);
+                }
+                if(l.special === "phantom"){
+                    addLaser(e, 45,150, random(0,400), random(50,400), 230, 0, 255, "mini phantom",l.xtarg, l.ytarg);
+                    addLaser(e, 45,150, random(0,400), random(50,400), 230, 0, 255, "mini phantom",l.xtarg, l.ytarg);
+                }
+                if(l.special === "mini phantom"){
+                    addLaser(e, 45,150, random(0,400), random(50,400), 230, 0, 255, "",l.xtarg, l.ytarg);
+                    addLaser(e, 45,150, random(0,400), random(50,400), 230, 0, 255, "",l.xtarg, l.ytarg);
+                }
+                line(l.xtarg,l.ytarg,ex,ey);
+                stroke(0, 0, 0);
+                var hit = false;
+                if(l.xtarg <= ex){
+                    if(px<=ex){
+                        var liney = ((px - ex)*slope)+ey; 
+                        var lineyw = ((Math.min((px+pw), ex) - ex)*slope)+ey;
+                        if(liney>=py && liney<=py+ph){
+                            hit = true;
+                        }else if(lineyw>=py && lineyw<=py+ph){
+                            hit = true;
+                        }else if(liney>py+ph && lineyw<py){
+                            hit = true;
+                        }else if(liney<py && lineyw>py+ph){
+                            hit = true;
+                        }
+                    }
+                }else{
+                    if(px+pw>=ex){
+                        var liney = ((Math.max(px,ex) - ex)*slope)+ey; 
+                        var lineyw = (((px+pw) - ex)*slope)+ey;
+                        if(liney>=py && liney<=py+ph){
+                            hit = true;
+                        }else if(lineyw>=py && lineyw<=py+ph){
+                            hit = true;
+                        }else if(liney>py+ph && lineyw<py){
+                            hit = true;
+                        }else if(liney<py && lineyw>py+ph){
+                            hit = true;
+                        }
+                    }   
+                }
+                if(hit){
+                    Phurt = true;
+                    HP -= l.dmg;
+                    if(l.special === "phantom"){
+                        noBodyTime = 300;
+                    }
+                    if(l.special === "mini phantom"){
+                        if(noBodyTime < 100){
+                            noBodyTime = 100;
+                        }
+                    }
+                    if(l.special === "color burn"){
+                        if(burn < 0){
+                            burn = 0;   
+                        }
+                        burn+=15;   
+                    }
+                    if(l.special === "color freeze"){
+                        if(stun < 0){
+                            stun = 0;   
+                        }
+                        stun+=2;   
+                    }
+                    if(l.special === "color confuse"){
+                        if(confuse < 0){
+                            confuse = 0;   
+                        }
+                        confuse+=24;   
+                    }
+                    if(l.special === "color slow"){
+                        if(slow < 0){
+                            slow = 0;   
+                        }
+                        slow+=24;   
+                    }
+                    if(l.special === "color poison"){
+                        if(poisonFrame < frame){
+                            poisonFrame = frame;   
+                        }
+                        poisonFrame+=24;
+                    }
+                    if(l.special === "color decay"){
+                        if(decay < 0){
+                            decay = 0;   
+                        }
+                        decay+=15;   
+                    }
+                    if(l.special === "color disable"){
+                        if(disable1 < 0){
+                            disable1 = 0;
+                            disable2 = 0;
+                            disable3 = 0;
+                            disable4 = 0;
+                            disable5 = 0;
+                            disable6 = 0;
+                            disable7 = 0;
+                            disable8 = 0;
+                            disable9 = 0;
+                            disable10 = 0;
+                            disable11 = 0;
+                            disable12 = 0;
+                            disable13 = 0;
+                            disable14 = 0;
+                            disable15 = 0;
+                        }
+                        disable1 += 24;
+                        disable2 += 24;
+                        disable3 += 24;
+                        disable4 += 24;
+                        disable5 += 24;
+                        disable6 += 24;
+                        disable7 += 24;
+                        disable8 += 24;
+                        disable9 += 24;
+                        disable10 += 24;
+                        disable11 += 24;
+                        disable12 += 24;
+                        disable13 += 24;
+                        disable14 += 24;
+                        disable15 += 24;
+                        if(attack === "fire"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "lightning"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "groundPound"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "slash"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "blob cannon"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "stun slash"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "heal"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "freezePound"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "tentacle"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "sand pit"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "slow dart"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "poison"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "eruption"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "charge"){
+                            attack = "disabled";   
+                        }
+                        if(attack === "restore"){
+                            attack = "disabled";   
+                        }
+                    }
+                    if(l.special === "color drain"){
+                        if(bittenFrame < frame){
+                            bittenFrame = frame;   
+                        }
+                        bittenFrame+=24;
+                    }
+                    if(l.special === "color digitize"){
+                        if(mechanize < 0){
+                            mechanize = 0;   
+                        }
+                        mechanize+=24;
+                    }
+                    if(l.special === "emp fracture"){
+                        for(var j = 0; j < 2; j++){
+                            var r = floor(random(0,15));
+                            if(r === 0){
+                                disable1 += 400;
+                                if(attack === "fire"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 1){
+                                disable2 += 400;
+                                if(attack === "lightning"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 2){
+                                disable3 += 400;
+                                if(attack === "groundPound"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 3){
+                                disable4 += 400;
+                                if(attack === "slash"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 4){
+                                disable5 += 400;
+                                if(attack === "blob cannon"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 5){
+                                disable6 += 400;
+                                if(attack === "stun slash"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 6){
+                                disable7 += 400;
+                                if(attack === "heal"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 7){
+                                disable8 += 400;
+                                if(attack === "freezePound"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 8){
+                                disable9 += 400;
+                                if(attack === "tentacle"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 9){
+                                disable10 += 400;
+                                if(attack === "sand pit"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 10){
+                                disable11 += 400;
+                                if(attack === "slow dart"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 11){
+                                disable12 += 400;
+                                if(attack === "poison"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 12){
+                                disable13 += 400;
+                                if(attack === "eruption"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 13){
+                                disable14 += 400;
+                                if(attack === "charge"){
+                                    attack = "disabled";   
+                                }
+                            }else if(r === 14){
+                                disable15 += 400;
+                                if(attack === "restore"){
+                                    attack = "disabled";   
+                                }
+                            }   
+                        }
+                    }
+                }
+                if(l.special === "ruin"){
+                    var m = addMissile(l.xtarg,50,0,random(50,100),10,150, 150, 150);  
+                    var mdir = floor(random(0,2));
+                    if(mdir === 0){
+                        m.vx = 3;  
+                    }else if(mdir === 1){
+                        m.vx = -3;
+                    }
+                    m.vy = -5;
+                    
+                }
+                if(l.special === "ruin corruption"){
+                    var m = addMissile(l.xtarg,50,0,random(50,100),10,149, 149, 149);  
+                    var mdir = floor(random(0,2));
+                    if(mdir === 0){
+                        m.vx = 3;  
+                    }else if(mdir === 1){
+                        m.vx = -3;
+                    }
+                    m.vy = -5;
+                    
+                }
+                lasers.splice(i,1);
+            }else{
+                if(phase3){
+                    stroke(255, 255, 255);
+                }else{
+                    stroke(0, 0, 0);
+                }
+                line(l.xtarg,l.ytarg,ex,ey);
+                stroke(0, 0, 0);
+            }
+        }else if(e.mon.name === "glassPillar"){
+            var ex = e.x+e.mon.width/2;
+            var ey = e.y+e.mon.height/2;
+            var slope = (l.y-ey)/(l.x-ex);
+            while((l.xtarg > 0 && l.xtarg < 400) && (l.ytarg > 0 && l.ytarg < 400) && !l.calculated){
+                if(l.xtarg<=ex){
+                    l.xtarg-=1;
+                    l.ytarg-=slope;
+                }else{
+                    l.xtarg+=1;
+                    l.ytarg+=slope;
+                }
+            }
+            l.calculated = true;
+            l.shoot-=1;
+            if(l.shoot<=0){
+                if(l.b !== undefined){
+                    stroke(l.r, l.g, l.b);
+                }else{
+                    stroke(255, 0, 0);
+                }
+                line(l.xtarg,l.ytarg,ex,ey);
+                stroke(0, 0, 0);
+                var hit = false;
+                if(l.xtarg <= ex){
+                    if(px+pw/2<=ex){
+                        var liney = ((px - ex)*slope)+ey; 
+                        var lineyw = (((px+pw) - ex)*slope)+ey;
+                        if(liney>=py && liney<=py+ph){
+                            hit = true;
+                        }else if(lineyw>=py && lineyw<=py+ph){
+                            hit = true;
+                        }else if(liney>py && lineyw<py+ph){
+                            hit = true;
+                        }else if(liney<py && lineyw>py+ph){
+                            hit = true;
+                        }
+                    }
+                }else{
+                    if(px+pw/2>=ex){
+                        var liney = ((px - ex)*slope)+ey; 
+                        var lineyw = (((px+pw) - ex)*slope)+ey;
+                        if(liney>=py && liney<=py+ph){
+                            hit = true;
+                        }else if(lineyw>=py && lineyw<=py+ph){
+                            hit = true;
+                        }else if(liney>py && lineyw<py+ph){
+                            hit = true;
+                        }else if(liney<py && lineyw>py+ph){
+                            hit = true;
+                        }
+                    }   
+                }
+                if(hit){
+                    Phurt = true;
+                    HP -= l.dmg;
+                }
+                lasers.splice(i,1);
+            }else{
+                stroke(0, 0, 0);
+                line(l.xtarg,l.ytarg,ex,ey);
+                stroke(0, 0, 0);
+            }
+        }
+    }
+    
     //draws true dark lord's prep attacks
     if(darkAttack === "blob cannon" && level === "???" && talked){
        if(testFrame2 < 100){
@@ -20436,10 +25700,20 @@ if (level === -800){
     // draw missiles
      for(var i = 0; i < ms.length; i++){
          var m = ms[i];
+         if(m.time === undefined){
+            m.time = 0;   
+         }
+         m.time++;
          if(m.red === 145 && m.green === 0 && m.blue === 131){
             magic(m.x,m.y,20,25,-frame,360-frame,8);   
           }else{
              fill(m.red, m.green, m.blue);
+             if(m.red === 142 && m.green === 142 && m.blue === 142){
+                fill(m.red, m.green, m.blue,m.time); 
+             }
+             if(m.red === 108 && m.green === 60 && m.blue === 36){
+                fill(m.red, m.green, m.blue,m.time); 
+             }
              if(m.dark === true){
                 pushMatrix();
                 translate(m.x,m.y-m.size/2);
@@ -20456,12 +25730,17 @@ if (level === -800){
     keyJustPressed = false;
     
     //draw wind
-    if((level >= 51 && level <61)||level === "B5"||level === "B6"){
+    if((level >= 51 && level <61)||level === "B5"||level === "B6"||(fakeLevel >= 51 && fakeLevel <61)){
         for(var i = 0 ; i < dotx.length ; i++) {
             point((partx+dotx[i])%400,(party+doty[i])%400);
         }
     }
     if(level === "B4"&&queenAttack === "wind"&&testFrame >= 60){
+        for(var i = 0 ; i < dotx.length ; i++) {
+            point((partx+dotx[i])%400,(party+doty[i])%400);
+        }
+    }
+    if(darkAttack === "blizzard"&&corruption){
         for(var i = 0 ; i < dotx.length ; i++) {
             point((partx+dotx[i])%400,(party+doty[i])%400);
         }
@@ -20550,28 +25829,38 @@ if (level === -800){
     text(underText,10,45+statsy);
     underTextTime--;
     fill(255, 255, 255);
-    if(HP>maxHP){
-        if(godMode){
-            text("HP:"+ceil(maxHP/10),258,28+statsy);      
-        }else if(dif === 0){
-            text("HP:"+ceil(maxHP/1.5),258,28+statsy);
-        }else if(dif === 4){
-            text("HP:"+ceil(maxHP/2),258,28+statsy);
-        }else{
-            text("HP:"+maxHP,258,28+statsy);
-        }
+    var r = floor(random(0,(HP*10)/maxHP));
+    if(phase3 && r === 0){
+        text("HP: NaN",258,28+statsy); 
     }else{
-        if(godMode){
-            text("HP:"+ceil(HP/10),258,28+statsy);        
-        }else if(dif === 0){
-            text("HP:"+ceil(HP/1.5),258,28+statsy);
-        }else if(dif === 4){
-            text("HP:"+ceil(HP/2),258,28+statsy);
+        if(HP>maxHP){
+            if(godMode){
+                text("HP:"+ceil(maxHP/10),258,28+statsy);      
+            }else if(dif === 0){
+                text("HP:"+ceil(maxHP/1.5),258,28+statsy);
+            }else if(dif === 4){
+                text("HP:"+ceil(maxHP/2),258,28+statsy);
+            }else{
+                text("HP:"+maxHP,258,28+statsy);
+            }
         }else{
-            text("HP:"+ceil(HP),258,28+statsy);
+            if(godMode){
+                text("HP:"+ceil(HP/10),258,28+statsy);        
+            }else if(dif === 0){
+                text("HP:"+ceil(HP/1.5),258,28+statsy);
+            }else if(dif === 4){
+                text("HP:"+ceil(HP/2),258,28+statsy);
+            }else{
+                text("HP:"+ceil(HP),258,28+statsy);
+            }
         }
     }
-    text("MP:"+MP,326,28+statsy);
+    r = floor(random(0,(MP*10)/maxMP));
+    if(phase3 && r === 0){
+        text("MP: NaN",326,28+statsy);
+    }else{
+        text("MP:"+MP,326,28+statsy);
+    }
     if(attack === "blob cannon" && darkMode === "ON"){
         text("Attack: dark cannon",21,28+statsy);
     }else if(attack === "stun slash"&& darkMode === "ON"){
@@ -20585,16 +25874,24 @@ if (level === -800){
     }else{
         text("Attack: "+attack,21,28+statsy);
     }
-    text("Level: "+(level),159,28+statsy);
+    if(showFakeLevel){
+        text("Level: "+(fakeLevel),159,28+statsy);
+    }else{
+        text("Level: "+(level),159,28+statsy);
+    }
     if (stun >= 0) {
         textSize(8);
         text("Stunned!",160,40+statsy);
     }
-    if (bitten) {
+    if (bitten || bittenFrame > frame) {
         textSize(8);
         text("Bitten!",220,40+statsy);
         Phurt = true;
         HP-=0.2;
+    }
+    if (disable1>0||disable2>0||disable3>0||disable4>0||disable5>0||disable6>0||disable7>0||disable8>0||disable9>0||disable10>0||disable11>0||disable12>0||disable13>0||disable14>0||disable15>0) {
+        textSize(8);
+        text("Disabled!",120,40+statsy);
     }
     if (confuse>0) {
         textSize(8);
@@ -20606,11 +25903,11 @@ if (level === -800){
     }
     if(mechanize>0){
         textSize(8);
-        text("Mechanized!",220,40+statsy);   
+        text("Mechanized!",70,40+statsy);   
     }
     if (decay > 0) {
         textSize(8);
-        text("Decaying!",220,40+statsy);
+        text("Decaying!",170,40+statsy);
         MP-=10;
         if(MP<0){
             MP = 0;   
@@ -20620,12 +25917,33 @@ if (level === -800){
         textSize(8);
         text("Grabbed!",280,40+statsy);
     }
-    if(poisonFrame > frame) {
+    if(rottenFrame > frame) {
+        HP -= 2;
+        Phurt = true;
+        textSize(8);
+        fill(255, 255, 255);
+        text("Rotting!", 330,40+statsy);
+    }
+    if(poisonFrame > frame && rottenFrame <= frame) {
         HP -= 0.5;
         Phurt = true;
         textSize(8);
         fill(255, 255, 255);
         text("Poisoned!", 330,40+statsy);
+    }
+    if(burn > 0 && frostBurn <= 0) {
+        HP -= 1;
+        Phurt = true;
+        textSize(8);
+        fill(255, 255, 255);
+        text("Burned!", 270,40+statsy);
+    }
+    if(frostBurn > 0) {
+        HP -= 1;
+        Phurt = true;
+        textSize(8);
+        fill(255, 255, 255);
+        text("Frost Burned!", 270,40+statsy);
     }
     if (doom > 0){
         var barD = 100;
@@ -20635,23 +25953,25 @@ if (level === -800){
         textSize(15);
         text("💀",280,48);
     }
-    if ((level >= 41 && level <= 50)||flooded) {
-        //Air
-        var barW = 100;
-        var airW = barW*air/maxAir;
-        if(air > 0){
-            air-=1;
-        }else{
-         HP -= 1;   
+    if ((level >= 41 && level <= 50)||flooded||geyser) {
+        if((level >= 41 && level <= 50)||flooded){
+            //Air
+            var barW = 100;
+            var airW = barW*air/maxAir;
+            if(air > 0){
+                air-=1;
+            }else{
+             HP -= 1;   
+            }
+            if (air > maxAir*0.6) {
+                fill(43, 224, 3);
+            }else if(air > maxAir *0.3) {
+                fill(204, 191, 4);
+            }else{
+                fill(255, 0, 0);
+            }
+            rect(300,40, airW, 10);
         }
-        if (air > maxAir*0.6) {
-            fill(43, 224, 3);
-        }else if(air > maxAir *0.3) {
-            fill(204, 191, 4);
-        }else{
-            fill(255, 0, 0);
-        }
-        rect(300,40, airW, 10);
         //spawn bubbles
         if(!geyser){
             if (frame%450===299){
@@ -20707,10 +26027,10 @@ if (level === -800){
         //rect(e.x,e.y,e.mon.width,e.mon.height);
             if (e.mon.name === "crusher2000") {
               fill(255, 255, 255);
-              text(e.hp,100,70);
+              text(ceil(e.hp),100,70);
          }else if(e.mon.name === "queenCloud") {
              fill(0, 0, 0);
-             text(e.hp,100,77);
+             text(ceil(e.hp),100,77);
          }else if(e.mon.name === "queenThunderCloud") {
              fill(255, 255, 255);
              text(ceil(e.hp),100,77);
@@ -20721,6 +26041,18 @@ if (level === -800){
              }else{
                 text(ceil(e.hp),e.x +275,e.y +15);  
              }
+         }else if(e.mon.name === "HIM"){
+            if(e.hp <= 0 && corruption){
+                if(phase3){
+                    text("NaN",e.x + 20,e.y - 5); 
+                }else{
+                    text(ceil(e.hp),e.x + 20,e.y - 5);
+                }
+            }else if(e.hp > 0){
+                text(ceil(e.hp),e.x + 20,e.y - 5);
+            }else{
+                text("0",e.x + 20,e.y - 5);   
+            }
          }else if(e.mon.name === "thrym") {
              fill(0, 0, 0);
              text(ceil(e.hp),e.x+10,e.y-15);
@@ -20781,7 +26113,7 @@ if (level === -800){
             }else{
                 fill(255, 255, 255);
             }
-            if(e.mon.name !== "ghostBlob" && e.mon.name !== "mist" && (e.mon.name !== "bodySnatcher" || e.hasBody)){
+            if(e.mon.name !== "ghostBlob" && e.mon.name !== "weedHead" && e.mon.name !== "weedHeadc" && e.mon.name !== "mist" && e.mon.name !== "darkClone" && (e.mon.name !== "bodySnatcher" || e.hasBody)){
                 text(ceil(e.hp),e.x + 20,e.y - 5); 
             }
          }
@@ -20808,7 +26140,7 @@ if (level === -800){
      }
      fill(255, 254, 171);
      ellipse(px+pw/2,py+pw/2,blessing,blessing);
-     if(!noBody){
+     if(!noBody && noBodyTime <= 0){
          if(darkMode === "ON"){
              tint(55, 55, 55, 255);
              image(player,px+jx,py+jy,pw,ph);
@@ -20913,6 +26245,33 @@ if (level === -800){
         }else if(e.mon.name === "TRUE_DARKLORD"){
             darkAttack = "final breath";
             darkSummon = "";
+        }else if(e.mon.name === "HIM"){
+            if(!phase2){
+                darkAttack = "";
+                phase2 = true;
+                talked = false;
+                text1 = false;
+                noMove = true;
+                e.x = 180;
+                e.y = 200;
+                testFrame = 0;
+            }
+            if(phase3 && e.hp <= -12500 && talked){
+                darkAttack = "";
+                HP = 1000;
+                MP = 1000;
+                ms = [];
+                lasers = [];
+                poison = [];
+                ice = [];
+                bubbles = [];
+                talked = false;
+                text1 = false;
+                noMove = true;
+                e.x = 180;
+                e.y = 200;
+                testFrame = 0;
+            }
         }else if(e.mon.name === "crusher10000"){
             testFrame3 = 0;
             crusherAttack = "";
@@ -21177,8 +26536,9 @@ if (level === -800){
   }
   
 };
-`
 
-//WOAH! 21,000+ lines!?!?!?! YEEAAAAAAAAAAAAAAAAAAAAAAA LES GOOOOOOOOOOO!!!!
+
+//WOAH! 26,000+ lines!?!?!?! YEEAAAAAAAAAAAAAAAAAAAAAAA LES GOOOOOOOOOOO!!!!
 
 // obsta was here
+`
